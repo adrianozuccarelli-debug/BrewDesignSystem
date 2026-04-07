@@ -1,0 +1,293 @@
+/* ============================================================
+   typography.css — BREW Design System v1.0.0
+   30 text styles · Fuente de verdad: Figma DS Growlat node 36:2
+   
+   Convención de nombres: text-[grupo]-[variante]
+   Equivalencia directa con los Text Styles de Figma:
+     Figma "body/xs"  →  CSS ".text-body-xs"
+     Figma "nav/item" →  CSS ".text-nav-item"
+   
+   Importar en main.js:
+     import './assets/typography.css'
+   
+   Base: 1rem = 16px (no modificar el root font-size)
+   Fuentes: Poppins (body/UI) + Space Grotesk (display/data)
+   Cargar desde Google Fonts antes de usar este archivo.
+   ============================================================ */
+
+
+/* ─── Display ─────────────────────────────── Space Grotesk Bold
+   Títulos de página, nombres de perfil, secciones principales  */
+
+.text-display-page-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;      /* 24px */
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.text-display-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;     /* 20px */
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.text-display-section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;        /* 16px */
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+
+/* ─── Module ──────────────────────────────── Space Grotesk / Poppins
+   Títulos y subtítulos de cards, módulos y paneles              */
+
+.text-module-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.text-module-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+
+/* ─── Body ────────────────────────────────── Poppins
+   Texto de interfaz general — body principal es body/sm 16px    */
+
+.text-body-sm {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;        /* 16px — body principal */
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.text-body-sm-medium {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;        /* 16px */
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.text-body-md {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.text-body-md-medium {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.text-body-xs {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.text-body-xs-medium {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.text-body-xs-bold {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.text-body-xxs {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.625rem;    /* 10px — mínimo permitido */
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+
+/* ─── Nav ─────────────────────────────────── Poppins
+   Items de navegación lateral y secciones del sidebar           */
+
+.text-nav-item {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-nav-item-active {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-nav-section {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.625rem;    /* 10px */
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+
+/* ─── Topbar ──────────────────────────────── Poppins
+   Elementos del topbar: nombre de proyecto, usuario, email      */
+
+.text-topbar-project {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-topbar-user-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.text-topbar-user-email {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+
+/* ─── Link ────────────────────────────────── Poppins SemiBold
+   Links inline y acciones de texto                              */
+
+.text-link-sm {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+
+/* ─── Label ───────────────────────────────── Poppins
+   Labels de formularios, datos y secciones                      */
+
+.text-label-form {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-label-data-key {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-label-meta {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.625rem;    /* 10px */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* ─── Chat ────────────────────────────────── Poppins
+   Elementos de UI de conversaciones y mensajes                  */
+
+.text-chat-bubble {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.text-chat-contact-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.875rem;    /* 14px */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-chat-preview {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-chat-time-relative {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.text-chat-timestamp {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.625rem;    /* 10px */
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+
+/* ─── Code ────────────────────────────────── Space Grotesk
+   Datos numéricos, monospace, outputs de código                 */
+
+.text-code-data {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.text-code-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;     /* 12px */
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
