@@ -1,0 +1,18 @@
+{
+  "slug": "profile-header-card",
+  "title": "Profile Header Card",
+  "category": "Contenedores y cards",
+  "figmaPage": "Profile Header Card",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Cabecera de detalle de contacto.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

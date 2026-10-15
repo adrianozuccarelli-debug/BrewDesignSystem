@@ -1,0 +1,18 @@
+{
+  "slug": "breadcrumb",
+  "title": "Breadcrumb",
+  "category": "Navegación",
+  "figmaPage": "Breadcrumb",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Ubicación jerárquica en la cabecera de sección.",
+  "base": "PrimeVue Breadcrumb",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

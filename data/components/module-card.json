@@ -1,0 +1,21 @@
+{
+  "slug": "module-card",
+  "title": "Module Card",
+  "category": "Contenedores y cards",
+  "figmaPage": "Module Card",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Contenedor base de módulos y secciones.",
+  "base": "PrimeVue Card",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "Radio radius/lg.",
+    "Nunca color de marca sólido como fondo."
+  ],
+  "todos": []
+}

@@ -1,0 +1,93 @@
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">PREVIEW</span></div>
+<div class="spec-preview" style="flex-direction:column;gap:1.75rem;align-items:flex-start">
+<div class="preview-group">
+<p class="preview-group-label">Trigger</p>
+<div class="preview-group-items">
+<div class="variant-item">
+<button class="btn btn-primary" onclick="openDrawer()">Abrir Drawer</button>
+<span class="variant-label">primary action</span>
+</div>
+<div class="variant-item">
+<button class="btn btn-secondary" onclick="openDrawer()">Editar perfil</button>
+<span class="variant-label">secondary action</span>
+</div>
+</div>
+</div>
+<div style="font-family:var(--font-body);font-size:.75rem;color:var(--n300);display:flex;align-items:center;gap:.375rem">
+<svg fill="none" height="12" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" viewbox="0 0 12 12" width="12"><circle cx="6" cy="6" r="4.5"></circle><line x1="6" x2="6" y1="4" y2="6.5"></line><circle cx="6" cy="8.5" fill="currentColor" r=".35"></circle></svg>
+          Click el botón para ver el drawer en acción
+        </div>
+</div>
+<div class="spec-meta-bar">
+<div class="spec-meta-item"><span class="spec-meta-label">Componente</span><span class="spec-meta-value">GrowlatDrawer.vue</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Variantes</span><span class="spec-meta-value">1 (configurable por props)</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Ancho default</span><span class="spec-meta-value">480px</span></div>
+</div>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TOKENS DE COLOR</span></div>
+<table class="spec-token-table">
+<thead><tr><th style="width:22%">Propiedad</th><th>Panel</th><th>Header / Footer</th></tr></thead>
+<tbody>
+<tr>
+<td class="prop-col">Background</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#fff;border-color:#e5e5ea"></div><span class="token-pill">surface/card</span></div><span class="spec-hex">#FFFFFF</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#fff;border-color:#e5e5ea"></div><span class="token-pill">surface/card</span></div><span class="spec-hex">#FFFFFF</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Border</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#E5E5EA"></div><span class="token-pill">surface/border</span></div><span class="spec-hex">#E5E5EA</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#E5E5EA"></div><span class="token-pill">surface/border</span></div><span class="spec-hex">#E5E5EA</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Backdrop</td>
+<td colspan="2"><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#000;opacity:.5"></div><span class="token-pill" style="background:#fee2e2;color:#b91c1c">rgba(0,0,0,0.32) — sin token</span></div></div></td>
+</tr>
+<tr>
+<td class="prop-col">Close button</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#AEAEB2;border-color:#e5e5ea"></div><span class="token-pill">text/tertiary</span></div><span class="spec-hex">#AEAEB2</span></div></td>
+<td><div class="spec-token-cell"><span style="font-size:.75rem;color:var(--n300)">hover → text/primary</span></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TIPOGRAFÍA</span></div>
+<table class="spec-typo-table">
+<thead><tr><th>Elemento</th><th>Token</th><th>Familia</th><th>Peso</th><th>REM</th><th>Line Height</th></tr></thead>
+<tbody>
+<tr><td>Título header</td><td><span class="token-pill">display/section-title</span></td><td>Space Grotesk</td><td>Bold-700</td><td><span class="spec-rem">0.9375rem</span></td><td>130%</td></tr>
+<tr><td>Subtítulo header</td><td><span class="token-pill">body/xs</span></td><td>Poppins</td><td>Regular-400</td><td><span class="spec-rem">0.75rem</span></td><td>140%</td></tr>
+<tr><td>Botones footer</td><td><span class="token-pill">body/xs-bold</span></td><td>Poppins</td><td>SemiBold-600</td><td><span class="spec-rem">0.75rem</span></td><td>100%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">IMPLEMENTACIÓN</span></div>
+<div style="padding:.75rem 1.25rem;border-bottom:2px solid var(--n100);background:var(--n50)"><span style="font-family:var(--font-body);font-size:.875rem;font-weight:500;color:var(--n300)">Componente VUE 3 — GrowlatDrawer.vue</span></div>
+<div style="padding:1.25rem">
+<div class="spec-code-block">
+<pre><span class="kw">&lt;GrowlatDrawer</span>
+  <span class="at">v-model</span>=<span class="st">"open"</span>
+  <span class="at">title</span>=<span class="st">"Editar perfil"</span>
+  <span class="at">subtitle</span>=<span class="st">"Juan Pérez"</span>
+  <span class="at">primary-label</span>=<span class="st">"Guardar cambios"</span>
+  <span class="at">:show-secondary-action</span>=<span class="st">"true"</span>
+  <span class="at">secondary-label</span>=<span class="st">"Cancelar"</span>
+  <span class="at">:show-tertiary-action</span>=<span class="st">"true"</span>
+  <span class="at">tertiary-label</span>=<span class="st">"Eliminar"</span>
+  <span class="at">@primary-action</span>=<span class="st">"save"</span>
+  <span class="at">@tertiary-action</span>=<span class="st">"remove"</span>
+<span class="kw">&gt;</span>
+  <span class="cm">&lt;!-- slot: contenido libre --&gt;</span>
+<span class="kw">&lt;/GrowlatDrawer&gt;</span></pre>
+</div>
+<div class="tailwind-mapping" style="margin-top:1rem">
+<strong>Props —</strong> modelValue · title · subtitle · primaryLabel · secondaryLabel · tertiaryLabel · showHeaderAction · showPrimaryAction · showSecondaryAction · showTertiaryAction · width · lockScroll
+        </div>
+</div>
+</div>

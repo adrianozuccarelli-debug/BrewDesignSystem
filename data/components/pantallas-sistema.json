@@ -1,0 +1,23 @@
+{
+  "slug": "pantallas-sistema",
+  "title": "Pantallas de sistema",
+  "category": "Patrones",
+  "figmaPage": "Pantallas de sistema",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Pantallas de sistema con fondo de marca e ilustración (503 y futuras).",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-2205",
+    "CON-1758"
+  ],
+  "rules": [
+    "Un solo estado, sin contador visible."
+  ],
+  "todos": []
+}

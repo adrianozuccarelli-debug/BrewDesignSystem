@@ -1,0 +1,20 @@
+{
+  "slug": "segment-card",
+  "title": "Segment Card",
+  "category": "Contenedores y cards",
+  "figmaPage": "Segment Card",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Resumen de un segmento de audiencia.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": [
+    "Existe en Growlat Conversations; en Growlat App es un gap."
+  ]
+}

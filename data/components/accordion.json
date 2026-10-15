@@ -1,0 +1,18 @@
+{
+  "slug": "accordion",
+  "title": "Accordion",
+  "category": "Contenedores y cards",
+  "figmaPage": "Accordion",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Secciones colapsables.",
+  "base": "PrimeVue Accordion",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

@@ -1,0 +1,22 @@
+{
+  "slug": "insight-semaforo",
+  "title": "Insight Chip y Semáforo",
+  "category": "Patrones",
+  "figmaPage": "Insight Chip y Semáforo",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Lectura interpretada de una métrica y estado Bien / Atención / Crítico.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1778"
+  ],
+  "rules": [
+    "El semáforo aplica solo a métricas de tiempo."
+  ],
+  "todos": []
+}

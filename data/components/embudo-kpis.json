@@ -1,0 +1,21 @@
+{
+  "slug": "embudo-kpis",
+  "title": "Embudo de KPIs",
+  "category": "Patrones",
+  "figmaPage": "Embudo de KPIs",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Secuencia de métricas con conversión entre pasos.",
+  "base": "KPI Card",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1680",
+    "CON-1778"
+  ],
+  "rules": [],
+  "todos": []
+}

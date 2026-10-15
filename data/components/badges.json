@@ -1,0 +1,24 @@
+{
+  "slug": "badges",
+  "title": "Badge y Chip",
+  "category": "Taxonomía y estado",
+  "figmaPage": "Badges",
+  "status": "parcial",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Indicadores de estado con punto de color y chips de taxonomía.",
+  "base": "BREW DS (custom)",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "badge-mkt es siempre violeta en ambas plataformas: codifica suscripción marketing, no marca.",
+    "Radio full."
+  ],
+  "todos": [
+    "Los componentes ya existen en Figma; falta la doc."
+  ],
+  "legacy": "legacy/badges.html"
+}

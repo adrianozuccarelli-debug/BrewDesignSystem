@@ -1,0 +1,22 @@
+{
+  "slug": "option-card",
+  "title": "Option Card",
+  "category": "Contenedores y cards",
+  "figmaPage": "Option Card",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Elección de tipo u origen dentro de un flujo.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-2154"
+  ],
+  "rules": [
+    "Selección con brand/subtle como máximo."
+  ],
+  "todos": []
+}

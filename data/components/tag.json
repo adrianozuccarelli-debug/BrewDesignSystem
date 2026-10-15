@@ -1,0 +1,22 @@
+{
+  "slug": "tag",
+  "title": "Tag",
+  "category": "Taxonomía y estado",
+  "figmaPage": "Tag",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Estado de una entidad (Suscripto, Publicado, Habilitada…).",
+  "base": "PrimeVue Tag",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "Radio full."
+  ],
+  "todos": [
+    "\"Sin uso\" hoy usa rojo (error) para un estado neutro."
+  ]
+}

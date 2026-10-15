@@ -1,0 +1,207 @@
+{
+  "name": "BREW Design System",
+  "version": "2.0.0",
+  "updated": "2026-10-15",
+  "figma": {
+    "file": "Growlat Design System",
+    "url": "https://www.figma.com/design/6FhjQIpcJ6XhSiwYcIBGtr/Growlat-Design-System"
+  },
+  "repo": "https://github.com/adrianozuccarelli-debug/BrewDesignSystem",
+  "platforms": {
+    "conversations": {
+      "name": "Growlat Conversations",
+      "short": "Conversations",
+      "initial": "C",
+      "jira": "CON-",
+      "desc": "Mensajería, audiencias, inbox y campañas · verde"
+    },
+    "app": {
+      "name": "Growlat App",
+      "short": "App",
+      "initial": "A",
+      "jira": "MID- / GRW-",
+      "desc": "Plataforma de data marketing · violeta"
+    }
+  },
+  "foundations": [
+    {
+      "slug": "intro",
+      "title": "Introducción"
+    },
+    {
+      "slug": "flujo",
+      "title": "Cómo se actualiza"
+    },
+    {
+      "slug": "tokens",
+      "title": "Colores y tokens"
+    },
+    {
+      "slug": "tipografia",
+      "title": "Tipografía"
+    },
+    {
+      "slug": "spacing",
+      "title": "Spacing y radios"
+    },
+    {
+      "slug": "estado",
+      "title": "Estado de la documentación"
+    },
+    {
+      "slug": "recursos",
+      "title": "Descargas"
+    },
+    {
+      "slug": "changelog",
+      "title": "Changelog"
+    }
+  ],
+  "componentGroups": [
+    {
+      "label": "Acciones",
+      "items": [
+        "button",
+        "splitbutton-menu"
+      ]
+    },
+    {
+      "label": "Formularios",
+      "items": [
+        "inputs",
+        "select",
+        "checkbox-radio-toggle",
+        "datepicker",
+        "selectbutton"
+      ]
+    },
+    {
+      "label": "Datos",
+      "items": [
+        "datatable",
+        "paginator",
+        "kpi-card",
+        "graficos"
+      ]
+    },
+    {
+      "label": "Taxonomía y estado",
+      "items": [
+        "badges",
+        "tag",
+        "avatar",
+        "nota"
+      ]
+    },
+    {
+      "label": "Feedback",
+      "items": [
+        "alert",
+        "toast",
+        "empty-state",
+        "tooltip"
+      ]
+    },
+    {
+      "label": "Overlays",
+      "items": [
+        "drawer",
+        "dialog"
+      ]
+    },
+    {
+      "label": "Navegación",
+      "items": [
+        "subnavegacion",
+        "tabs",
+        "breadcrumb",
+        "steps"
+      ]
+    },
+    {
+      "label": "Contenedores y cards",
+      "items": [
+        "module-card",
+        "tarjeta-accion",
+        "option-card",
+        "segment-card",
+        "profile-header-card",
+        "tarjeta-conocimiento",
+        "actividad-reciente",
+        "accordion"
+      ]
+    },
+    {
+      "label": "Patrones",
+      "items": [
+        "card-filtros",
+        "seleccion-masiva",
+        "variable-mapper",
+        "insight-semaforo",
+        "vigencia",
+        "embudo-kpis",
+        "builder-canvas",
+        "pantallas-sistema"
+      ]
+    },
+    {
+      "label": "Back Office",
+      "items": [
+        "client-card"
+      ]
+    }
+  ],
+  "openIssues": [
+    {
+      "title": "Radios lg y xl",
+      "detail": "Figma: lg 12 / xl 20. Preset v2: lg 12 / xl 14. Sitio v1: lg 16 / xl 20.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Primario de Growlat App",
+      "detail": "Figma mapea brand/primary-dark y primary-color/color a violet/600 y active a violet/800. El preset v2 usa violet/500 como primario, 700 hover y 600 active.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Escalas violet y green",
+      "detail": "Los primitivos de Figma no coinciden con los del preset (ej. violet/600 Figma #5A25BF vs preset #5420C4; green/700 Figma #015C43 vs preset #025540).",
+      "owner": "Adri"
+    },
+    {
+      "title": "Focus del Dropdown",
+      "detail": "La colección Dropdown usa azul #3B82F6 para focus en lugar del color de marca.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Tracking de label/meta",
+      "detail": "En Figma está en 0.08px; la spec dice 0.08em (≈0.8px).",
+      "owner": "Adri"
+    },
+    {
+      "title": "Presets v2",
+      "detail": "Las descargas siguen siendo los presets v1 del repo. Reemplazar por convos_preset_v2.js y growlat_preset_v2.js.",
+      "owner": "Adri"
+    }
+  ],
+  "changelog": [
+    {
+      "version": "2.0.0",
+      "date": "2026-10-15",
+      "notes": [
+        "Sitio reestructurado: los contenidos viven en data/ y se generan desde Figma.",
+        "Tokens y tipografía se leen de la exportación de variables y estilos de Figma.",
+        "Renombre: Convos → Growlat Conversations; Growlat → Growlat App.",
+        "42 fichas de componentes y patrones, con estado, reglas y pendientes.",
+        "Button migrado al formato nuevo; el resto conserva el contenido v1 marcado como desactualizado.",
+        "Página de estado de la documentación y lista de discrepancias abiertas."
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-03",
+      "notes": [
+        "Primera versión: Buttons, Inputs, Badges, DataTable, Nota, Overlays, Feedback y Client Card."
+      ]
+    }
+  ]
+}

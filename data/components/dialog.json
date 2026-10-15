@@ -1,0 +1,21 @@
+{
+  "slug": "dialog",
+  "title": "Dialog",
+  "category": "Overlays",
+  "figmaPage": "Dialog",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Confirmaciones y formularios cortos.",
+  "base": "PrimeVue Dialog",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "En flujos de campañas: botón de acción + X de cierre, nunca Cancelar.",
+    "Nunca Dialog sobre Drawer ni Drawer sobre Dialog."
+  ],
+  "todos": []
+}

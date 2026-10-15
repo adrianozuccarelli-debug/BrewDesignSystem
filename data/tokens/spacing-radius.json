@@ -1,0 +1,25 @@
+{
+  "source": {
+    "figmaFile": "Growlat Design System",
+    "fileKey": "6FhjQIpcJ6XhSiwYcIBGtr",
+    "exportedAt": "2026-10-15"
+  },
+  "unit": "px",
+  "spacing": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "8": 32,
+    "10": 40
+  },
+  "radius": {
+    "sm": 4,
+    "md": 8,
+    "lg": 12,
+    "xl": 20,
+    "full": 100
+  }
+}

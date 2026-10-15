@@ -1,0 +1,152 @@
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">PREVIEW</span></div>
+<div class="spec-preview" style="flex-direction:column;gap:1.75rem;align-items:flex-start">
+<div class="preview-group">
+<p class="preview-group-label">Toast — Severity</p>
+<div class="preview-group-items" style="flex-direction:column;align-items:flex-start">
+<div class="variant-item" style="flex-direction:row;align-items:center;gap:1rem;width:100%">
+<div class="toast toast-success" style="width:300px;flex-shrink:0">
+<svg class="toast-icon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 16 16" width="16"><circle cx="8" cy="8" r="6"></circle><polyline points="5,8 7.5,10.5 11,6"></polyline></svg>
+<div><div class="toast-summary">Guardado correctamente</div><div class="toast-detail">Los cambios fueron aplicados.</div></div>
+</div>
+<span class="variant-label" style="text-align:left">severity="success"</span>
+</div>
+<div class="variant-item" style="flex-direction:row;align-items:center;gap:1rem;width:100%">
+<div class="toast toast-error" style="width:300px;flex-shrink:0">
+<svg class="toast-icon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 16 16" width="16"><circle cx="8" cy="8" r="6"></circle><line x1="8" x2="8" y1="5" y2="8"></line><circle cx="8" cy="11" fill="currentColor" r=".5"></circle></svg>
+<div><div class="toast-summary">Error al guardar</div><div class="toast-detail">Revisá los campos requeridos.</div></div>
+</div>
+<span class="variant-label" style="text-align:left">severity="error"</span>
+</div>
+<div class="variant-item" style="flex-direction:row;align-items:center;gap:1rem;width:100%">
+<div class="toast toast-warn" style="width:300px;flex-shrink:0">
+<svg class="toast-icon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 16 16" width="16"><path d="M8 2L14 13H2Z"></path><line x1="8" x2="8" y1="7" y2="10"></line></svg>
+<div><div class="toast-summary">Atención</div><div class="toast-detail">Algunos campos incompletos.</div></div>
+</div>
+<span class="variant-label" style="text-align:left">severity="warn"</span>
+</div>
+</div>
+</div>
+<div class="preview-group">
+<p class="preview-group-label">Skeleton Loader</p>
+<div class="preview-group-items">
+<div class="variant-item" style="align-items:flex-start;gap:.5rem">
+<div style="display:flex;align-items:center;gap:.75rem">
+<div class="skeleton" style="width:2.5rem;height:2.5rem;border-radius:50%;flex-shrink:0"></div>
+<div style="display:flex;flex-direction:column;gap:.375rem">
+<div class="skeleton" style="width:150px;height:.75rem"></div>
+<div class="skeleton" style="width:100px;height:.625rem"></div>
+</div>
+</div>
+<span class="variant-label">Avatar + texto</span>
+</div>
+<div class="variant-item" style="align-items:flex-start;gap:.5rem">
+<div style="display:flex;flex-direction:column;gap:.375rem">
+<div class="skeleton" style="width:220px;height:.75rem"></div>
+<div class="skeleton" style="width:180px;height:.625rem"></div>
+<div class="skeleton" style="width:140px;height:.625rem"></div>
+</div>
+<span class="variant-label">Texto multi-línea</span>
+</div>
+</div>
+</div>
+<div class="preview-group">
+<p class="preview-group-label">Progress Bar</p>
+<div class="preview-group-items" style="flex-direction:column;align-items:flex-start;gap:.875rem">
+<div class="variant-item" style="align-items:flex-start;width:280px">
+<div style="width:100%">
+<div style="display:flex;justify-content:space-between;font-size:.625rem;color:var(--n300);margin-bottom:.375rem"><span>25%</span></div>
+<div class="progress" style="width:100%"><div class="progress-fill" style="width:25%"></div></div>
+</div>
+<span class="variant-label">value=25</span>
+</div>
+<div class="variant-item" style="align-items:flex-start;width:280px">
+<div style="width:100%">
+<div style="display:flex;justify-content:space-between;font-size:.625rem;color:var(--n300);margin-bottom:.375rem"><span>65%</span></div>
+<div class="progress" style="width:100%"><div class="progress-fill" style="width:65%"></div></div>
+</div>
+<span class="variant-label">value=65</span>
+</div>
+<div class="variant-item" style="align-items:flex-start;width:280px">
+<div style="width:100%">
+<div style="display:flex;justify-content:space-between;font-size:.625rem;color:var(--n300);margin-bottom:.375rem"><span>100%</span></div>
+<div class="progress" style="width:100%"><div class="progress-fill" style="width:100%"></div></div>
+</div>
+<span class="variant-label">value=100</span>
+</div>
+</div>
+</div>
+</div>
+<div class="spec-meta-bar">
+<div class="spec-meta-item"><span class="spec-meta-label">Componentes</span><span class="spec-meta-value">Toast · Skeleton · ProgressBar</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Severities</span><span class="spec-meta-value">success · error · warn · info</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Posición toast</span><span class="spec-meta-value">bottom-right</span></div>
+</div>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TOKENS DE COLOR</span></div>
+<table class="spec-token-table">
+<thead><tr><th style="width:22%">Propiedad</th><th>Success</th><th>Error</th></tr></thead>
+<tbody>
+<tr>
+<td class="prop-col">Background</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#E6FAF4;border-color:#B3E8D8"></div><span class="token-pill">success/bg</span></div><span class="spec-hex">#E6FAF4</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#FEF2F2;border-color:#FECACA"></div><span class="token-pill">error/bg</span></div><span class="spec-hex">#FEF2F2</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Border</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#B3E8D8"></div><span class="token-pill">success/border</span></div><span class="spec-hex">#B3E8D8</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#FECACA"></div><span class="token-pill">error/border</span></div><span class="spec-hex">#FECACA</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Texto / Icono</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#039F73"></div><span class="token-pill">success/text</span></div><span class="spec-hex">#039F73</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#DC2626"></div><span class="token-pill">error/text</span></div><span class="spec-hex">#DC2626</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Skeleton</td>
+<td colspan="2"><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#E5E5EA"></div><span class="token-pill">surface/border — shimmer rgba(255,255,255,0.5)</span></div><span class="spec-hex">#E5E5EA</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Progress fill</td>
+<td colspan="2"><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:var(--brand-500)"></div><span class="token-pill">brand/primary-dark — cambia con plataforma</span></div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TIPOGRAFÍA</span></div>
+<table class="spec-typo-table">
+<thead><tr><th>Elemento</th><th>Token</th><th>Familia</th><th>Peso</th><th>REM</th><th>Line Height</th></tr></thead>
+<tbody>
+<tr><td>Toast summary</td><td><span class="token-pill">body/xs-bold</span></td><td>Poppins</td><td>Bold-700</td><td><span class="spec-rem">0.75rem</span></td><td>100%</td></tr>
+<tr><td>Toast detail</td><td><span class="token-pill">body/xxs</span></td><td>Poppins</td><td>Regular-400</td><td><span class="spec-rem">0.6875rem</span></td><td>140%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">IMPLEMENTACIÓN</span></div>
+<div style="padding:.75rem 1.25rem;border-bottom:2px solid var(--n100);background:var(--n50)"><span style="font-family:var(--font-body);font-size:.875rem;font-weight:500;color:var(--n300)">Componente VUE (PrimeVue 4 Toast)</span></div>
+<div style="padding:1.25rem">
+<div class="spec-code-block">
+<pre><span class="cm">// Composable</span>
+<span class="kw">const</span> toast = <span class="gr">useToast</span>()
+
+toast.<span class="gr">add</span>({
+  <span class="at">severity</span>: <span class="st">'success'</span>,
+  <span class="at">summary</span>:  <span class="st">'Guardado correctamente'</span>,
+  <span class="at">detail</span>:   <span class="st">'Los cambios fueron aplicados.'</span>,
+  <span class="at">life</span>:     <span class="tx">3000</span>,
+})
+
+<span class="cm">&lt;!-- En el template (una vez, en App.vue) --&gt;</span>
+<span class="kw">&lt;Toast</span> <span class="at">position</span>=<span class="st">"bottom-right"</span> <span class="kw">/&gt;</span></pre>
+</div>
+<div class="tailwind-mapping" style="margin-top:1rem">
+<strong>Severities —</strong> success · error · warn · info  ·  Posición siempre bottom-right  ·  life: 3000ms por defecto
+        </div>
+</div>
+</div>

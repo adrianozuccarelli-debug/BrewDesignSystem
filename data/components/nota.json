@@ -1,0 +1,21 @@
+{
+  "slug": "nota",
+  "title": "Nota",
+  "category": "Taxonomía y estado",
+  "figmaPage": "Notas",
+  "status": "documentado",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Nota interna asociada a un contacto o a una conversación.",
+  "base": "BREW DS (custom)",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": [
+    "Revisar tokens contra la colección Semantic."
+  ],
+  "legacy": "legacy/nota.html"
+}

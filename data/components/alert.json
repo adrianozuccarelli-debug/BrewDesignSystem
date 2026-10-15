@@ -1,0 +1,20 @@
+{
+  "slug": "alert",
+  "title": "Alert",
+  "category": "Feedback",
+  "figmaPage": "Alert",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Mensaje en línea: info, success, warning, error.",
+  "base": "PrimeVue Message",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "No usar Alert como empty state."
+  ],
+  "todos": []
+}

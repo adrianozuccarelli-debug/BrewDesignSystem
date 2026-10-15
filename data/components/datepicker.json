@@ -1,0 +1,22 @@
+{
+  "slug": "datepicker",
+  "title": "DatePicker",
+  "category": "Formularios",
+  "figmaPage": "DatePicker",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Selector de fecha y de rango de fechas para filtros de período.",
+  "base": "PrimeVue DatePicker",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-1583"
+  ],
+  "rules": [
+    "Rango: selectionMode=\"range\" con numberOfMonths=\"2\"."
+  ],
+  "todos": []
+}

@@ -1,0 +1,23 @@
+{
+  "slug": "splitbutton-menu",
+  "title": "SplitButton y Menu",
+  "category": "Acciones",
+  "figmaPage": "SplitButton y Menu",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Botones con acciones secundarias y menú contextual por fila (⋮).",
+  "base": "PrimeVue SplitButton · Menu",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "Recorrido IA"
+  ],
+  "rules": [],
+  "todos": [
+    "Unificar los labels del menú ⋮ entre tipos de campaña (\"Editar campaña\" vs \"Editar\").",
+    "Definir cuándo una acción destructiva va en rojo."
+  ]
+}

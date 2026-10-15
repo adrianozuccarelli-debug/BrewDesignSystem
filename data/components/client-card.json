@@ -1,0 +1,19 @@
+{
+  "slug": "client-card",
+  "title": "Client Card",
+  "category": "Back Office",
+  "figmaPage": "Growlat Conversations · Backoffice",
+  "status": "parcial",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Tarjeta de cliente del back office de Growlat Conversations.",
+  "base": "BREW DS (custom)",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": [],
+  "legacy": "legacy/client-card.html"
+}

@@ -1,0 +1,24 @@
+{
+  "slug": "drawer",
+  "title": "Drawer",
+  "category": "Overlays",
+  "figmaPage": "Drawer",
+  "status": "documentado",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Panel lateral para acciones contextuales: header configurable, slot de contenido y footer de acciones.",
+  "base": "PrimeVue Drawer",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "El Drawer siempre se reutiliza vía slots: lo nuevo es el contenido.",
+    "Nunca Drawer sobre Drawer, Dialog sobre Drawer ni Drawer sobre Dialog."
+  ],
+  "todos": [
+    "El sitio documenta una API propia (GrowlatDrawer) distinta de la de Figma: unificar."
+  ],
+  "legacy": "legacy/overlays.html"
+}

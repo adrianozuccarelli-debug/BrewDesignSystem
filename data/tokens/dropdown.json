@@ -1,0 +1,33 @@
+{
+  "source": {
+    "figmaFile": "Growlat Design System",
+    "fileKey": "6FhjQIpcJ6XhSiwYcIBGtr",
+    "exportedAt": "2026-10-15"
+  },
+  "note": "Colecci\u00f3n Dropdown de Figma (valores planos, sin alias).",
+  "tokens": {
+    "background/default": "#FFFFFF",
+    "background/hover": "#F8F8F8",
+    "background/disabled": "#F8F8FA",
+    "border/default": "#E5E5EA",
+    "border/hover": "#B4B4C3",
+    "border/focus": "#3B82F6",
+    "border/disabled": "#EBEBF0",
+    "text/label": "#AEAEB2",
+    "text/label-focus": "#3B82F6",
+    "text/label-disabled": "#C8C8CD",
+    "text/value": "#424242",
+    "text/value-hover": "#282828",
+    "text/value-disabled": "#BEBEC3",
+    "icon/default": "#AEAEB2",
+    "icon/hover": "#787882",
+    "icon/focus": "#3B82F6",
+    "icon/disabled": "#C8C8CD",
+    "radius/xs": 4,
+    "border-width": 1,
+    "height/xs": 33,
+    "padding/horizontal": 12,
+    "padding/vertical": 8,
+    "gap/label-input": 4
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "slug": "card-filtros",
+  "title": "Card de filtros",
+  "category": "Patrones",
+  "figmaPage": "Card de filtros",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Barra de filtros con labels, Filtrar y Limpiar sobre una tabla.",
+  "base": "Select · MultiSelect · DatePicker · Button",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "Recorrido IA"
+  ],
+  "rules": [],
+  "todos": [
+    "Hoy hay 3 variantes dentro de Audiencias: definir la canónica."
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "slug": "button",
+  "title": "Button",
+  "category": "Acciones",
+  "figmaPage": "Button",
+  "status": "parcial",
+  "siteVersion": "1.0",
+  "updated": "2026-10-15",
+  "description": "Acción primaria, secundaria, ghost y danger. Brand-aware: toma el color primario de la plataforma activa.",
+  "base": "PrimeVue Button",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-2120"
+  ],
+  "rules": [
+    "Radio siempre radius/sm; nunca full (full es la gramática de badges y chips).",
+    "La variante \"IA gradient\" se usa solo en el flujo de Email (MID-2120).",
+    "El color de marca es señal de interacción, no decoración."
+  ],
+  "todos": [
+    "Documentar la variante IA gradient (solo flujo de Email).",
+    "Confirmar estados hover/active de Growlat App (ver discrepancias abiertas)."
+  ],
+  "sections": {
+    "preview": "previews/button.html",
+    "meta": [
+      [
+        "Variantes",
+        "primary · secondary · ghost · danger"
+      ],
+      [
+        "Tamaños",
+        "small · default · large"
+      ],
+      [
+        "Estados",
+        "default · hover · active · focus · disabled · loading"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Primary",
+        "Secondary"
+      ],
+      "rows": [
+        [
+          "Fondo",
+          "primary-color/color",
+          null
+        ],
+        [
+          "Borde",
+          "primary-color/color",
+          "surface/border"
+        ],
+        [
+          "Texto",
+          "primary-color/contrast",
+          "text/secondary"
+        ],
+        [
+          "Fondo hover",
+          "primary-color/hover",
+          "surface/bg"
+        ],
+        [
+          "Fondo active",
+          "primary-color/active",
+          null
+        ],
+        [
+          "Focus ring",
+          "focus/ring",
+          "focus/ring"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label",
+        "body/xs-bold"
+      ]
+    ],
+    "code": [
+      {
+        "title": "Vue · PrimeVue 4",
+        "code": "<!-- Variantes -->\n<Button label=\"Guardar\"  severity=\"primary\" />\n<Button label=\"Cancelar\" severity=\"secondary\" />\n<Button label=\"Eliminar\" severity=\"danger\" />\n\n<!-- Tamaños -->\n<Button label=\"Guardar\" size=\"small\" />\n<Button label=\"Guardar\" size=\"large\" />\n\n<!-- Estados -->\n<Button label=\"Guardar\" :disabled=\"true\" />\n<Button label=\"Guardar\" :loading=\"true\" />"
+      }
+    ]
+  }
+}

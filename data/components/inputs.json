@@ -1,0 +1,23 @@
+{
+  "slug": "inputs",
+  "title": "Inputs",
+  "category": "Formularios",
+  "figmaPage": "Inputs",
+  "status": "por-documentar",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Campos de texto y textarea con label, ayuda, contador y error.",
+  "base": "PrimeVue InputText · Textarea",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "Fondo siempre surface/card."
+  ],
+  "todos": [
+    "Confirmar si se formaliza el label \"Nombre visible (key_técnica)\"."
+  ],
+  "legacy": "legacy/inputs.html"
+}

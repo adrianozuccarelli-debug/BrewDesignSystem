@@ -1,0 +1,18 @@
+{
+  "slug": "checkbox-radio-toggle",
+  "title": "Checkbox, Radio y ToggleSwitch",
+  "category": "Formularios",
+  "figmaPage": "Checkbox, Radio y ToggleSwitch",
+  "status": "por-documentar",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Controles binarios y de opción única.",
+  "base": "PrimeVue Checkbox · RadioButton · ToggleSwitch",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

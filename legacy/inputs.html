@@ -1,0 +1,123 @@
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">PREVIEW</span></div>
+<div class="spec-preview" style="flex-direction:column;gap:1.75rem;align-items:flex-start">
+<div class="preview-group">
+<p class="preview-group-label">InputText</p>
+<div class="preview-group-items">
+<div class="variant-item" style="align-items:flex-start">
+<input class="inp" placeholder="Placeholder..." style="width:200px" type="text"/>
+<span class="variant-label">Default / empty</span>
+</div>
+<div class="variant-item" style="align-items:flex-start">
+<input class="inp" style="width:200px" type="text" value="Valor ingresado"/>
+<span class="variant-label">Con valor</span>
+</div>
+<div class="variant-item" style="align-items:flex-start">
+<input class="inp" placeholder="Solo lectura" readonly="" style="width:200px;opacity:.6;cursor:default" type="text"/>
+<span class="variant-label">Read-only</span>
+</div>
+<div class="variant-item" style="align-items:flex-start">
+<input class="inp" disabled="" placeholder="Deshabilitado" style="width:200px" type="text"/>
+<span class="variant-label">Disabled</span>
+</div>
+</div>
+</div>
+<div class="preview-group">
+<p class="preview-group-label">Checkbox</p>
+<div class="preview-group-items">
+<div class="variant-item">
+<label class="check-wrap" onclick="this.querySelector('.check-box').classList.toggle('checked')"><span class="check-box checked"></span></label>
+<span class="variant-label">Checked</span>
+</div>
+<div class="variant-item">
+<label class="check-wrap" onclick="this.querySelector('.check-box').classList.toggle('checked')"><span class="check-box"></span></label>
+<span class="variant-label">Unchecked</span>
+</div>
+</div>
+</div>
+<div class="preview-group">
+<p class="preview-group-label">Toggle Switch</p>
+<div class="preview-group-items">
+<div class="variant-item">
+<div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-handle"></div></div>
+<span class="variant-label">On</span>
+</div>
+<div class="variant-item">
+<div class="toggle-track" onclick="this.classList.toggle('on')"><div class="toggle-handle"></div></div>
+<span class="variant-label">Off</span>
+</div>
+</div>
+</div>
+</div>
+<div class="spec-meta-bar">
+<div class="spec-meta-item"><span class="spec-meta-label">Componentes</span><span class="spec-meta-value">InputText · Checkbox · ToggleSwitch</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Variantes Input</span><span class="spec-meta-value">default · con valor · read-only · disabled</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Ancho mínimo</span><span class="spec-meta-value">Sin definir</span></div>
+</div>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TOKENS DE COLOR</span></div>
+<table class="spec-token-table">
+<thead><tr><th style="width:22%">Propiedad</th><th>InputText</th><th>Checkbox (checked)</th></tr></thead>
+<tbody>
+<tr>
+<td class="prop-col">Background</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#fff;border-color:#e5e5ea"></div><span class="token-pill">ds-neutral/0</span></div><span class="spec-hex">#FFFFFF</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:var(--brand-500)"></div><span class="token-pill">brand/primary-dark</span></div></div></td>
+</tr>
+<tr>
+<td class="prop-col">Border</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#E5E5EA"></div><span class="token-pill">surface/border</span></div><span class="spec-hex">#E5E5EA</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:var(--brand-500)"></div><span class="token-pill">brand/primary-dark</span></div></div></td>
+</tr>
+<tr>
+<td class="prop-col">Border hover/focus</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:var(--brand-500)"></div><span class="token-pill">brand/primary-dark</span></div></div></td>
+<td><div class="spec-token-cell"><span style="font-size:.75rem;color:var(--n300)">—</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Placeholder</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#AEAEB2;border-color:#e5e5ea"></div><span class="token-pill">text/tertiary</span></div><span class="spec-hex">#AEAEB2</span></div></td>
+<td><div class="spec-token-cell"><span style="font-size:.75rem;color:var(--n300)">—</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Icono check</td>
+<td><div class="spec-token-cell"><span style="font-size:.75rem;color:var(--n300)">—</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#fff;border-color:#e5e5ea"></div><span class="token-pill">text/inverse</span></div><span class="spec-hex">#FFFFFF</span></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TIPOGRAFÍA</span></div>
+<table class="spec-typo-table">
+<thead><tr><th>Elemento</th><th>Token</th><th>Familia</th><th>Peso</th><th>REM</th><th>Line Height</th></tr></thead>
+<tbody>
+<tr><td>Input text</td><td><span class="token-pill">body/xs</span></td><td>Poppins</td><td>Regular-400</td><td><span class="spec-rem">0.75rem</span></td><td>140%</td></tr>
+<tr><td>Label form</td><td><span class="token-pill">label/form</span></td><td>Poppins</td><td>SemiBold-600</td><td><span class="spec-rem">0.625rem</span></td><td>100%</td></tr>
+<tr><td>Checkbox label</td><td><span class="token-pill">body/xs</span></td><td>Poppins</td><td>Regular-400</td><td><span class="spec-rem">0.75rem</span></td><td>140%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">IMPLEMENTACIÓN</span></div>
+<div style="padding:.75rem 1.25rem;border-bottom:2px solid var(--n100);background:var(--n50)"><span style="font-family:var(--font-body);font-size:.875rem;font-weight:500;color:var(--n300)">Componente VUE (PrimeVue 4)</span></div>
+<div style="padding:1.25rem">
+<div class="spec-code-block">
+<pre><span class="cm">&lt;!-- InputText --&gt;</span>
+<span class="kw">&lt;InputText</span> <span class="at">v-model</span>=<span class="st">"value"</span> <span class="at">placeholder</span>=<span class="st">"Placeholder..."</span> <span class="kw">/&gt;</span>
+
+<span class="cm">&lt;!-- Checkbox --&gt;</span>
+<span class="kw">&lt;Checkbox</span> <span class="at">v-model</span>=<span class="st">"checked"</span> <span class="at">binary</span> <span class="kw">/&gt;</span>
+
+<span class="cm">&lt;!-- Toggle Switch --&gt;</span>
+<span class="kw">&lt;ToggleSwitch</span> <span class="at">v-model</span>=<span class="st">"active"</span> <span class="kw">/&gt;</span></pre>
+</div>
+<div class="tailwind-mapping" style="margin-top:1rem">
+<strong>Nota —</strong> El background del input siempre es ds-neutral/0 (#FFFFFF). El border y focus-ring cambian al color brand activo. Nunca usar select nativo: usar &lt;Select&gt; de PrimeVue 4.
+        </div>
+</div>
+</div>

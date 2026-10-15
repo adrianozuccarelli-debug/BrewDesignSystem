@@ -1,0 +1,20 @@
+{
+  "slug": "actividad-reciente",
+  "title": "Actividad reciente",
+  "category": "Contenedores y cards",
+  "figmaPage": "Actividad reciente",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Timeline de eventos de un contacto.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "Copy de eventos siempre en español."
+  ],
+  "todos": []
+}

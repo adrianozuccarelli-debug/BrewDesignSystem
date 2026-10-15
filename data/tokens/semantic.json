@@ -1,0 +1,750 @@
+{
+  "source": {
+    "figmaFile": "Growlat Design System",
+    "fileKey": "6FhjQIpcJ6XhSiwYcIBGtr",
+    "exportedAt": "2026-10-15"
+  },
+  "modes": {
+    "conversations": "Convos",
+    "app": "Growlat"
+  },
+  "note": "Cada valor es un alias a primitives (familia/paso) o un hex con alpha. Los nombres de modo son los de Figma.",
+  "tokens": {
+    "surface/0": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "surface/50": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "surface/100": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "surface/200": {
+      "conversations": "ds-neutral/200",
+      "app": "ds-neutral/200"
+    },
+    "surface/300": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "surface/400": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "surface/500": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "surface/600": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "surface/700": {
+      "conversations": "ds-neutral/600",
+      "app": "ds-neutral/600"
+    },
+    "surface/800": {
+      "conversations": "ds-neutral/600",
+      "app": "ds-neutral/600"
+    },
+    "surface/900": {
+      "conversations": "ds-neutral/nav",
+      "app": "ds-neutral/nav"
+    },
+    "surface/950": {
+      "conversations": "ds-neutral/nav",
+      "app": "ds-neutral/nav"
+    },
+    "surface/bg": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "surface/card": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "surface/nav": {
+      "conversations": "ds-neutral/nav",
+      "app": "ds-neutral/nav"
+    },
+    "surface/border": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "surface/border-subtle": {
+      "conversations": "ds-neutral/200",
+      "app": "ds-neutral/200"
+    },
+    "mask/background": {
+      "conversations": "#0E172199",
+      "app": "#0E172199"
+    },
+    "mask/color": {
+      "conversations": "ds-neutral/200",
+      "app": "ds-neutral/200"
+    },
+    "form-field/background": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "form-field/disabled-background": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "form-field/filled-background": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "form-field/filled-hover-background": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "form-field/filled-focus-background": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "form-field/border-color": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "form-field/hover-border-color": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "form-field/invalid-border-color": {
+      "conversations": "red/400",
+      "app": "red/400"
+    },
+    "form-field/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "form-field/disabled-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "form-field/placeholder-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "form-field/invalid-placeholder-color": {
+      "conversations": "red/600",
+      "app": "red/600"
+    },
+    "form-field/float-label-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "form-field/float-label-active-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "form-field/icon-color": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "form-field/focus-border-color": {
+      "conversations": "green/500",
+      "app": "violet/500"
+    },
+    "form-field/float-label-focus-color": {
+      "conversations": "green/600",
+      "app": "violet/600"
+    },
+    "text/primary": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "text/secondary": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "text/tertiary": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "text/inverse": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "text/disabled": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "text/muted": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "text/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "text/hover-color": {
+      "conversations": "ds-neutral/600",
+      "app": "ds-neutral/600"
+    },
+    "text/muted-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "text/hover-muted-color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "text/brand": {
+      "conversations": "green/500",
+      "app": "violet/500"
+    },
+    "content/background": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "content/hover-background": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "content/border-color": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "content/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "content/hover-color": {
+      "conversations": "ds-neutral/600",
+      "app": "ds-neutral/600"
+    },
+    "overlay/select/background": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "overlay/select/border-color": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "overlay/select/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "overlay/popover/background": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "overlay/popover/border-color": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "overlay/popover/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "overlay/modal/background": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "overlay/modal/border-color": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "overlay/modal/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "list/option/focus-background": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "list/option/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "list/option/focus-color": {
+      "conversations": "ds-neutral/600",
+      "app": "ds-neutral/600"
+    },
+    "list/option/icon-color": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "list/option/icon-focus-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "list/option/selected-background": {
+      "conversations": "green/50",
+      "app": "violet/50"
+    },
+    "list/option/selected-focus-background": {
+      "conversations": "green/100",
+      "app": "violet/100"
+    },
+    "list/option/selected-color": {
+      "conversations": "green/700",
+      "app": "violet/700"
+    },
+    "list/option/selected-focus-color": {
+      "conversations": "green/800",
+      "app": "violet/800"
+    },
+    "list/option-group/background": {
+      "conversations": "#00000000",
+      "app": "#00000000"
+    },
+    "list/option-group/color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "navigation/item/focus-background": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "navigation/item/color": {
+      "conversations": "ds-neutral/500",
+      "app": "ds-neutral/500"
+    },
+    "navigation/item/focus-color": {
+      "conversations": "ds-neutral/600",
+      "app": "ds-neutral/600"
+    },
+    "navigation/item/icon-color": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "navigation/item/icon-focus-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "navigation/item/active-background": {
+      "conversations": "green/50",
+      "app": "violet/50"
+    },
+    "navigation/item/active-color": {
+      "conversations": "green/600",
+      "app": "violet/600"
+    },
+    "navigation/item/icon-active-color": {
+      "conversations": "green/500",
+      "app": "violet/500"
+    },
+    "navigation/submenu-label/background": {
+      "conversations": "#00000000",
+      "app": "#00000000"
+    },
+    "navigation/submenu-label/color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "navigation/submenu-icon/color": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "navigation/submenu-icon/focus-color": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "success/color": {
+      "conversations": "green/500",
+      "app": "green/500"
+    },
+    "success/light": {
+      "conversations": "green/400",
+      "app": "green/400"
+    },
+    "success/dark": {
+      "conversations": "green/700",
+      "app": "green/700"
+    },
+    "success/bg": {
+      "conversations": "green/50",
+      "app": "green/50"
+    },
+    "success/border": {
+      "conversations": "green/200",
+      "app": "green/200"
+    },
+    "success/text": {
+      "conversations": "green/700",
+      "app": "green/700"
+    },
+    "error/color": {
+      "conversations": "red/600",
+      "app": "red/600"
+    },
+    "error/light": {
+      "conversations": "red/400",
+      "app": "red/400"
+    },
+    "error/dark": {
+      "conversations": "red/800",
+      "app": "red/800"
+    },
+    "error/bg": {
+      "conversations": "red/50",
+      "app": "red/50"
+    },
+    "error/border": {
+      "conversations": "red/200",
+      "app": "red/200"
+    },
+    "error/text": {
+      "conversations": "red/800",
+      "app": "red/800"
+    },
+    "warning/color": {
+      "conversations": "amber/600",
+      "app": "amber/600"
+    },
+    "warning/light": {
+      "conversations": "amber/400",
+      "app": "amber/400"
+    },
+    "warning/dark": {
+      "conversations": "amber/800",
+      "app": "amber/800"
+    },
+    "warning/bg": {
+      "conversations": "amber/50",
+      "app": "amber/50"
+    },
+    "warning/border": {
+      "conversations": "amber/200",
+      "app": "amber/200"
+    },
+    "warning/text": {
+      "conversations": "amber/800",
+      "app": "amber/800"
+    },
+    "info/color": {
+      "conversations": "blue/600",
+      "app": "blue/600"
+    },
+    "info/light": {
+      "conversations": "blue/400",
+      "app": "blue/400"
+    },
+    "info/dark": {
+      "conversations": "blue/800",
+      "app": "blue/800"
+    },
+    "info/bg": {
+      "conversations": "blue/50",
+      "app": "blue/50"
+    },
+    "info/border": {
+      "conversations": "blue/200",
+      "app": "blue/200"
+    },
+    "info/text": {
+      "conversations": "blue/800",
+      "app": "blue/800"
+    },
+    "note/conversacion/bg": {
+      "conversations": "amber/50",
+      "app": "amber/50"
+    },
+    "note/conversacion/border": {
+      "conversations": "amber/200",
+      "app": "amber/200"
+    },
+    "note/conversacion/text": {
+      "conversations": "amber/800",
+      "app": "amber/800"
+    },
+    "note/conversacion/title": {
+      "conversations": "amber/800",
+      "app": "amber/800"
+    },
+    "note/conversacion/meta": {
+      "conversations": "amber/600",
+      "app": "amber/600"
+    },
+    "note/conversacion/icon": {
+      "conversations": "amber/500",
+      "app": "amber/500"
+    },
+    "note/contacto/bg": {
+      "conversations": "pink/50",
+      "app": "pink/50"
+    },
+    "note/contacto/border": {
+      "conversations": "pink/200",
+      "app": "pink/200"
+    },
+    "note/contacto/text": {
+      "conversations": "pink/700",
+      "app": "pink/700"
+    },
+    "note/contacto/title": {
+      "conversations": "pink/700",
+      "app": "pink/700"
+    },
+    "note/contacto/meta": {
+      "conversations": "pink/600",
+      "app": "pink/600"
+    },
+    "note/contacto/icon": {
+      "conversations": "pink/500",
+      "app": "pink/500"
+    },
+    "badge/success/bg": {
+      "conversations": "green/50",
+      "app": "green/50"
+    },
+    "badge/success/border": {
+      "conversations": "green/200",
+      "app": "green/200"
+    },
+    "badge/success/text": {
+      "conversations": "green/700",
+      "app": "green/700"
+    },
+    "badge/error/bg": {
+      "conversations": "red/50",
+      "app": "red/50"
+    },
+    "badge/error/border": {
+      "conversations": "red/200",
+      "app": "red/200"
+    },
+    "badge/error/text": {
+      "conversations": "red/700",
+      "app": "red/700"
+    },
+    "badge/warning/bg": {
+      "conversations": "amber/50",
+      "app": "amber/50"
+    },
+    "badge/warning/border": {
+      "conversations": "amber/200",
+      "app": "amber/200"
+    },
+    "badge/warning/text": {
+      "conversations": "amber/700",
+      "app": "amber/700"
+    },
+    "badge/info/bg": {
+      "conversations": "blue/50",
+      "app": "blue/50"
+    },
+    "badge/info/border": {
+      "conversations": "blue/200",
+      "app": "blue/200"
+    },
+    "badge/info/text": {
+      "conversations": "blue/700",
+      "app": "blue/700"
+    },
+    "badge/mkt/bg": {
+      "conversations": "violet/50",
+      "app": "violet/50"
+    },
+    "badge/mkt/border": {
+      "conversations": "violet/300",
+      "app": "violet/300"
+    },
+    "badge/mkt/text": {
+      "conversations": "purple/800",
+      "app": "purple/800"
+    },
+    "badge/neutral/bg": {
+      "conversations": "ds-neutral/50",
+      "app": "ds-neutral/50"
+    },
+    "badge/neutral/border": {
+      "conversations": "ds-neutral/100",
+      "app": "ds-neutral/100"
+    },
+    "badge/neutral/text": {
+      "conversations": "ds-neutral/400",
+      "app": "ds-neutral/400"
+    },
+    "badge/brand/bg": {
+      "conversations": "#0AE28B1A",
+      "app": "#6D2FE61A"
+    },
+    "badge/brand/text": {
+      "conversations": "green/500",
+      "app": "violet/500"
+    },
+    "chart/1": {
+      "conversations": "green/500",
+      "app": "green/500"
+    },
+    "chart/2": {
+      "conversations": "blue/500",
+      "app": "blue/500"
+    },
+    "chart/3": {
+      "conversations": "violet/500",
+      "app": "violet/500"
+    },
+    "chart/4": {
+      "conversations": "amber/500",
+      "app": "amber/500"
+    },
+    "chart/5": {
+      "conversations": "pink/500",
+      "app": "pink/500"
+    },
+    "chart/6": {
+      "conversations": "teal/500",
+      "app": "teal/500"
+    },
+    "chart/suscripto": {
+      "conversations": "green/400",
+      "app": "green/400"
+    },
+    "chart/desuscripto": {
+      "conversations": "red/400",
+      "app": "red/400"
+    },
+    "chart/desus-marketing": {
+      "conversations": "indigo/400",
+      "app": "indigo/400"
+    },
+    "primary/50": {
+      "conversations": "green/50",
+      "app": "violet/50"
+    },
+    "primary/100": {
+      "conversations": "green/100",
+      "app": "violet/100"
+    },
+    "primary/200": {
+      "conversations": "green/200",
+      "app": "violet/200"
+    },
+    "primary/300": {
+      "conversations": "green/300",
+      "app": "violet/300"
+    },
+    "primary/400": {
+      "conversations": "green/400",
+      "app": "violet/400"
+    },
+    "primary/500": {
+      "conversations": "green/500",
+      "app": "violet/500"
+    },
+    "primary/600": {
+      "conversations": "green/600",
+      "app": "violet/600"
+    },
+    "primary/700": {
+      "conversations": "green/700",
+      "app": "violet/700"
+    },
+    "primary/800": {
+      "conversations": "green/800",
+      "app": "violet/800"
+    },
+    "primary/900": {
+      "conversations": "green/900",
+      "app": "violet/900"
+    },
+    "primary/950": {
+      "conversations": "green/950",
+      "app": "violet/950"
+    },
+    "brand/primary": {
+      "conversations": "green/400",
+      "app": "violet/400"
+    },
+    "brand/primary-dark": {
+      "conversations": "green/500",
+      "app": "violet/600"
+    },
+    "brand/hover": {
+      "conversations": "green/600",
+      "app": "violet/700"
+    },
+    "brand/subtle": {
+      "conversations": "#0AE28B1A",
+      "app": "#6D2FE61A"
+    },
+    "brand/border": {
+      "conversations": "#039F7338",
+      "app": "#6D2FE638"
+    },
+    "brand/text": {
+      "conversations": "green/500",
+      "app": "violet/500"
+    },
+    "primary-color/color": {
+      "conversations": "green/500",
+      "app": "violet/600"
+    },
+    "primary-color/contrast": {
+      "conversations": "ds-neutral/0",
+      "app": "ds-neutral/0"
+    },
+    "primary-color/hover": {
+      "conversations": "green/600",
+      "app": "violet/700"
+    },
+    "primary-color/active": {
+      "conversations": "green/700",
+      "app": "violet/800"
+    },
+    "highlight/background": {
+      "conversations": "green/50",
+      "app": "violet/50"
+    },
+    "highlight/focus-background": {
+      "conversations": "green/100",
+      "app": "violet/100"
+    },
+    "highlight/color": {
+      "conversations": "green/700",
+      "app": "violet/700"
+    },
+    "highlight/focus-color": {
+      "conversations": "green/800",
+      "app": "violet/800"
+    },
+    "focus/ring": {
+      "conversations": "green/500",
+      "app": "violet/500"
+    },
+    "Social/Facebook-Solid": {
+      "conversations": "#1877F2",
+      "app": "#1877F2"
+    },
+    "Social/Instagram-Solid": {
+      "conversations": "#E1306C",
+      "app": "#E1306C"
+    },
+    "Social/WhatsApp-Solid": {
+      "conversations": "#25D366",
+      "app": "#25D366"
+    },
+    "Social/Facebook-bg": {
+      "conversations": "#1877F21A",
+      "app": "#1877F21A"
+    },
+    "Social/Instagram-bg": {
+      "conversations": "#E1306C1A",
+      "app": "#E1306C1A"
+    },
+    "Social/WhatsApp-bg": {
+      "conversations": "#25D3661A",
+      "app": "#25D3661A"
+    },
+    "Social/Facebook-Border": {
+      "conversations": "#1877F238",
+      "app": "#1877F238"
+    },
+    "Social/Instagram-Border": {
+      "conversations": "#E1306C38",
+      "app": "#E1306C38"
+    },
+    "Social/WhatsApp-Border": {
+      "conversations": "#25D36638",
+      "app": "#25D36638"
+    }
+  }
+}

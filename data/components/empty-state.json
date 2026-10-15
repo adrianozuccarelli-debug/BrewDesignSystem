@@ -1,0 +1,24 @@
+{
+  "slug": "empty-state",
+  "title": "Empty state",
+  "category": "Feedback",
+  "figmaPage": "Empty state",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Estado vacío de listas, tablas y reportes.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-1838"
+  ],
+  "rules": [
+    "Siempre parte del análisis de cualquier pantalla con datos."
+  ],
+  "todos": [
+    "Hoy conviven el ilustrado y el genérico \"No hay actividad que mostrar\"."
+  ]
+}

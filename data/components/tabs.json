@@ -1,0 +1,20 @@
+{
+  "slug": "tabs",
+  "title": "Tabs",
+  "category": "Navegación",
+  "figmaPage": "Tabs",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Pestañas dentro de una vista.",
+  "base": "PrimeVue Tabs",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": [
+    "Hoy hay tabs con y sin ícono según el módulo."
+  ]
+}

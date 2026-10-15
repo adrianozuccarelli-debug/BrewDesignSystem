@@ -1,0 +1,20 @@
+{
+  "slug": "builder-canvas",
+  "title": "Builder de canvas",
+  "category": "Patrones",
+  "figmaPage": "Builder de canvas",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Constructor con paleta de nodos y canvas (Diálogos, Automáticas).",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "Recorrido IA"
+  ],
+  "rules": [],
+  "todos": []
+}

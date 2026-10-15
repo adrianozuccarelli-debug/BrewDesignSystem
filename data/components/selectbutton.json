@@ -1,0 +1,18 @@
+{
+  "slug": "selectbutton",
+  "title": "SelectButton y ToggleButton",
+  "category": "Formularios",
+  "figmaPage": "SelectButton y ToggleButton",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Toggles segmentados (ej. Todas / Activas / Inactivas).",
+  "base": "PrimeVue SelectButton · ToggleButton",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

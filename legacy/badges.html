@@ -1,0 +1,108 @@
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">PREVIEW</span></div>
+<div class="spec-preview" style="flex-direction:column;gap:1.75rem;align-items:flex-start">
+<div class="preview-group">
+<p class="preview-group-label">Status Badges</p>
+<div class="preview-group-items">
+<div class="variant-item">
+<span class="badge badge-success"><span class="badge-dot"></span>Suscripto</span>
+<span class="variant-label">success</span>
+</div>
+<div class="variant-item">
+<span class="badge badge-error"><span class="badge-dot"></span>Desuscripto</span>
+<span class="variant-label">error</span>
+</div>
+<div class="variant-item">
+<span class="badge badge-mkt"><span class="badge-dot"></span>Desus. Mkt</span>
+<span class="variant-label">mkt</span>
+</div>
+<div class="variant-item">
+<span class="badge badge-brand"><span class="badge-dot"></span>Plataforma</span>
+<span class="variant-label">brand-aware</span>
+</div>
+<div class="variant-item">
+<span class="badge badge-neutral"><span class="badge-dot"></span>Neutral</span>
+<span class="variant-label">neutral</span>
+</div>
+</div>
+</div>
+<div class="preview-group">
+<p class="preview-group-label">Sin dot (solo label)</p>
+<div class="preview-group-items">
+<div class="variant-item">
+<span class="badge badge-success">Suscripto</span>
+<span class="variant-label">success · no dot</span>
+</div>
+<div class="variant-item">
+<span class="badge badge-error">Desuscripto</span>
+<span class="variant-label">error · no dot</span>
+</div>
+<div class="variant-item">
+<span class="badge badge-neutral">V 1.0</span>
+<span class="variant-label">neutral · version</span>
+</div>
+</div>
+</div>
+</div>
+<div class="spec-meta-bar">
+<div class="spec-meta-item"><span class="spec-meta-label">Componente</span><span class="spec-meta-value">Badge (custom)</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Variantes</span><span class="spec-meta-value">success · error · mkt · brand · neutral</span></div>
+<div class="spec-meta-item"><span class="spec-meta-label">Ancho mínimo</span><span class="spec-meta-value">Sin definir</span></div>
+</div>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TOKENS DE COLOR</span></div>
+<table class="spec-token-table">
+<thead><tr><th style="width:22%">Propiedad</th><th>Suscripto (success)</th><th>Desuscripto (error)</th></tr></thead>
+<tbody>
+<tr>
+<td class="prop-col">Background</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#E6FAF4;border-color:#B3E8D8"></div><span class="token-pill">success/bg</span></div><span class="spec-hex">#E6FAF4</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#FEF2F2;border-color:#FECACA"></div><span class="token-pill">error/bg</span></div><span class="spec-hex">#FEF2F2</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Border</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#B3E8D8"></div><span class="token-pill">success/border</span></div><span class="spec-hex">#B3E8D8</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#FECACA"></div><span class="token-pill">error/border</span></div><span class="spec-hex">#FECACA</span></div></td>
+</tr>
+<tr>
+<td class="prop-col">Texto + dot</td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#039F73"></div><span class="token-pill">success/text</span></div><span class="spec-hex">#039F73</span></div></td>
+<td><div class="spec-token-cell"><div class="spec-token-row"><div class="spec-swatch" style="background:#DC2626"></div><span class="token-pill">error/text</span></div><span class="spec-hex">#DC2626</span></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">TIPOGRAFÍA</span></div>
+<table class="spec-typo-table">
+<thead><tr><th>Elemento</th><th>Token</th><th>Familia</th><th>Peso</th><th>REM</th><th>Line Height</th></tr></thead>
+<tbody>
+<tr><td>Label badge</td><td><span class="token-pill">body/xxs</span></td><td>Poppins</td><td>SemiBold-600</td><td><span class="spec-rem">0.625rem</span></td><td>140%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="spec-card">
+<div class="spec-card-header"><span class="spec-card-title">IMPLEMENTACIÓN</span></div>
+<div style="padding:.75rem 1.25rem;border-bottom:2px solid var(--n100);background:var(--n50)"><span style="font-family:var(--font-body);font-size:.875rem;font-weight:500;color:var(--n300)">HTML + CSS custom properties</span></div>
+<div style="padding:1.25rem">
+<div class="spec-code-block">
+<pre><span class="cm">&lt;!-- Estructura del badge --&gt;</span>
+<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="st">"badge badge-success"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="at">class</span>=<span class="st">"badge-dot"</span><span class="kw">&gt;&lt;/span&gt;</span>
+  Suscripto
+<span class="kw">&lt;/span&gt;</span>
+
+<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="st">"badge badge-error"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="at">class</span>=<span class="st">"badge-dot"</span><span class="kw">&gt;&lt;/span&gt;</span>
+  Desuscripto
+<span class="kw">&lt;/span&gt;</span></pre>
+</div>
+<div class="tailwind-mapping" style="margin-top:1rem">
+<strong>Clases disponibles —</strong> badge-success · badge-error · badge-mkt · badge-brand · badge-neutral. El badge-brand cambia automáticamente con la plataforma activa.
+        </div>
+</div>
+</div>

@@ -1,165 +1,43 @@
 # BREW Design System
 
-Sistema de diseño multi-marca para **Convos** y **Growlat**. Tokens semánticos, presets de PrimeVue 4 y guías de implementación para Vue 3 + Vite.
+Sistema de diseño compartido de **Growlat App** (violeta) y **Growlat Conversations** (verde): tokens, tipografía y componentes sobre Vue 3, PrimeVue 4 y Tailwind CSS.
 
-**Versión actual:** `v1.0.0` — Marzo 2026
+Sitio: https://adrianozuccarelli-debug.github.io/BrewDesignSystem/
+Fuente de verdad: Figma, archivo **Growlat Design System**.
 
----
+## Cómo está armado
 
-## Plataformas
-
-| Plataforma | Color primario | Descripción |
-|---|---|---|
-| **Convos** | `#039F73` Verde | CRM, audiencias, inbox, campañas de WhatsApp |
-| **Growlat** | `#6D2FE6` Violeta | Plataforma de data marketing |
-
-Ambas plataformas comparten el mismo Design System. Lo único que cambia entre ellas son los **37 tokens brand-aware** — todo lo demás es idéntico.
-
----
-
-## Stack
-
-- **Framework:** Vue 3 + Composition API
-- **Build tool:** Vite 5
-- **UI Components:** PrimeVue 4 + Aura preset
-- **Estilos:** Tailwind CSS
-- **Tipografía:** Poppins + Space Grotesk (Google Fonts)
-
----
-
-## Archivos del repo
+El sitio es estático y no necesita build. `index.html` es un shell; todo el contenido se carga desde `data/`.
 
 ```
-brew-ds/
-│
-├── brew-ds.html              # Documentación interactiva del DS
-├── DS_CONTEXT.md             # Contexto completo del DS (para Claude)
-│
-├── src/
-│   ├── theme/
-│   │   ├── convos.preset.js  # Preset PrimeVue 4 — brand verde
-│   │   └── growlat.preset.js # Preset PrimeVue 4 — brand violeta
-│   └── assets/
-│       └── typography.css    # 30 text styles
-│
-└── tokens/
-    ├── Value_tokens.json     # Primitivos — 22 paletas × 11 pasos
-    ├── Convos_tokens.json    # Semánticos modo Convos
-    ├── Growlat_tokens.json   # Semánticos modo Growlat
-    └── Mode_1_tokens.json    # Spacing & border-radius
+index.html                 Shell (topbar, sidebar, contenedor)
+assets/css/brew.css        Estilos v1 (base visual)
+assets/css/brew-v2.css     Agregados v2
+assets/js/app.js           Router, selector de plataforma y render de páginas
+assets/js/legacy.js        Helpers del contenido v1 (se borra al terminar la migración)
+
+data/site.json             Navegación, plataformas, discrepancias abiertas, changelog
+data/tokens/               Exportados de Figma: primitives, semantic, spacing-radius, typography, dropdown
+data/components/<slug>.json  Una ficha por componente o patrón
+previews/<slug>.html       Preview interactivo de cada componente
+legacy/<slug>.html         Contenido v1 pendiente de migrar
+
+src/theme/                 Presets PrimeVue (v1, pendiente reemplazar por v2)
+src/Assets/Typography.css  Estilos de texto (v1)
+archive/tokens-v1/         Exportaciones de tokens anteriores
+docs/WORKFLOW.md           Cómo se documenta y se publica
 ```
 
----
+## Probar localmente
 
-## Cómo usar los presets
+`fetch` no funciona abriendo el archivo con doble clic. Desde la carpeta del repo:
 
-Copiar `convos.preset.js` o `growlat.preset.js` en `src/theme/` del proyecto y registrar en `main.js`:
-
-```js
-import PrimeVue from 'primevue/config'
-import ConvosPreset from './theme/convos.preset.js'
-
-app.use(PrimeVue, {
-  theme: {
-    preset: ConvosPreset,
-    options: { darkModeSelector: '.dark', cssLayer: false }
-  }
-})
+```
+npx serve .
+# o
+python3 -m http.server
 ```
 
-Para Growlat reemplazar `ConvosPreset` por `GrowlatPreset` e importar `growlat.preset.js`.
+## Documentar o actualizar un componente
 
----
-
-## Cómo usar los text styles
-
-Copiar `typography.css` en `src/assets/` e importar en `main.js`:
-
-```js
-import './assets/typography.css'
-```
-
-Uso en templates Vue — el nombre de la clase refleja exactamente el Text Style de Figma:
-
-```html
-<!-- Figma "display/page-title" → .text-display-page-title -->
-<h1 class="text-display-page-title">Audiencia</h1>
-
-<!-- Figma "body/md" → .text-body-md -->
-<p class="text-body-md">Descripción del módulo</p>
-
-<!-- Figma "label/meta" → .text-label-meta -->
-<span class="text-label-meta">SECCIÓN</span>
-
-<!-- Figma "chat/contact-name" → .text-chat-contact-name -->
-<span class="text-chat-contact-name">Agustina García</span>
-```
-
-**30 text styles en 8 grupos:** `display` · `module` · `body` · `nav` · `topbar` · `link` · `label` · `chat` · `code`
-
----
-
-## Cómo importar los tokens en Figma
-
-Usar el plugin **Variables Import/Export** en Figma → Import JSON, en este orden:
-
-1. `Value_tokens.json` — Primitivos (paletas de color)
-2. `Convos_tokens.json` o `Growlat_tokens.json` — Semánticos
-3. `Mode_1_tokens.json` — Spacing & border-radius
-
----
-
-## Tokens — resumen
-
-| Archivo | Contenido | Tokens |
-|---|---|---|
-| `Value_tokens.json` | 22 paletas × 11 pasos | ~242 |
-| `Convos_tokens.json` | Semánticos modo Convos | 175 |
-| `Growlat_tokens.json` | Semánticos modo Growlat | 175 |
-| `Mode_1_tokens.json` | Spacing/1–10 · radius/sm–full | 13 |
-
-**Tokens brand-aware** (difieren entre plataformas): 37 — incluyen `brand/*`, `primary/*`, `primary-color/*`, `highlight/*`, `focus/ring`, `text/brand`, tokens de navegación activa y form-field focus.
-
----
-
-## Documentación interactiva
-
-El archivo `brew-ds.html` es una single-page app autocontenida con toda la documentación del DS:
-
-- **Design Tokens** — Primitivos (paletas), Semánticos (175 tokens con diff Convos/Growlat), Spacing & Radius
-- **Tipografía** — Specimen de fuentes, 30 text styles con preview en vivo
-- **Componentes** — Buttons, Inputs & Forms, Badges, Data Table, Nota, Overlays, Feedback
-- **Recursos** — Todos los archivos descargables con versioning
-
-Abrir directamente en el browser o servir con cualquier servidor estático.
-
-Si activás **GitHub Pages** en este repo, el DS queda disponible en:
-```
-https://[usuario].github.io/brew-ds/brew-ds.html
-```
-
----
-
-## Figma
-
-| Archivo | Link |
-|---|---|
-| Growlat Design System | [Figma DS](https://www.figma.com/design/6FhjQIpcJ6XhSiwYcIBGtr/Growlat-Design-System) |
-| Growlat App | [Figma App](https://www.figma.com/design/eZR5Aj2fW8jIreJZkq1TfK/Growlat) |
-
----
-
-## Versionado
-
-Seguimos **SemVer** — `MAJOR.MINOR.PATCH`
-
-| Tipo | Cuándo |
-|---|---|
-| `PATCH` x.x.1 | Fix visual, ajuste de token |
-| `MINOR` x.1.0 | Nuevo componente, prop opcional |
-| `MAJOR` 1.0.0 | Breaking change en API de preset |
-
-### Changelog
-
-#### v1.0.0 — Marzo 2026
-Lanzamiento inicial. Presets PrimeVue 4 para Convos y Growlat. Paleta `ds-neutral` custom. 175 tokens semánticos × 2 modos. 30 text styles. Componentes: Button, InputText, Checkbox, ToggleSwitch, Badge, DataTable (5 variantes), Nota, Drawer, Toast, Skeleton, ProgressBar.
+Ver [docs/WORKFLOW.md](docs/WORKFLOW.md).

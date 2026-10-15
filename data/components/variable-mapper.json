@@ -1,0 +1,20 @@
+{
+  "slug": "variable-mapper",
+  "title": "Variable Mapper",
+  "category": "Patrones",
+  "figmaPage": "Variable Mapper",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Mapeo de variables del mensaje a campos del contacto.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-2120"
+  ],
+  "rules": [],
+  "todos": []
+}

@@ -1,0 +1,22 @@
+{
+  "slug": "vigencia",
+  "title": "Indicador de vigencia",
+  "category": "Patrones",
+  "figmaPage": "Indicador de vigencia",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Frescura de un dato en 3 niveles.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1731"
+  ],
+  "rules": [
+    "0–30 días success · 30–90 warning · +90 error · sin asignar neutral."
+  ],
+  "todos": []
+}

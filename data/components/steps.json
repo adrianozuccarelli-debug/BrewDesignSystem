@@ -1,0 +1,23 @@
+{
+  "slug": "steps",
+  "title": "Steps y progreso de wizard",
+  "category": "Navegación",
+  "figmaPage": "Steps y progreso de wizard",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Indicador de pasos en flujos de creación.",
+  "base": "PrimeVue Steps",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-2120",
+    "MID-2154"
+  ],
+  "rules": [],
+  "todos": [
+    "Conviven Steps, la barra \"1 DATOS / 2 MENSAJE\" y el contador \"1/3\": definir uno."
+  ]
+}

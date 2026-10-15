@@ -1,0 +1,18 @@
+{
+  "slug": "avatar",
+  "title": "Avatar",
+  "category": "Taxonomía y estado",
+  "figmaPage": "Avatar",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Iniciales, imagen o ícono; con badge de canal en Inbox.",
+  "base": "PrimeVue Avatar",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

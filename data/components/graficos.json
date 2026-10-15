@@ -1,0 +1,23 @@
+{
+  "slug": "graficos",
+  "title": "Gráficos",
+  "category": "Datos",
+  "figmaPage": "Gráficos",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Line, bar, donut, heatmap y Gráfico de Información de API.",
+  "base": "BREW DS (tokens chart/1–6)",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1778",
+    "MID-1838"
+  ],
+  "rules": [
+    "Un cambio de configuración en una serie temporal se marca en el gráfico (MID-1838)."
+  ],
+  "todos": []
+}

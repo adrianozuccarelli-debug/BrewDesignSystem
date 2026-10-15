@@ -1,0 +1,22 @@
+{
+  "slug": "subnavegacion",
+  "title": "Subnavegación",
+  "category": "Navegación",
+  "figmaPage": "Subnavegación",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Navegación lateral secundaria por módulo.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1734"
+  ],
+  "rules": [],
+  "todos": [
+    "Ya existe un componente \"Subnavegacion\" en la página de Backoffice: revisar si es el mismo."
+  ]
+}

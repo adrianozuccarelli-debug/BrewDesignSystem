@@ -1,0 +1,22 @@
+{
+  "slug": "tarjeta-conocimiento",
+  "title": "Tarjeta de Conocimiento",
+  "category": "Contenedores y cards",
+  "figmaPage": "Tarjeta de Conocimiento",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Ítem de la base de conocimiento de los agentes de IA.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1731"
+  ],
+  "rules": [
+    "Usa el Indicador de vigencia."
+  ],
+  "todos": []
+}

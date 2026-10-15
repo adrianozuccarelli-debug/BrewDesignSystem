@@ -1,0 +1,25 @@
+{
+  "slug": "nombre-en-minusculas",
+  "title": "Nombre visible",
+  "category": "Acciones | Formularios | Datos | Taxonomía y estado | Feedback | Overlays | Navegación | Contenedores y cards | Patrones | Back Office",
+  "figmaPage": "Nombre de la página en Figma",
+  "status": "por-documentar | parcial | a-revisar | documentado",
+  "siteVersion": "1.0",
+  "updated": "AAAA-MM-DD",
+  "description": "Qué es y para qué sirve, en una o dos oraciones.",
+  "base": "PrimeVue X | BREW DS",
+  "platforms": ["app", "conversations"],
+  "precedents": ["MID-0000", "CON-0000"],
+  "rules": ["Regla de uso ya decidida."],
+  "todos": ["Decisión pendiente."],
+  "sections": {
+    "preview": "previews/nombre.html",
+    "meta": [["Variantes", "a · b"], ["Tamaños", "small · default"]],
+    "tokens": {
+      "columns": ["Variante A", "Variante B"],
+      "rows": [["Fondo", "primary-color/color", "surface/card"]]
+    },
+    "typography": [["Label", "body/xs-bold"]],
+    "code": [{ "title": "Vue · PrimeVue 4", "code": "<Componente />" }]
+  }
+}

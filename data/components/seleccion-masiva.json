@@ -1,0 +1,18 @@
+{
+  "slug": "seleccion-masiva",
+  "title": "Barra de selección masiva",
+  "category": "Patrones",
+  "figmaPage": "Barra de selección masiva",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Barra contextual al seleccionar filas.",
+  "base": "DataTable",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

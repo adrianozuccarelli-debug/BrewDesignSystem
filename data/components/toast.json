@@ -1,0 +1,23 @@
+{
+  "slug": "toast",
+  "title": "Toast, Skeleton y ProgressBar",
+  "category": "Feedback",
+  "figmaPage": "Toast",
+  "status": "por-documentar",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Feedback efímero de una acción, carga de contenido y progreso.",
+  "base": "PrimeVue Toast · Skeleton · ProgressBar",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-1838"
+  ],
+  "rules": [
+    "Error de carga: toast con opción de recargar."
+  ],
+  "todos": [],
+  "legacy": "legacy/feedback.html"
+}

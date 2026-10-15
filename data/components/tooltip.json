@@ -1,0 +1,18 @@
+{
+  "slug": "tooltip",
+  "title": "Tooltip",
+  "category": "Feedback",
+  "figmaPage": "Tooltip",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Información complementaria en hover.",
+  "base": "PrimeVue Tooltip",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}

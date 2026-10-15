@@ -1,0 +1,23 @@
+{
+  "slug": "select",
+  "title": "Select y MultiSelect",
+  "category": "Formularios",
+  "figmaPage": "Select y MultiSelect",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Selección simple y múltiple. Base de los filtros de tablas.",
+  "base": "PrimeVue Select · MultiSelect",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "Nunca select nativo.",
+    "Overlay con radius/md."
+  ],
+  "todos": [
+    "La colección Dropdown usa un azul (#3B82F6) para el focus en lugar del color de marca."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "paginator",
+  "title": "Paginator",
+  "category": "Datos",
+  "figmaPage": "Paginator",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Paginación server-side de tablas.",
+  "base": "PrimeVue Paginator",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "Números con separador de miles."
+  ],
+  "todos": []
+}

@@ -1,0 +1,26 @@
+{
+  "slug": "kpi-card",
+  "title": "KPI Card",
+  "category": "Datos",
+  "figmaPage": "KPI Card",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Métrica destacada, sola o en fila. Puede llevar tendencia, ícono y tooltip.",
+  "base": "BREW DS (Card)",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1778",
+    "MID-2305"
+  ],
+  "rules": [
+    "Si una métrica no aplica se muestra \"N/A\", no guion (MID-2305).",
+    "Evitar grillas que dejen filas huérfanas."
+  ],
+  "todos": [
+    "Hoy conviven 3 estilos: definir uno."
+  ]
+}

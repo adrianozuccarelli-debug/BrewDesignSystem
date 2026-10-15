@@ -1,0 +1,23 @@
+{
+  "slug": "datatable",
+  "title": "DataTable",
+  "category": "Datos",
+  "figmaPage": "Tablas",
+  "status": "parcial",
+  "siteVersion": "1.0",
+  "updated": null,
+  "description": "Tabla de datos con paginación server-side, búsqueda y selección múltiple. Es la superficie primaria del producto.",
+  "base": "PrimeVue DataTable",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "Ante la duda de cómo mostrar un set de datos, la respuesta por defecto es DataTable."
+  ],
+  "todos": [
+    "Convertir el diseño de la página Tablas en componentes."
+  ],
+  "legacy": "legacy/datatable.html"
+}

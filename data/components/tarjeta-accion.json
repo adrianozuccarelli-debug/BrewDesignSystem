@@ -1,0 +1,18 @@
+{
+  "slug": "tarjeta-accion",
+  "title": "Tarjeta de Acción",
+  "category": "Contenedores y cards",
+  "figmaPage": "Tarjeta de Acción",
+  "status": "por-documentar",
+  "siteVersion": null,
+  "updated": null,
+  "description": "Acceso directo a una tarea en la Home.",
+  "base": "BREW DS",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [],
+  "todos": []
+}
