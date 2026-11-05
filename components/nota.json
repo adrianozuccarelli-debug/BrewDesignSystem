@@ -1,0 +1,99 @@
+{
+  "slug": "nota",
+  "title": "Nota",
+  "category": "Taxonomía y estado",
+  "figmaPage": "Notas",
+  "status": "documentado",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Tarjeta para notas internas asociadas a un contacto o a una conversación. Dos variantes de color según el origen.",
+  "base": "BREW DS (custom)",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [],
+  "rules": [
+    "La variante se elige por el origen de la nota: Conversación (amarilla) o Contacto (rosa).",
+    "Ancho mínimo 460 px; radio radius/md; padding spacing/4 vertical y spacing/3 horizontal; gap interno spacing/2.",
+    "Todos los valores de color, espacio y radio se aplican como tokens, nunca como hex."
+  ],
+  "todos": [
+    "Revisar tokens: el componente en Figma está vinculado a variables con nombres viejos (note/conversacion-bg, neutral/text-tertiary); la colección Semantic actual usa note/conversacion/bg y text/tertiary.",
+    "Evaluar el uso de note/*/title, note/*/meta y note/*/icon, que existen en Semantic pero el componente no usa."
+  ],
+  "sections": {
+    "meta": [
+      [
+        "Variantes",
+        "Conversación · Contacto"
+      ],
+      [
+        "Ancho mínimo",
+        "460 px"
+      ],
+      [
+        "Forma",
+        "radius/md · borde 1 px"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Conversación",
+        "Contacto"
+      ],
+      "rows": [
+        [
+          "Fondo",
+          "note/conversacion/bg",
+          "note/contacto/bg"
+        ],
+        [
+          "Borde",
+          "note/conversacion/border",
+          "note/contacto/border"
+        ],
+        [
+          "Autor",
+          "note/conversacion/text",
+          "note/contacto/text"
+        ],
+        [
+          "Texto de la nota",
+          "text/primary",
+          "text/primary"
+        ],
+        [
+          "Origen",
+          "text/secondary",
+          "text/secondary"
+        ],
+        [
+          "Fecha",
+          "text/tertiary",
+          "text/tertiary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Autor",
+        "body/md-medium"
+      ],
+      [
+        "Texto de la nota",
+        "body/md"
+      ],
+      [
+        "Origen y fecha",
+        "body/xxs-bold"
+      ]
+    ],
+    "code": [
+      {
+        "title": "Vue 3 · Tailwind",
+        "code": "<!-- Nota.vue -->\n<template>\n  <div :class=\"[\n    'flex flex-col gap-2 px-3 py-4 rounded-md border min-w-[460px]',\n    tipo === 'conversacion'\n      ? 'bg-[var(--note-conversacion-bg)] border-[var(--note-conversacion-border)]'\n      : 'bg-[var(--note-contacto-bg)] border-[var(--note-contacto-border)]'\n  ]\">\n    <p :class=\"['text-body-md-medium', tipo === 'conversacion' ? 'text-[var(--note-conversacion-text)]' : 'text-[var(--note-contacto-text)]']\">{{ autor }}</p>\n    <p class=\"text-body-md text-[var(--text-primary)]\">{{ texto }}</p>\n    <div class=\"flex justify-between items-center text-body-xxs-bold\">\n      <span class=\"text-[var(--text-secondary)]\">Origen: {{ origen }}</span>\n      <span class=\"text-[var(--text-tertiary)]\">{{ fecha }}</span>\n    </div>\n  </div>\n</template>\n\n<script setup>\ndefineProps({\n  tipo:   { type: String, default: 'conversacion' }, // 'conversacion' | 'contacto'\n  autor:  { type: String, required: true },\n  texto:  { type: String, required: true },\n  origen: { type: String, required: true },\n  fecha:  { type: String, required: true },\n})\n</script>\n\n<!-- gap-2 = spacing/2 · px-3 = spacing/3 · py-4 = spacing/4 · rounded-md = radius/md -->"
+      }
+    ]
+  }
+}

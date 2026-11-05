@@ -1,0 +1,95 @@
+{
+  "slug": "checkbox-radio-toggle",
+  "title": "Checkbox, Radio y ToggleSwitch",
+  "category": "Formularios",
+  "figmaPage": "Checkbox, Radio y ToggleSwitch",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Controles binarios y de opción única. Por ahora está documentado el Checkbox liviano de 16 px.",
+  "base": "PrimeVue Checkbox · RadioButton · ToggleSwitch",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-2259"
+  ],
+  "rules": [
+    "Checkbox para selección múltiple dentro de listas, tablas, cards y etiquetas de grupo (ej. Mapa de oportunidades).",
+    "Indeterminado cuando una selección de grupo incluye solo parte de sus elementos.",
+    "Selección vs. foco: lo seleccionado se comunica con el check y el borde brand/border del contenedor; el ring de focus queda solo para teclado.",
+    "La etiqueta va a 8 px (spacing/2) del control y también es clickeable.",
+    "No usar Checkbox para acciones inmediatas o binarias de configuración: ahí va ToggleSwitch."
+  ],
+  "todos": [
+    "Documentar RadioButton y ToggleSwitch (el ToggleSwitch existe en la librería v1.1 sin documentación)."
+  ],
+  "sections": {
+    "meta": [
+      [
+        "Checkbox · Estado",
+        "Sin marcar · Marcado · Indeterminado"
+      ],
+      [
+        "Checkbox · Interacción",
+        "Default · Hover · Focus · Deshabilitado"
+      ],
+      [
+        "Tamaño",
+        "16 × 16 px · radius/sm"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Sin marcar",
+        "Marcado / Indeterminado",
+        "Deshabilitado"
+      ],
+      "rows": [
+        [
+          "Fondo",
+          "surface/card",
+          "brand/primary-dark",
+          "surface/bg"
+        ],
+        [
+          "Borde",
+          "surface/400",
+          "brand/primary-dark",
+          "surface/border"
+        ],
+        [
+          "Ícono (check / menos)",
+          null,
+          "text/inverse",
+          "text/tertiary"
+        ],
+        [
+          "Hover",
+          "brand/primary-dark",
+          "brand/hover",
+          null
+        ],
+        [
+          "Focus ring",
+          "focus/ring",
+          "focus/ring",
+          null
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Etiqueta",
+        "body/xs-medium"
+      ]
+    ],
+    "code": [
+      {
+        "title": "Vue · PrimeVue 4",
+        "code": "<!-- Binario -->\n<Checkbox v-model=\"checked\" inputId=\"grupo\" binary />\n<label for=\"grupo\">Seleccionar grupo</label>\n\n<!-- Selección múltiple -->\n<Checkbox v-model=\"seleccion\" inputId=\"op-1\" value=\"op-1\" />\n\n<!-- Selección parcial de un grupo -->\n<Checkbox v-model=\"todos\" binary :indeterminate=\"algunos\" />\n\n<!-- Deshabilitado -->\n<Checkbox v-model=\"checked\" binary disabled />"
+      }
+    ]
+  }
+}

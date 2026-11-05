@@ -1,0 +1,113 @@
+{
+  "slug": "card-usuario",
+  "title": "Card de usuario",
+  "category": "Contenedores y cards",
+  "figmaPage": "Card de usuario",
+  "status": "documentado",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Ítem que representa a un usuario dentro de una Card de usuarios. Se usa igual en Backoffice › Usuarios, Inbox › Bandejas › Equipo y Preferencias › Equipo. No reemplaza a Item User (usuario del NavBar).",
+  "base": "BREW DS (Card) + Avatar + Chip",
+  "platforms": [
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1864"
+  ],
+  "rules": [
+    "Pendiente (invitación enviada): avatar, nombre y detalle al 50% de opacidad; chips y acción al 100%. Se lista junto a los usuarios activos, no en una sección aparte.",
+    "Las cards se apilan con 8 px de separación dentro de una Card con título. El título no lleva contador «(N)».",
+    "Chip de rol con color fijo: Admin info · Supervisor supervisor · Operador sucess · Viewer warning. Se puede ocultar donde el rol no aplica.",
+    "Chip de estado opcional: «Sin actividad hace N meses» (Activo) o «Pendiente» (siempre visible en Pendiente), con Neutral chip.",
+    "Acción Menú (⋮) abre el menú contextual de la fila; Quitar (✕) desasocia al usuario, como en Inbox › Equipo.",
+    "Dar de baja o quitar siempre pide confirmación con Dialog; nunca se ejecuta directo desde la fila.",
+    "En Backoffice, los usuarios Growlat van en una card aparte («Usuarios Growlat asociados»); el cliente no los ve.",
+    "Avatar: círculo de 36 px con iniciales (en pendientes, las del email). El color se elige por usuario."
+  ],
+  "todos": [],
+  "sections": {
+    "meta": [
+      [
+        "Estado",
+        "Activo · Pendiente"
+      ],
+      [
+        "Acción",
+        "Menú · Quitar"
+      ],
+      [
+        "Props",
+        "Nombre · Detalle · Iniciales · Mostrar chip estado · Mostrar chip rol"
+      ],
+      [
+        "Forma",
+        "Borde surface/border · radius/md"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Card de usuario"
+      ],
+      "rows": [
+        [
+          "Fondo",
+          "surface/card"
+        ],
+        [
+          "Borde",
+          "surface/border"
+        ],
+        [
+          "Iniciales del avatar",
+          "text/inverse"
+        ],
+        [
+          "Nombre",
+          "text/primary"
+        ],
+        [
+          "Detalle",
+          "text/tertiary"
+        ],
+        [
+          "Chip estado · fondo",
+          "surface/bg"
+        ],
+        [
+          "Chip estado · borde",
+          "surface/border"
+        ],
+        [
+          "Chip estado · texto",
+          "text/secondary"
+        ],
+        [
+          "Botón Menú / Quitar · fondo",
+          "surface/card"
+        ],
+        [
+          "Botón Menú / Quitar · ícono",
+          "text/secondary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Iniciales",
+        "body/xxs-bold"
+      ],
+      [
+        "Nombre",
+        "body/md-medium"
+      ],
+      [
+        "Detalle",
+        "body/xs"
+      ],
+      [
+        "Chips",
+        "body/xxs-bold"
+      ]
+    ]
+  }
+}

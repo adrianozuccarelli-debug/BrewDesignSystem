@@ -1,0 +1,129 @@
+{
+  "slug": "splitbutton-menu",
+  "title": "Button · Menú",
+  "category": "Acciones",
+  "figmaPage": "SplitButton y Menu",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Botón con menú desplegable (chevron) para una acción principal de creación que tiene variantes, y opciones de menú con ícono y descripción opcionales.",
+  "base": "PrimeVue Button + Menu (popup)",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "Nueva campaña (GDM)",
+    "CON-1843"
+  ],
+  "rules": [
+    "Alto único: 33 px en cualquier tipo y estado, igual que Button. El borde del Secundario va hacia adentro y no suma alto.",
+    "Cuándo usarlo: una sola acción principal de creación con variantes (Nueva campaña → WhatsApp / Email; Nueva conexión → WhatsApp / Facebook / Instagram). Reemplaza tener un botón por variante.",
+    "Ubicación: en la barra de título de la sección, a la derecha, centrado verticalmente.",
+    "El menú se abre 6 px debajo del botón, alineado a su borde derecho. Se cierra al elegir una opción, con Escape o con un clic afuera.",
+    "Las opciones deshabilitadas se muestran (no se ocultan) y llevan una descripción corta que explica por qué: «Límite de tu plan alcanzado».",
+    "No usar para acciones de fila o contextuales (ahí va el menú ⋮) ni cuando hay una sola opción (usar Button).",
+    "No es SplitButton: no hay una acción por defecto separada del desplegable."
+  ],
+  "todos": [
+    "Unificar los labels del menú ⋮ entre tipos de campaña (\"Editar campaña\" vs \"Editar\").",
+    "Definir cuándo una acción destructiva va en rojo."
+  ],
+  "sections": {
+    "meta": [
+      [
+        "Button · Menú · Tipo",
+        "Primario · Secundario"
+      ],
+      [
+        "Button · Menú · Estado",
+        "Default · Hover · Abierto · Deshabilitado"
+      ],
+      [
+        "Opción · Estado",
+        "Default · Hover · Deshabilitado"
+      ],
+      [
+        "Opción · Props",
+        "Label · Descripción · Con descripción · Con ícono"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Primario",
+        "Secundario",
+        "Menú y opción"
+      ],
+      "rows": [
+        [
+          "Fondo",
+          "brand/primary-dark",
+          "surface/card",
+          "surface/card"
+        ],
+        [
+          "Fondo hover / abierto",
+          "brand/hover",
+          "brand/subtle",
+          "surface/bg"
+        ],
+        [
+          "Borde",
+          null,
+          "brand/border",
+          "surface/border"
+        ],
+        [
+          "Texto y chevron",
+          "text/inverse",
+          "text/brand",
+          "text/primary"
+        ],
+        [
+          "Ícono y descripción",
+          null,
+          null,
+          "text/secondary"
+        ],
+        [
+          "Deshabilitado · fondo",
+          "surface/bg",
+          "surface/card",
+          null
+        ],
+        [
+          "Deshabilitado · borde",
+          null,
+          "surface/border",
+          null
+        ],
+        [
+          "Deshabilitado · texto",
+          "text/tertiary",
+          "text/tertiary",
+          "text/tertiary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label del botón",
+        "body/xs-bold"
+      ],
+      [
+        "Label de la opción",
+        "body/xs"
+      ],
+      [
+        "Descripción de la opción",
+        "body/xxs-regular"
+      ]
+    ],
+    "code": [
+      {
+        "title": "Vue · PrimeVue 4",
+        "code": "<template>\n  <Button label=\"Nueva conexión\" icon=\"pi pi-chevron-down\" iconPos=\"right\"\n          aria-haspopup=\"true\" aria-controls=\"menu-nueva-conexion\"\n          @click=\"menu.toggle($event)\" />\n  <Menu ref=\"menu\" id=\"menu-nueva-conexion\" :model=\"opciones\" :popup=\"true\">\n    <template #item=\"{ item }\">\n      <div class=\"flex items-start gap-2 px-2 py-1.5\">\n        <i v-if=\"item.icon\" :class=\"item.icon\" />\n        <div>\n          <span class=\"text-body-xs\">{{ item.label }}</span>\n          <p v-if=\"item.description\" class=\"text-body-xxs-regular\">{{ item.description }}</p>\n        </div>\n      </div>\n    </template>\n  </Menu>\n</template>\n\n<script setup>\nimport { ref } from 'vue'\nconst menu = ref()\nconst opciones = [\n  { label: 'WhatsApp',  icon: 'pi pi-whatsapp',  command: () => {} },\n  { label: 'Facebook',  icon: 'pi pi-facebook',  command: () => {} },\n  { label: 'Instagram', icon: 'pi pi-instagram', disabled: true,\n    description: 'Límite de tu plan alcanzado' },\n]\n</script>"
+      }
+    ]
+  }
+}

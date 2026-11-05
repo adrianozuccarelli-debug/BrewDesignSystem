@@ -1,0 +1,113 @@
+{
+  "slug": "button",
+  "title": "Button",
+  "category": "Acciones",
+  "figmaPage": "Button",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Acción primaria, secundaria y de peligro, más Icon Button para acciones de fila. Brand-aware: toma el color primario de la plataforma activa.",
+  "base": "PrimeVue Button",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "MID-2154",
+    "CON-1847",
+    "MID-2120"
+  ],
+  "rules": [
+    "Alto único: todos los botones miden 33 px de alto en cualquier tipo (Primario, Secundario, Peligro, con menú) y estado. Botones que comparten fila nunca tienen alturas distintas.",
+    "Botones finos: el borde de Secundario y Peligro va hacia adentro y no suma alto (strokesIncludedInLayout: false).",
+    "Primario: acción principal, una por vista. Secundario: acciones alternativas o «Paso anterior». Peligro: acciones destructivas suaves (ej. Remover archivo).",
+    "Deshabilitado = opacidad 40% sobre Default, sin hover. Se usa cuando la acción todavía no está disponible (ej. «Continuar» sin archivo cargado).",
+    "Radio siempre radius/sm; nunca full (full es la gramática de badges y chips).",
+    "La variante IA gradient se usa solo en el flujo de Email (MID-2120).",
+    "El color de marca es señal de interacción, no decoración."
+  ],
+  "todos": [
+    "Figma: completar Tokens de color, Tipografía e Implementación.",
+    "Documentar la variante IA gradient (solo flujo de Email).",
+    "Definir si siguen existiendo ghost y tamaños small / large (Figma solo tiene Primario, Secundario y Peligro en un tamaño)."
+  ],
+  "sections": {
+    "preview": "previews/button.html",
+    "meta": [
+      [
+        "Button · Tipo",
+        "Primario · Secundario · Peligro"
+      ],
+      [
+        "Button · Estado",
+        "Default · Hover · Deshabilitado"
+      ],
+      [
+        "Icon Button · Estado",
+        "Default · Hover · Activo (24 × 24)"
+      ],
+      [
+        "Alto",
+        "33 px fijo"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Primario",
+        "Secundario",
+        "Peligro",
+        "Icon Button"
+      ],
+      "rows": [
+        [
+          "Fondo",
+          "brand/primary-dark",
+          "surface/card",
+          "error/bg",
+          "surface/card"
+        ],
+        [
+          "Borde",
+          null,
+          "surface/border",
+          "error/border",
+          "surface/border"
+        ],
+        [
+          "Texto / ícono",
+          "text/inverse",
+          "text/secondary",
+          "error/text",
+          "text/secondary"
+        ],
+        [
+          "Fondo hover",
+          "brand/hover",
+          "surface/bg",
+          null,
+          "surface/bg"
+        ],
+        [
+          "Borde hover",
+          null,
+          "text/tertiary",
+          null,
+          null
+        ],
+        [
+          "Activo",
+          null,
+          null,
+          null,
+          "brand/primary-dark"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label",
+        "body/xs-bold"
+      ]
+    ]
+  }
+}

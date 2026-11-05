@@ -1,0 +1,219 @@
+{
+  "slug": "badges",
+  "title": "Badge y Chip",
+  "category": "Taxonomía y estado",
+  "figmaPage": "Badges",
+  "status": "documentado",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Etiquetas cortas para comunicar estado o clasificar información. Badge = estado del sistema (pill); Chip = dato o taxonomía (rectangular). Lo que asigna el usuario es Tag.",
+  "base": "PrimeVue Tag · Chip",
+  "platforms": [
+    "app",
+    "conversations"
+  ],
+  "precedents": [
+    "CON-1864",
+    "CON-1778"
+  ],
+  "rules": [
+    "Badge comunica el estado de algo que cambia (envío, importación, ticket). Chip clasifica o muestra un dato que no es estado (rol, origen, monto). Si lo asigna el usuario, es Tag.",
+    "Badge en pill (radius/full). Chip rectangular (radius/sm). El radio full nunca se usa en botones ni inputs: es la gramática de taxonomía y estado.",
+    "success, error, warning e info se usan con su significado semántico, no como decoración. El color de marca no se usa como fondo de Badge ni de Chip.",
+    "Badge Mark (badge/mkt/*) codifica suscripción marketing y es igual en las dos plataformas: no es color de marca.",
+    "Roles con un color fijo en todas las pantallas: Admin info · Supervisor supervisor · Operador sucess · Viewer warning. Supervisor tiene tokens propios (badge/supervisor/*), separados de badge/mkt.",
+    "Pendiente (invitación enviada) y Sin actividad se muestran con Neutral chip junto al rol; la card pendiente va al 50% de opacidad (CON-1864).",
+    "Las variantes «+ dot» refuerzan el estado en listas densas, además del color.",
+    "Chip Campaña: ícono de megáfono para un mensaje que llega desde un anuncio o campaña. Va dentro de la card del mensaje, junto al ID y al nombre del anuncio; nunca como círculo de color flotante.",
+    "Estilo=Suave es el default. Estilo=Sólido (fondo pleno, texto e ícono en text/inverse) solo cuando el chip tiene que destacarse sobre una superficie con contenido, como la card de un mensaje.",
+    "Los estados de envío (Leído, Enviado, Entregado, Respondido, Desuscripto, Rebotado) son Badges sólidos con text/inverse y usan los colores chart/* de los gráficos de Rendimiento."
+  ],
+  "todos": [
+    "Data chip: el borde apunta al primitivo colors/violet/200; crear o reutilizar un token semántico.",
+    "Variantes «sucess» y «Neutral chi»: nombres heredados con error. No renombrar sin migrar las instancias de las dos plataformas.",
+    "Chip sólido success, warning y Campaña: texto blanco a 10 px por debajo de 4,5:1 (AA texto chico)."
+  ],
+  "sections": {
+    "meta": [
+      [
+        "Badge · Tipo",
+        "Leído · Enviado · Entregado · Respondido · Desuscripto · Rebotado · success · warning · Error · Info · Neutral · Brand · Mark · + dot (success, warning, error, info, neutral)"
+      ],
+      [
+        "Chip · Tipo",
+        "Brand chip · Chip Link · Chip texto · Neutral chip · Data chip · Neutral chi · sucess · error · warning · info · supervisor · Campaña"
+      ],
+      [
+        "Chip · Estilo",
+        "Suave · Sólido"
+      ],
+      [
+        "Forma",
+        "Badge pill (radius/full) · Chip rectangular (radius/sm)"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Badge · Leído",
+          "chart/3",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Badge · Enviado",
+          "chart/2",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Badge · Entregado",
+          "chart/1",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Badge · Respondido",
+          "chart/5",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Badge · Desuscripto",
+          "chart/desuscripto",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Badge · Rebotado",
+          "chart/4",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Badge · success (+ dot)",
+          "badge/success/bg",
+          "badge/success/border",
+          "badge/success/text"
+        ],
+        [
+          "Badge · warning (+ dot)",
+          "badge/warning/bg",
+          "badge/warning/border",
+          "badge/warning/text"
+        ],
+        [
+          "Badge · Error (+ dot)",
+          "badge/error/bg",
+          "badge/error/border",
+          "badge/error/text"
+        ],
+        [
+          "Badge · Info (+ dot)",
+          "badge/info/bg",
+          "badge/info/border",
+          "badge/info/text"
+        ],
+        [
+          "Badge · Neutral (+ dot)",
+          "badge/neutral/bg",
+          "badge/neutral/border",
+          "badge/neutral/text"
+        ],
+        [
+          "Badge · Brand",
+          "badge/brand/bg",
+          "brand/primary-dark",
+          "badge/brand/text"
+        ],
+        [
+          "Badge · Mark",
+          "badge/mkt/bg",
+          "badge/mkt/border",
+          "badge/mkt/text"
+        ],
+        [
+          "Chip · Brand chip",
+          "brand/subtle",
+          null,
+          "text/brand"
+        ],
+        [
+          "Chip · Chip Link / Chip texto / Campaña",
+          "info/bg",
+          null,
+          "info/text"
+        ],
+        [
+          "Chip · Neutral chip",
+          "surface/bg",
+          "surface/border",
+          "text/secondary"
+        ],
+        [
+          "Chip · Data chip",
+          "surface/card",
+          "colors/violet/200",
+          "text/primary"
+        ],
+        [
+          "Chip · Neutral chi",
+          "badge/neutral/bg",
+          "badge/neutral/border",
+          "badge/neutral/text"
+        ],
+        [
+          "Chip · sucess / error / warning / info",
+          "badge/<estado>/bg",
+          "badge/<estado>/border",
+          "badge/<estado>/text"
+        ],
+        [
+          "Chip · supervisor",
+          "badge/supervisor/bg",
+          "badge/supervisor/border",
+          "badge/supervisor/text"
+        ],
+        [
+          "Chip sólido · Neutral",
+          "badge/neutral/text",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Chip sólido · success / error / warning / info",
+          "<estado>/color",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Chip sólido · supervisor",
+          "badge/supervisor/solid",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Chip sólido · Campaña",
+          "badge/campaign/solid",
+          null,
+          "text/inverse"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Texto del Badge",
+        "body/xxs-bold"
+      ],
+      [
+        "Texto del Chip",
+        "body/xxs-bold"
+      ]
+    ]
+  }
+}
