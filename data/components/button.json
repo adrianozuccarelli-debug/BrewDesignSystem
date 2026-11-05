@@ -4,77 +4,102 @@
   "category": "Acciones",
   "figmaPage": "Button",
   "status": "parcial",
-  "siteVersion": "1.0",
-  "updated": "2026-10-15",
-  "description": "Acción primaria, secundaria, ghost y danger. Brand-aware: toma el color primario de la plataforma activa.",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Acción primaria, secundaria y de peligro, más Icon Button para acciones de fila. Brand-aware: toma el color primario de la plataforma activa.",
   "base": "PrimeVue Button",
   "platforms": [
     "app",
     "conversations"
   ],
   "precedents": [
+    "MID-2154",
+    "CON-1847",
     "MID-2120"
   ],
   "rules": [
+    "Alto único: todos los botones miden 33 px de alto en cualquier tipo (Primario, Secundario, Peligro, con menú) y estado. Botones que comparten fila nunca tienen alturas distintas.",
+    "Botones finos: el borde de Secundario y Peligro va hacia adentro y no suma alto (strokesIncludedInLayout: false).",
+    "Primario: acción principal, una por vista. Secundario: acciones alternativas o «Paso anterior». Peligro: acciones destructivas suaves (ej. Remover archivo).",
+    "Deshabilitado = opacidad 40% sobre Default, sin hover. Se usa cuando la acción todavía no está disponible (ej. «Continuar» sin archivo cargado).",
     "Radio siempre radius/sm; nunca full (full es la gramática de badges y chips).",
-    "La variante \"IA gradient\" se usa solo en el flujo de Email (MID-2120).",
+    "La variante IA gradient se usa solo en el flujo de Email (MID-2120).",
     "El color de marca es señal de interacción, no decoración."
   ],
   "todos": [
+    "Figma: completar Tokens de color, Tipografía e Implementación.",
     "Documentar la variante IA gradient (solo flujo de Email).",
-    "Confirmar estados hover/active de Growlat App (ver discrepancias abiertas)."
+    "Definir si siguen existiendo ghost y tamaños small / large (Figma solo tiene Primario, Secundario y Peligro en un tamaño)."
   ],
   "sections": {
     "preview": "previews/button.html",
     "meta": [
       [
-        "Variantes",
-        "primary · secondary · ghost · danger"
+        "Button · Tipo",
+        "Primario · Secundario · Peligro"
       ],
       [
-        "Tamaños",
-        "small · default · large"
+        "Button · Estado",
+        "Default · Hover · Deshabilitado"
       ],
       [
-        "Estados",
-        "default · hover · active · focus · disabled · loading"
+        "Icon Button · Estado",
+        "Default · Hover · Activo (24 × 24)"
+      ],
+      [
+        "Alto",
+        "33 px fijo"
       ]
     ],
     "tokens": {
       "columns": [
-        "Primary",
-        "Secondary"
+        "Primario",
+        "Secundario",
+        "Peligro",
+        "Icon Button"
       ],
       "rows": [
         [
           "Fondo",
-          "primary-color/color",
-          null
+          "brand/primary-dark",
+          "surface/card",
+          "error/bg",
+          "surface/card"
         ],
         [
           "Borde",
-          "primary-color/color",
+          null,
+          "surface/border",
+          "error/border",
           "surface/border"
         ],
         [
-          "Texto",
-          "primary-color/contrast",
+          "Texto / ícono",
+          "text/inverse",
+          "text/secondary",
+          "error/text",
           "text/secondary"
         ],
         [
           "Fondo hover",
-          "primary-color/hover",
+          "brand/hover",
+          "surface/bg",
+          null,
           "surface/bg"
         ],
         [
-          "Fondo active",
-          "primary-color/active",
+          "Borde hover",
+          null,
+          "text/tertiary",
+          null,
           null
         ],
         [
-          "Focus ring",
-          "focus/ring",
-          "focus/ring"
+          "Activo",
+          null,
+          null,
+          null,
+          "brand/primary-dark"
         ]
       ]
     },
@@ -83,12 +108,6 @@
         "Label",
         "body/xs-bold"
       ]
-    ],
-    "code": [
-      {
-        "title": "Vue · PrimeVue 4",
-        "code": "<!-- Variantes -->\n<Button label=\"Guardar\"  severity=\"primary\" />\n<Button label=\"Cancelar\" severity=\"secondary\" />\n<Button label=\"Eliminar\" severity=\"danger\" />\n\n<!-- Tamaños -->\n<Button label=\"Guardar\" size=\"small\" />\n<Button label=\"Guardar\" size=\"large\" />\n\n<!-- Estados -->\n<Button label=\"Guardar\" :disabled=\"true\" />\n<Button label=\"Guardar\" :loading=\"true\" />"
-      }
     ]
   }
 }

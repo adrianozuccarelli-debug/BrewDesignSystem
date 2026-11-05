@@ -4,21 +4,108 @@
   "category": "Overlays",
   "figmaPage": "Drawer",
   "status": "documentado",
-  "siteVersion": "1.0",
-  "updated": null,
-  "description": "Panel lateral para acciones contextuales: header configurable, slot de contenido y footer de acciones.",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Panel lateral deslizable para acciones contextuales: header configurable, slot de contenido libre y footer de acciones opcionales. Se basa en el <Drawer> nativo de PrimeVue; no se construye desde cero.",
   "base": "PrimeVue Drawer",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
+  "precedents": [
+    "MID-2259"
+  ],
   "rules": [
-    "El Drawer siempre se reutiliza vía slots: lo nuevo es el contenido.",
-    "Nunca Drawer sobre Drawer, Dialog sobre Drawer ni Drawer sobre Dialog."
+    "Esquinas en 0 (border-radius: 0): el Drawer va pegado al borde derecho de la ventana.",
+    "Elevación con el estilo shadow/drawer: drop shadow X 0 · Y −8 · Blur 32 · Spread 0 · negro al 12%.",
+    "Ancho mínimo 500 px y alto 100% del viewport; header y footer quedan fijos y scrollea el slot de contenido.",
+    "Lo nuevo nunca es el Drawer: es lo que va en el slot Contenido. No se crean Drawers nuevos para cada caso.",
+    "Anterior / Siguiente (prop Show Nav) solo cuando el Drawer se abre desde una lista (filas, cards, puntos). El Drawer de Filtros no la lleva.",
+    "Nunca se apilan overlays: ni Drawer sobre Drawer, ni Dialog sobre Drawer, ni Drawer sobre Dialog. Si hay un Drawer de detalle abierto y se abren los Filtros, el de detalle se cierra.",
+    "Detalle (no modal): sin máscara y con el fondo interactivo. El elemento que se está viendo queda resaltado (estado Seleccionado) y el resto se atenúa; el resaltado acompaña a Anterior / Siguiente. Un clic en otro elemento del fondo reemplaza el contenido del mismo Drawer.",
+    "Modal: Filtros y formularios bloquean el fondo con máscara; hay que confirmar o cerrar antes de volver a la pantalla.",
+    "Detalle vs. filtro: abrir el detalle no filtra la pantalla. El filtro se aplica solo desde la barra de filtros; el Drawer de detalle no lleva una acción para filtrar.",
+    "Casos de uso: Detalle de producto y de categoría (MID-2259), Filtros, Resumen de campaña, Detalle de ticket."
   ],
   "todos": [
-    "El sitio documenta una API propia (GrowlatDrawer) distinta de la de Figma: unificar."
+    "La tabla de Tipografía de la página no coincide con el componente (título y texto de botones): unificar.",
+    "El sitio v1 documentaba una API propia (GrowlatDrawer): reemplazarla por PrimeVue Drawer con slots."
   ],
-  "legacy": "legacy/overlays.html"
+  "sections": {
+    "meta": [
+      [
+        "Variantes",
+        "Solo título · Título + subtítulo · + CTA footer · + botón header/footer · + botón secundario · todos los accionables"
+      ],
+      [
+        "Props",
+        "Show Nav (Anterior / Siguiente) · Con botón header · Con subtítulo · Con botón en footer · Con botón secundario footer · Con botón terciario footer"
+      ],
+      [
+        "Posición",
+        "Derecha · ancho mínimo 500 px"
+      ],
+      [
+        "Modos",
+        "Detalle (no modal, sin máscara) · Modal (con máscara)"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Drawer"
+      ],
+      "rows": [
+        [
+          "Fondo (panel, header, contenido)",
+          "surface/card"
+        ],
+        [
+          "Bordes y divisores",
+          "surface/border"
+        ],
+        [
+          "Título",
+          "text/primary"
+        ],
+        [
+          "Botón primario · fondo",
+          "brand/primary-dark"
+        ],
+        [
+          "Botón primario · texto",
+          "text/inverse"
+        ],
+        [
+          "Botón secundario / terciario · borde",
+          "surface/border"
+        ],
+        [
+          "Botón secundario / terciario · texto",
+          "text/secondary"
+        ],
+        [
+          "Cerrar y nav Anterior / Siguiente · ícono",
+          "text/secondary"
+        ],
+        [
+          "Máscara (solo modo modal)",
+          "mask/background"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Título del header",
+        "module/title"
+      ],
+      [
+        "Subtítulo y texto del slot",
+        "body/md"
+      ],
+      [
+        "Texto de botones",
+        "body/xs-bold"
+      ]
+    ]
+  }
 }

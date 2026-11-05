@@ -1,12 +1,12 @@
 {
   "slug": "insight-semaforo",
-  "title": "Insight Chip y Semáforo",
+  "title": "Insight Chip",
   "category": "Patrones",
-  "figmaPage": "Insight Chip y Semáforo",
+  "figmaPage": "Insight Chip",
   "status": "por-documentar",
   "siteVersion": null,
   "updated": null,
-  "description": "Lectura interpretada de una métrica y estado Bien / Atención / Crítico.",
+  "description": "Lectura interpretada de una métrica, en forma de chip. El estado Bien / Atención / Crítico se documenta aparte en Semáforo.",
   "base": "BREW DS",
   "platforms": [
     "app",
@@ -16,7 +16,9 @@
     "CON-1778"
   ],
   "rules": [
-    "El semáforo aplica solo a métricas de tiempo."
+    "El Insight Chip usa los tokens badge/brand."
   ],
-  "todos": []
+  "todos": [
+    "La página de Figma todavía tiene la plantilla vacía: documentar variantes, tokens y reglas."
+  ]
 }

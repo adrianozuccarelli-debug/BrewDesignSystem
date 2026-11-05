@@ -1,7 +1,7 @@
 {
   "name": "BREW Design System",
-  "version": "2.0.0",
-  "updated": "2026-10-15",
+  "version": "2.1.0",
+  "updated": "2026-11-05",
   "figma": {
     "file": "Growlat Design System",
     "url": "https://www.figma.com/design/6FhjQIpcJ6XhSiwYcIBGtr/Growlat-Design-System"
@@ -128,7 +128,8 @@
         "profile-header-card",
         "tarjeta-conocimiento",
         "actividad-reciente",
-        "accordion"
+        "accordion",
+        "card-usuario"
       ]
     },
     {
@@ -181,9 +182,58 @@
       "title": "Presets v2",
       "detail": "Las descargas siguen siendo los presets v1 del repo. Reemplazar por convos_preset_v2.js y growlat_preset_v2.js.",
       "owner": "Adri"
+    },
+    {
+      "title": "Badges de estado en Figma",
+      "detail": "Los badges de status de la librería no coinciden con los tokens status/* actuales.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Tokens faltantes en la exportación",
+      "detail": "status/*, badge/supervisor/*, badge/campaign/solid, shadow/drawer y shadow/menu no están en data/tokens/semantic.json.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Nota con variables viejas",
+      "detail": "El componente Nota en Figma usa nombres de variables anteriores a la migración.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Tipografía del Drawer",
+      "detail": "El título del Drawer en Figma no usa el estilo module/title de la spec.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Data chip con primitivo",
+      "detail": "El data chip usa violet/200 directo en lugar de un token semántico.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Button: preview vs Figma",
+      "detail": "El preview del sitio muestra variante ghost y tamaños que no existen en Figma.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Gradiente del chip Mayor alcance",
+      "detail": "ChannelCard (MID-2361) usa un gradiente #60A5FA→#A78BFA en hex; falta token.",
+      "owner": "Adri"
     }
   ],
   "changelog": [
+    {
+      "version": "2.1.0",
+      "date": "2026-11-05",
+      "notes": [
+        "Nueva sección Casos UX con el primer caso: MID-2361 · Vista previa de alcance (4 rondas de prueba, 17 personas, versión final en 4, 6 y 9 cifras).",
+        "Drawer, Badge y Chip, y Nota migrados al formato v2 con tokens y reglas de Figma.",
+        "Nuevo: Semáforo (ex Vigencia) e Insight Chip documentados desde Figma.",
+        "Nuevo: Card de usuario (CON-1864).",
+        "Button y Button · Menú: alto 33 px según Figma. Checkbox, Radio y Toggle documentados.",
+        "Card de filtros: reglas actualizadas.",
+        "Las fichas con tokens o reglas ya no muestran “Todavía no está documentado”.",
+        "Discrepancias nuevas entre Figma y la exportación de tokens."
+      ]
+    },
     {
       "version": "2.0.0",
       "date": "2026-10-15",
@@ -202,6 +252,12 @@
       "notes": [
         "Primera versión: Buttons, Inputs, Badges, DataTable, Nota, Overlays, Feedback y Client Card."
       ]
+    }
+  ],
+  "cases": [
+    {
+      "slug": "caso-mid-2361",
+      "title": "Vista previa de alcance"
     }
   ]
 }

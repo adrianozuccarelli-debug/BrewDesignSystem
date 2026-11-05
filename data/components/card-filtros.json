@@ -1,13 +1,13 @@
 {
   "slug": "card-filtros",
-  "title": "Card de filtros",
+  "title": "Card de filtros (Filter Bar)",
   "category": "Patrones",
   "figmaPage": "Card de filtros",
   "status": "por-documentar",
   "siteVersion": null,
   "updated": null,
-  "description": "Barra de filtros con labels, Filtrar y Limpiar sobre una tabla.",
-  "base": "Select · MultiSelect · DatePicker · Button",
+  "description": "Barra de filtros sobre una tabla o reporte, con Filtrar y Limpiar, y Drawer de Filtros para los filtros adicionales.",
+  "base": "Select · MultiSelect · DatePicker · Button · Drawer",
   "platforms": [
     "app",
     "conversations"
@@ -15,7 +15,14 @@
   "precedents": [
     "Recorrido IA"
   ],
-  "rules": [],
+  "rules": [
+    "Los botones Filtrar y Limpiar son los mismos en la barra y en el Drawer de Filtros.",
+    "El botón «+» tiene un estado de filtros aplicados.",
+    "La fecha no lleva label en la barra.",
+    "El Drawer de Filtros es modal (con máscara) y no lleva navegación Anterior / Siguiente.",
+    "Abrir Filtros cierra un Drawer de detalle abierto: nunca se apilan overlays.",
+    "El filtro se aplica solo desde la barra de filtros; el Drawer de detalle no filtra."
+  ],
   "todos": [
     "Hoy hay 3 variantes dentro de Audiencias: definir la canónica."
   ]

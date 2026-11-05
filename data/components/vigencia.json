@@ -1,22 +1,97 @@
 {
   "slug": "vigencia",
-  "title": "Indicador de vigencia",
+  "title": "Semáforo",
   "category": "Patrones",
-  "figmaPage": "Indicador de vigencia",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Frescura de un dato en 3 niveles.",
-  "base": "BREW DS",
+  "figmaPage": "Semáforo",
+  "status": "documentado",
+  "siteVersion": "2.0",
+  "updated": "2026-11-05",
+  "description": "Dot + texto que comunica la salud o frescura de un dato (vigencia, simulación, scoring). Estados Óptimo / Bien / Atención / Crítico / Sin dato.",
+  "base": "BREW DS (custom)",
   "platforms": [
     "app",
     "conversations"
   ],
   "precedents": [
-    "CON-1731"
+    "CON-1731",
+    "CON-1778",
+    "MID-2331"
   ],
   "rules": [
-    "0–30 días success · 30–90 warning · +90 error · sin asignar neutral."
+    "Siempre inline, sin fondo ni borde: celdas de DataTable, cards y headers de módulo.",
+    "El dot es opcional según plataforma: Growlat App con dot (Dot=true, default); Growlat Conversations sin dot (Dot=false). Dentro de una misma tabla o bloque, todas las instancias van igual.",
+    "El texto siempre va en code/label, tanto para valores de tiempo («Hace 2 días») como categóricos («87 Excelente», «Sin simular»).",
+    "El texto usa el mismo token que el dot, salvo Atención: el texto va en status/attention-text porque yellow/600 no llega a AA.",
+    "Nunca text/brand ni primitivos directos en una instancia: solo tokens status/*. El semáforo no cambia con la marca (mismo alias en las dos plataformas).",
+    "El componente no conoce umbrales: cada uso documenta su regla.",
+    "Óptimo solo en escalas de 4 niveles (scoring). Las escalas de tiempo usan Bien / Atención / Crítico / Sin dato.",
+    "No usar para estados de proceso (Enviada, Fallido, Habilitada): eso es Badge con dot.",
+    "El color nunca es la única señal: el texto siempre dice el valor o la categoría.",
+    "Usos: Scoring de campañas (GC) Excelente → Óptimo · Buena → Bien · Regular → Atención · Mala → Crítico. Vigencia de conocimientos (CON-1731) 0–30 días Bien · 30–90 Atención · +90 Crítico · sin asignar Sin dato. Rendimiento (CON-1778) umbral por métrica de tiempo. Última simulación (MID-2331) «Hace X días»; «Sin simular» = Sin dato."
   ],
-  "todos": []
+  "todos": [
+    "Scoring de campañas: confirmar rangos de score.",
+    "Rendimiento (CON-1778): relevar umbrales por métrica."
+  ],
+  "sections": {
+    "meta": [
+      [
+        "Estados",
+        "Óptimo · Bien · Atención · Crítico · Sin dato"
+      ],
+      [
+        "Props",
+        "Estado (variante) · Texto (string) · Dot (booleana, default true)"
+      ],
+      [
+        "Medidas",
+        "Dot 8 × 8 px · gap 6 px · alineado al centro"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Dot",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Óptimo",
+          "status/optimal",
+          "status/optimal"
+        ],
+        [
+          "Bien",
+          "status/ok",
+          "status/ok"
+        ],
+        [
+          "Atención",
+          "status/attention",
+          "status/attention-text"
+        ],
+        [
+          "Crítico",
+          "status/critical",
+          "status/critical"
+        ],
+        [
+          "Sin dato",
+          "status/none",
+          "status/none"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Texto",
+        "code/label"
+      ]
+    ],
+    "code": [
+      {
+        "title": "Vue 3 · BREW DS",
+        "code": "<!-- status: optimal | ok | attention | critical | none -->\n<Semaforo status=\"ok\">Hace 2 días</Semaforo>\n<Semaforo status=\"attention\">Hace 45 días</Semaforo>\n<Semaforo status=\"none\">Sin simular</Semaforo>\n\n<!-- Growlat Conversations: sin dot -->\n<Semaforo status=\"optimal\" :dot=\"false\">87 Excelente</Semaforo>\n\n<!-- Los colores se exponen como var(--status-optimal), var(--status-ok), var(--status-attention), var(--status-attention-text), var(--status-critical), var(--status-none) -->"
+      }
+    ]
+  }
 }

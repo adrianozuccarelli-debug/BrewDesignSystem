@@ -3,7 +3,7 @@
    Todo el contenido sale de /data. Nada se edita en este archivo
    para documentar un componente: se edita su JSON.
    ═══════════════════════════════════════════════════════════ */
-const STATE = { site: null, tokens: {}, components: {}, platform: 'conversations', route: 'intro' };
+const STATE = { site: null, tokens: {}, components: {}, cases: {}, platform: 'conversations', route: 'intro' };
 const STATUS = {
   'documentado':    { label: 'Documentado',    cls: 'success' },
   'parcial':        { label: 'Parcial',        cls: 'info' },
@@ -78,6 +78,8 @@ function buildSidebar(filter = '') {
   let html = '';
   const f = STATE.site.foundations.filter(x => match(x.title));
   if (f.length) html += `<div class="sidebar-section"><p class="sidebar-section-label">Fundamentos</p>${f.map(x => item(x.slug, x.title)).join('')}</div>`;
+  const cs = (STATE.site.cases || []).map(x => STATE.cases[x.slug]).filter(c => c && match(c.title + ' ' + c.jira + ' caso'));
+  if (cs.length) html += `<div class="sidebar-section"><p class="sidebar-section-label">Casos UX</p>${cs.map(c => item(c.slug, `${c.jira} · ${c.title}`)).join('')}</div>`;
   for (const g of STATE.site.componentGroups) {
     const items = g.items.map(s => STATE.components[s]).filter(c => c && match(c.title + ' ' + c.category));
     if (items.length) html += `<div class="sidebar-section"><p class="sidebar-section-label">${esc(g.label)}</p>${items.map(c => item(c.slug, c.title, c.status)).join('')}</div>`;
@@ -216,6 +218,37 @@ const PAGES = {
   },
 };
 
+/* ─── Página de caso UX ─────────────────────────────────── */
+const MARK = { ok: ['✓', 'success'], mid: ['~', 'warning'], no: ['✗', 'danger'] };
+function casePage(c) {
+  const mark = ([m, t]) => `${MARK[m] ? `<span class="v2-status v2-status--${MARK[m][1]} case-mark">${MARK[m][0]}</span> ` : ''}${esc(t)}`;
+  const links = `<a class="btn btn-secondary" href="${esc(c.figmaUrl)}" target="_blank" rel="noopener">Abrir en Figma</a><a class="btn btn-secondary" href="${esc(c.jiraUrl)}" target="_blank" rel="noopener">${esc(c.jira)}</a>`;
+  let html = header(c.category, `${c.jira} · ${c.title}`, esc(c.summary), `<span class="v2-status v2-status--success">${esc(c.status)}</span>`, `Última actualización ${c.updated}`);
+  html += `<div class="spec-meta-bar v2-meta">${c.meta.map(([k, v]) => `<div class="spec-meta-item"><span class="spec-meta-label">${esc(k)}</span><span class="spec-meta-value">${esc(v)}</span></div>`).join('')}</div>`;
+  html += `<div class="case-links">${links}</div>`;
+  html += card('El problema', `<ul class="v2-list">${c.problem.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`);
+  html += card('Cómo lo trabajamos', `<ol class="v2-steps">${c.method.steps.map(([t, d]) => `<li><strong>${esc(t)}</strong><p>${esc(d)}</p></li>`).join('')}</ol>
+    <div class="case-sub">Preguntas de cada ronda</div><ol class="v2-list case-ol">${c.method.questions.map(q => `<li>${esc(q)}</li>`).join('')}</ol>`);
+  html += card('Evolución de la pregunta clave', `<p class="v2-note">¿Cuántos perfiles arrojan las condiciones? Respuestas correctas por ronda.</p><div class="case-evo">${c.rounds.map(r =>
+    `<div><span class="v2-muted">${esc(r.title)}</span><strong class="case-score case-score--${r.tone}">${esc(r.score)}</strong></div>`).join('')}</div>`);
+  for (const r of c.rounds) {
+    const table = `<div class="case-table-wrap"><table class="spec-token-table case-table${r.byPerson ? ' case-table--person' : ''}"><thead><tr>${r.head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>
+      ${r.rows.map(row => `<tr><td class="prop-col">${esc(row.label)}</td>${row.cells.map(x => `<td>${mark(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    const cols = `<div class="case-cols"><div><div class="case-sub">Qué aprendimos</div><ul class="v2-list">${r.learned.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
+      <div class="case-changed"><div class="case-sub">Qué cambiamos</div><ul class="v2-list">${r.changed.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div></div>`;
+    html += card(r.title, `<p class="v2-note">${esc(r.subtitle)}</p>${table}${cols}`, `<span class="v2-status v2-status--${r.tone}">${esc(r.score)}</span>`);
+  }
+  const f = c.final;
+  html += card('Versión final', `<ul class="v2-list">${f.bullets.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    <div class="case-gallery">${f.images.map(i => `<figure><img src="${esc(i.src)}" alt="Panel de vista previa de alcance con números de ${esc(i.caption)}" loading="lazy"><figcaption>${esc(i.caption)}</figcaption></figure>`).join('')}</div>
+    <figure class="case-context"><img src="${esc(f.context.src)}" alt="${esc(f.context.caption)}" loading="lazy"><figcaption>${esc(f.context.caption)}</figcaption></figure>
+    <p class="v2-note">Componentes del DS: ${f.components.map(esc).join(' · ')}</p>`);
+  html += card('Principios que nos llevamos', `<ul class="v2-list">${c.principles.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`);
+  html += card('Pendientes', `<ul class="v2-list v2-list--todo">${c.pending.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`);
+  html += `<p class="v2-note">Los nombres de las personas que participaron se reemplazaron por números.</p>`;
+  return html;
+}
+
 /* ─── Página de componente ───────────────────────────────── */
 async function componentPage(c) {
   const p = STATE.site.platforms, s = c.sections || {};
@@ -227,8 +260,8 @@ async function componentPage(c) {
   if (s.preview) html += card('Preview', `<div class="spec-preview" data-fragment="${s.preview}"></div>`);
   if (s.tokens) {
     const cols = s.tokens.columns;
-    const cell = t => { if (!t) return '<span class="spec-hex">—</span>'; const r = resolve(t);
-      return `<div class="spec-token-cell"><div class="spec-token-row">${swatch(r.hex)}<span class="token-pill">${esc(t)}</span></div><span class="spec-hex">${r.hex || ''}</span></div>`; };
+    const cell = t => { if (!t) return '<td><span class="spec-hex">—</span></td>'; const r = resolve(t);
+      return `<td><div class="spec-token-cell"><div class="spec-token-row">${swatch(r.hex)}<span class="token-pill">${esc(t)}</span></div><span class="spec-hex">${r.hex || ''}</span></div></td>`; };
     html += card('Tokens de color', `<table class="spec-token-table"><thead><tr><th style="width:22%">Propiedad</th>${cols.map(x => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>
       ${s.tokens.rows.map(([prop, ...v]) => `<tr><td class="prop-col">${esc(prop)}</td>${v.map(cell).join('')}</tr>`).join('')}</tbody></table>
       <p class="v2-note">Valores resueltos para ${esc(p[STATE.platform].name)}. Cambiá de plataforma arriba para ver la otra.</p>`);
@@ -242,7 +275,7 @@ async function componentPage(c) {
   if (s.code) html += s.code.map(k => card('Implementación', `<div class="v2-code-head">${esc(k.title)}<button class="code-copy-btn" onclick="copyCode(this)">Copiar</button></div><div style="padding:1.25rem"><div class="spec-code-block"><pre>${esc(k.code)}</pre></div></div>`)).join('');
   if (c.todos && c.todos.length) html += card('Pendientes', `<ul class="v2-list v2-list--todo">${c.todos.map(r => `<li>${esc(r)}</li>`).join('')}</ul>`);
   if (c.legacy) html += `<div class="v2-legacy-banner"><strong>Contenido de la versión 1.0</strong><p>Esta sección viene del sitio anterior y puede tener valores desactualizados. Se reemplaza al migrar el componente al formato v2.</p></div><div class="v2-legacy" data-fragment="${c.legacy}"></div>`;
-  if (!s.preview && !c.legacy) html += `<div class="v2-empty"><p class="v2-empty-title">Todavía no está documentado</p><p>La ficha se completa desde la página <strong>${esc(c.figmaPage)}</strong> del archivo de Figma.</p><a class="btn btn-secondary" href="${STATE.site.figma.url}" target="_blank" rel="noopener">Abrir Figma</a></div>`;
+  if (!s.preview && !c.legacy && !s.tokens && !(c.rules && c.rules.length)) html += `<div class="v2-empty"><p class="v2-empty-title">Todavía no está documentado</p><p>La ficha se completa desde la página <strong>${esc(c.figmaPage)}</strong> del archivo de Figma.</p><a class="btn btn-secondary" href="${STATE.site.figma.url}" target="_blank" rel="noopener">Abrir Figma</a></div>`;
   return html;
 }
 
@@ -264,10 +297,11 @@ async function render() {
   let html;
   if (PAGES[slug]) html = PAGES[slug]();
   else if (STATE.components[slug]) html = await componentPage(STATE.components[slug]);
+  else if (STATE.cases[slug]) html = casePage(STATE.cases[slug]);
   else html = header('404', 'No encontrado', `No existe la página <code>${esc(slug)}</code>.`) + '<a class="btn btn-secondary" href="#/intro">Volver al inicio</a>';
   page.innerHTML = html;
   buildSidebar($('#searchInput').value);
-  const title = (STATE.components[slug] || STATE.site.foundations.find(f => f.slug === slug) || {}).title;
+  const title = (STATE.components[slug] || STATE.cases[slug] || STATE.site.foundations.find(f => f.slug === slug) || {}).title;
   document.title = title ? `${title} · BREW Design System` : 'BREW Design System';
   $('#main').scrollTop = 0;
   await hydrateFragments(page);
@@ -283,6 +317,8 @@ async function render() {
     const slugs = site.componentGroups.flatMap(g => g.items);
     const list = await Promise.all(slugs.map(s => getJSON(`data/components/${s}.json`).catch(() => null)));
     list.filter(Boolean).forEach(c => STATE.components[c.slug] = c);
+    const cases = await Promise.all((site.cases || []).map(x => getJSON(`data/cases/${x.slug}.json`).catch(() => null)));
+    cases.filter(Boolean).forEach(c => STATE.cases[c.slug] = c);
     $('#siteVersion').textContent = 'v' + site.version;
     $('#figmaLink').href = site.figma.url; $('#repoLink').href = site.repo;
     buildPlatformMenu(); wireSearch();
