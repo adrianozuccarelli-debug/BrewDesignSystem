@@ -20,6 +20,7 @@ data/site.json             Navegación, plataformas, discrepancias abiertas, cha
 data/tokens/               Exportados de Figma: primitives, semantic, spacing-radius, typography, dropdown
 data/components/<slug>.json  Una ficha por componente o patrón
 previews/<slug>.html       Preview interactivo de cada componente
+arquitectura/<plataforma>/ Árbol de arquitectura de la información (página propia + capturas)
 legacy/<slug>.html         Contenido v1 pendiente de migrar
 
 src/theme/                 Presets PrimeVue (v1, pendiente reemplazar por v2)

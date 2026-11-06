@@ -1,6 +1,6 @@
 {
   "name": "BREW Design System",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "updated": "2026-11-06",
   "figma": {
     "file": "Growlat Design System",
@@ -256,6 +256,14 @@
   ],
   "changelog": [
     {
+      "version": "2.3.0",
+      "date": "2026-11-06",
+      "notes": [
+        "Nueva sección Arquitectura, visible solo con la plataforma Growlat Conversations: árbol navegable de la arquitectura de la información con capturas, observaciones de UX y pendientes.",
+        "Las capturas de producción y testing se publican con nombres, teléfonos, emails y URLs internas difuminados. Back Office no se incluye."
+      ]
+    },
+    {
       "version": "2.2.1",
       "date": "2026-11-06",
       "notes": [
@@ -324,6 +332,16 @@
     {
       "slug": "caso-mid-2361",
       "title": "Vista previa de alcance"
+    }
+  ],
+  "architecture": [
+    {
+      "slug": "arquitectura-gc",
+      "title": "Arquitectura de la información",
+      "platform": "conversations",
+      "src": "arquitectura/growlat-conversations/index.html",
+      "updated": "29/09/2026",
+      "summary": "Árbol navegable de Growlat Conversations: módulos, rutas, pantallas fuera del menú y estados del sistema, con capturas, observaciones de UX y pendientes del relevamiento."
     }
   ]
 }

@@ -106,3 +106,7 @@ figcaption { font-size: .75rem; color: var(--n400); }
 .semaforo-table { width: 100%; border-collapse: collapse; font-size: .8125rem; }
 .semaforo-table th { text-align: left; font-weight: 600; font-size: .6875rem; color: var(--n400); padding: .5rem .75rem; border-bottom: 1px solid var(--n100); }
 .semaforo-table td { padding: .625rem .75rem; border-bottom: 1px solid var(--n50); }
+
+/* Arquitectura de la información: página ancha con el árbol embebido */
+.page.page--wide { max-width: none; }
+.arch-frame { display: block; width: 100%; height: calc(100vh - var(--topbar-h) - 13rem); min-height: 640px; border: 1px solid var(--n100); border-radius: 12px; background: #F5F5F7; }

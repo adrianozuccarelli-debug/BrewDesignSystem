@@ -84,6 +84,8 @@ function buildSidebar(filter = '') {
   if (f.length) html += `<div class="sidebar-section"><p class="sidebar-section-label">Fundamentos</p>${f.map(x => item(x.slug, x.title)).join('')}</div>`;
   const cs = (STATE.site.cases || []).map(x => STATE.cases[x.slug]).filter(c => c && match(c.title + ' ' + c.jira + ' caso'));
   if (cs.length) html += `<div class="sidebar-section"><p class="sidebar-section-label">Casos UX</p>${cs.map(c => item(c.slug, `${c.jira} · ${c.title}`)).join('')}</div>`;
+  const ar = (STATE.site.architecture || []).filter(a => a.platform === STATE.platform && match(a.title + ' arquitectura'));
+  if (ar.length) html += `<div class="sidebar-section"><p class="sidebar-section-label">Arquitectura</p>${ar.map(a => item(a.slug, a.title)).join('')}</div>`;
   for (const g of STATE.site.componentGroups) {
     const items = g.items.map(s => STATE.components[s]).filter(c => c && match(c.title + ' ' + c.category));
     if (items.length) html += `<div class="sidebar-section"><p class="sidebar-section-label">${esc(g.label)}</p>${items.map(c => item(c.slug, c.title, c.status)).join('')}</div>`;
@@ -222,6 +224,18 @@ const PAGES = {
   },
 };
 
+/* ─── Arquitectura de la información (una por plataforma) ── */
+function archPage(a) {
+  const p = STATE.site.platforms[a.platform];
+  if (a.platform !== STATE.platform) {
+    return header('Arquitectura', a.title, `Esta arquitectura es de <strong>${esc(p.name)}</strong>.`) +
+      `<button class="btn btn-secondary" onclick="applyPlatform('${esc(a.platform)}')">Ver en ${esc(p.name)}</button>`;
+  }
+  return header('Arquitectura · ' + p.name, a.title, esc(a.summary),
+      `<a class="btn btn-secondary" href="${esc(a.src)}" target="_blank" rel="noopener">Abrir en pestaña nueva</a>`, `Relevado el ${a.updated}`) +
+    `<iframe class="arch-frame" src="${esc(a.src)}" title="${esc(a.title + ' · ' + p.name)}" loading="lazy"></iframe>`;
+}
+
 /* ─── Página de caso UX ─────────────────────────────────── */
 const MARK = { ok: ['✓', 'success'], mid: ['~', 'warning'], no: ['✗', 'danger'] };
 function casePage(c) {
@@ -302,10 +316,12 @@ async function render() {
   if (PAGES[slug]) html = PAGES[slug]();
   else if (STATE.components[slug]) html = await componentPage(STATE.components[slug]);
   else if (STATE.cases[slug]) html = casePage(STATE.cases[slug]);
+  else if ((STATE.site.architecture || []).some(a => a.slug === slug)) html = archPage(STATE.site.architecture.find(a => a.slug === slug));
   else html = header('404', 'No encontrado', `No existe la página <code>${esc(slug)}</code>.`) + '<a class="btn btn-secondary" href="#/intro">Volver al inicio</a>';
+  page.classList.toggle('page--wide', (STATE.site.architecture || []).some(a => a.slug === slug));
   page.innerHTML = html;
   buildSidebar($('#searchInput').value);
-  const title = (STATE.components[slug] || STATE.cases[slug] || STATE.site.foundations.find(f => f.slug === slug) || {}).title;
+  const title = (STATE.components[slug] || STATE.cases[slug] || STATE.site.foundations.find(f => f.slug === slug) || (STATE.site.architecture || []).find(a => a.slug === slug) || {}).title;
   document.title = title ? `${title} · BREW Design System` : 'BREW Design System';
   $('#main').scrollTop = 0;
   await hydrateFragments(page);

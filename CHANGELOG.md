@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0 — 2026-11-06
+- Nueva sección **Arquitectura** (solo Growlat Conversations): `#/arquitectura-gc` embebe `arquitectura/growlat-conversations/index.html`, el árbol navegable de la arquitectura de la información con capturas, observaciones de UX y pendientes.
+- Capturas con datos personales y URLs internas difuminados; Back Office fuera del alcance publicado.
+
 ## 2.2.1 — 2026-11-06
 - El changelog del sitio (data/site.json) suma 2.1.1 y 2.2.0, que solo estaban en este archivo.
 - Discrepancias abiertas actualizadas tras revisar el sitio contra Figma.

@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Arquitectura Growlat Conversations</title>
+<script>if(window.self!==window.top)document.documentElement.classList.add("embed")</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: panel de árbol a la izquierda + panel de detalle a la derecha; apila en mobile. Tokens BREW DS (Growlat Conversations). */
+:root{
+  color-scheme:light;
+  --bg:#F5F5F7; --card:#FFFFFF; --border:#E5E5EA; --border-sub:#F0F0F2;
+  --fg:#424242; --fg2:#6B6B72; --fg3:#8E8E95;
+  --brand:#039F73; --brand-hover:#027A59; --brand-subtle:rgba(10,226,139,.10); --brand-border:rgba(3,159,115,.22);
+  --nav:#0E1721;
+  --warn-bg:#FFFBEB; --warn-bd:#FDE68A; --warn-fg:#92400E;
+  --info-bg:#EFF6FF; --info-bd:#BFDBFE; --info-fg:#1E40AF;
+  --err-bg:#FEF2F2; --err-bd:#FECACA; --err-fg:#DC2626;
+  --mkt-bg:#F5F3FF; --mkt-bd:#C4B5FD; --mkt-fg:#5B21B6;
+  --line:#D6D6DC;
+  --f-display:"Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Poppins", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:20px;padding-block:28px 48px;display:flex;flex-direction:column;gap:20px}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
+h1{font-family:var(--f-display);font-weight:700;font-size:1.6rem;margin:0;text-wrap:balance}
+.sub{color:var(--fg2);margin:4px 0 0;max-width:70ch}
+.meta{font-size:12px;color:var(--fg3);font-variant-numeric:tabular-nums}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;min-width:110px}
+.stat b{display:block;font-family:var(--f-display);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--fg2)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.search{flex:1 1 240px;min-width:0;border:1px solid var(--border);background:var(--card);color:var(--fg);border-radius:4px;padding:8px 12px;font:inherit}
+.search:focus-visible,.chip:focus-visible,.node-row:focus-visible,.btn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--fg2);border-radius:100px;padding:4px 12px;font:500 12px var(--f-body);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand-subtle);border-color:var(--brand-border);color:var(--brand)}
+.btn{border:1px solid var(--border);background:var(--card);color:var(--fg);border-radius:4px;padding:6px 12px;font:500 12px var(--f-body);cursor:pointer}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--fg2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.main{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:12px;min-width:0}
+.panel-h{padding:14px 18px;border-bottom:1px solid var(--border-sub);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.panel-h h2{font-family:var(--f-display);font-size:1rem;margin:0}
+.tree{padding:10px 8px 16px;overflow-x:auto}
+ul.t{list-style:none;margin:0;padding-left:20px;position:relative}
+ul.t.root{padding-left:0}
+ul.t li{position:relative}
+ul.t:not(.root)>li::before{content:"";position:absolute;left:-12px;top:0;bottom:0;border-left:1px solid var(--line)}
+ul.t:not(.root)>li:last-child::before{height:17px;bottom:auto}
+ul.t:not(.root)>li::after{content:"";position:absolute;left:-12px;top:17px;width:10px;border-top:1px solid var(--line)}
+.node-row{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;cursor:pointer;min-height:34px;white-space:nowrap}
+.node-row:hover{background:var(--bg)}
+.node-row.sel{background:var(--brand-subtle)}
+.tog{width:18px;height:18px;flex:none;display:grid;place-items:center;color:var(--fg3);border-radius:4px}
+.tog svg{transition:transform .15s}
+li.collapsed>.node-row .tog svg{transform:rotate(-90deg)}
+li.collapsed>ul{display:none}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.lbl{font-weight:500}
+.lvl0>.node-row .lbl{font-family:var(--f-display);font-weight:700;font-size:15px}
+.path{font-family:ui-monospace,"Cascadia Code",Consolas,monospace;font-size:11px;color:var(--fg3)}
+.tag{font-size:10px;font-weight:600;border-radius:100px;padding:1px 8px;border:1px solid;letter-spacing:.02em}
+.tag.visto{background:var(--brand-subtle);border-color:var(--brand-border);color:var(--brand)}
+.tag.ruta{background:var(--bg);border-color:var(--border);color:var(--fg2)}
+.tag.gap{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn-fg)}
+.tag.oculta{background:var(--info-bg);border-color:var(--info-bd);color:var(--info-fg)}
+.tag.rol{background:var(--mkt-bg);border-color:var(--mkt-bd);color:var(--mkt-fg)}
+.tag.cam{font-size:10px;color:var(--fg2);border-color:var(--border)}
+.hidden-by-filter{display:none}
+.detail{padding:18px;display:flex;flex-direction:column;gap:14px;position:sticky;top:env(safe-area-inset-top,0px)}
+.detail h3{font-family:var(--f-display);margin:0;font-size:1.15rem}
+.kv{display:grid;grid-template-columns:120px minmax(0,1fr);gap:6px 12px;font-size:13px}
+.kv dt{color:var(--fg2);font-size:12px}
+.kv dd{margin:0;word-break:break-word}
+.shot{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg)}
+.shot img{display:block;width:100%}
+.shot figcaption{font-size:11px;color:var(--fg2);padding:6px 10px}
+.empty{color:var(--fg2);font-size:13px;border:1px dashed var(--border);border-radius:8px;padding:14px}
+.gaps{padding:6px 18px 18px}
+.gaps table{width:100%;border-collapse:collapse;font-size:13px}
+.gaps th{text-align:left;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg3);font-weight:600;padding:10px 8px;border-bottom:1px solid var(--border)}
+.gaps td{padding:10px 8px;border-bottom:1px solid var(--border-sub);vertical-align:top}
+.gaps .tblw{overflow-x:auto}
+.note{font-size:12px;color:var(--fg2)}
+.findings{padding:8px 18px 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.finding{border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.finding b{font-size:13px}
+.finding p{margin:0;font-size:12.5px;color:var(--fg2)}
+.fcat{align-self:flex-start}
+
+/* ---------- Canvas ---------- */
+.views{display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--card)}
+.views button{border:0;background:transparent;color:var(--fg2);font:500 13px var(--f-body);padding:7px 16px;cursor:pointer}
+.views button[aria-selected="true"]{background:var(--brand);color:#fff}
+.canvas-wrap:fullscreen{height:100vh;border-radius:0}
+.canvas-wrap{position:relative;height:max(560px,calc(100vh - 170px));background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.viewport{position:absolute;inset:0;cursor:grab;touch-action:none;
+  background-image:radial-gradient(circle,var(--line) 1px,transparent 1.2px);background-size:24px 24px}
+.viewport.drag{cursor:grabbing}
+.world{position:absolute;left:0;top:0;transform-origin:0 0}
+.world svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.world svg path{fill:none;stroke:var(--line);stroke-width:1.5}
+.world svg path.hl{stroke:var(--brand);stroke-width:2.2}
+.cnode{position:absolute;width:236px;background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:0 1px 2px rgba(14,23,33,.06);cursor:pointer;display:flex;flex-direction:column;overflow:hidden;transition:opacity .15s,box-shadow .15s}
+.cnode:hover{box-shadow:0 4px 14px rgba(14,23,33,.12)}
+.cnode.sel{outline:2px solid var(--brand);outline-offset:1px}
+.cnode.dim{opacity:.22}
+.cnode.root{width:260px;background:var(--nav);color:#fff;border-color:var(--nav)}
+.cnode.root .ct{color:#fff;font-size:18px}
+.cnode.root .cp{white-space:normal}
+.cnode .cbar{height:4px;flex:none}
+.cnode .cb{padding:8px 10px 9px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cnode .ct{font-weight:600;font-size:13px;line-height:1.3;display:flex;gap:6px;align-items:flex-start}
+.cnode.mod .ct{font-family:var(--f-display);font-size:15px}
+.cnode .cp{font-family:ui-monospace,Consolas,monospace;font-size:10px;color:var(--fg3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cnode .ctags{display:flex;flex-wrap:wrap;gap:4px}
+.cnode .ctags .tag{font-size:9px;padding:0 6px}
+.cnode .cimg{height:96px;background:var(--bg) center top/cover no-repeat;border-bottom:1px solid var(--border-sub);position:relative}
+.cnode .cimg b{position:absolute;right:6px;bottom:6px;background:rgba(14,23,33,.72);color:#fff;font-size:10px;border-radius:100px;padding:1px 7px;font-weight:500}
+.cfoot{border-top:1px solid var(--border-sub);padding:5px 8px;display:flex;justify-content:flex-end}
+.ctog{display:inline-flex;align-items:center;gap:5px;border:0;background:transparent;color:var(--fg2);font:600 11px var(--f-body);padding:3px 6px;border-radius:4px;cursor:pointer}
+.ctog:hover{background:var(--brand-subtle);color:var(--brand)}
+.cnode.root .cfoot{display:none}
+.ctools{position:absolute;left:12px;top:12px;display:flex;gap:6px;flex-wrap:wrap;z-index:5}
+.ctools .btn{background:var(--card);box-shadow:0 1px 3px rgba(14,23,33,.08)}
+.zoomlbl{font:500 12px var(--f-body);color:var(--fg2);background:var(--card);border:1px solid var(--border);border-radius:4px;padding:6px 10px;font-variant-numeric:tabular-nums}
+.minimap{position:absolute;left:12px;bottom:12px;width:200px;height:130px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 1px 3px rgba(14,23,33,.08);z-index:5;cursor:pointer}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.pri:hover{background:var(--brand-hover)}
+.btn:disabled{opacity:.5;cursor:default}
+.upbox{border:1.5px dashed var(--brand-border);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--brand-subtle)}
+.upbox.drag{border-color:var(--brand);border-style:solid}
+.upbox h4{margin:0;font-size:13px;font-weight:600}
+.upbox p{margin:0;font-size:12px;color:var(--fg2)}
+.upbox textarea{width:100%;min-height:64px;font:13px/1.45 var(--f-body);border:1px solid var(--border);border-radius:6px;padding:8px 10px;background:var(--card);color:var(--fg);resize:vertical}
+.upbox .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.upthumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.upthumbs figure{margin:0;border:1px solid var(--border);border-radius:6px;overflow:hidden;position:relative;background:var(--card)}
+.upthumbs img{display:block;width:100%;height:72px;object-fit:cover}
+.upthumbs button{position:absolute;top:4px;right:4px;border:0;border-radius:4px;background:rgba(14,23,33,.72);color:#fff;font:600 10px var(--f-body);padding:2px 6px;cursor:pointer}
+.upmsg{font-size:12px;color:var(--fg2);min-height:1em}
+.upmsg.err{color:var(--err-fg)}
+.tag.nocap{background:var(--bg);border-color:var(--border);color:var(--fg3)}
+.tag.upl{background:var(--info-bg);border-color:var(--info-bd);color:var(--info-fg)}
+.capsum{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px 0}
+.caps{padding:6px 18px 18px}
+.caps details{border-bottom:1px solid var(--border-sub)}
+.caps summary{cursor:pointer;padding:10px 4px;font-weight:600;font-size:13px;display:flex;gap:8px;align-items:center;list-style:none}
+.caps summary::-webkit-details-marker{display:none}
+.caps summary .note{font-weight:400}
+.caps ul{list-style:none;margin:0 0 10px;padding:0}
+.caps li{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:6px 4px 6px 16px;border-top:1px solid var(--border-sub);flex-wrap:wrap}
+.caps li .w{min-width:0;flex:1 1 220px;font-size:13px}
+.caps li .w .path{display:block}
+.caps li .a{display:flex;gap:8px;align-items:center}
+.viewport,.ctools,.minimap,.chelp{-webkit-user-select:none;user-select:none}
+.viewport.drag{cursor:grabbing}
+.uxo{border:1px solid var(--mkt-bd);background:var(--mkt-bg);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.uxo h4{margin:0;font-size:13px;font-weight:600;color:var(--mkt-fg)}
+.uxo ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.uxo li{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.45}
+.uxo li .tag{flex:none;margin-top:2px}
+.tag.ux{background:var(--mkt-bg);border-color:var(--mkt-bd);color:var(--mkt-fg)}
+.shot img,.upthumbs img{cursor:zoom-in}
+.lb{position:fixed;inset:0;z-index:1000;background:rgba(8,12,18,.92);display:flex;flex-direction:column;color:#E4E6EA;font-family:var(--f-body)}
+.lb[hidden]{display:none}
+.lb-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;flex-wrap:wrap}
+.lb-bar .cap{flex:1 1 200px;min-width:0;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-bar .cnt{font-size:12px;color:#A3A9B3;font-variant-numeric:tabular-nums}
+.lb-bar button{border:1px solid #2F3B4B;background:#131B24;color:#E4E6EA;border-radius:4px;padding:6px 12px;font:500 12px var(--f-body);cursor:pointer}
+.lb-bar button:hover{border-color:#4CC9A2}
+.lb-bar button:disabled{opacity:.4;cursor:default}
+.lb-stage{flex:1;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;padding:0 16px 16px}
+.lb-stage img{width:100%;height:100%;object-fit:contain;cursor:zoom-in;border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.lb-stage.real{display:block}
+.lb-stage.real img{height:auto;cursor:zoom-out;box-shadow:none}
+.lb-hint{font-size:11px;color:#7C8490;padding:0 16px 10px;text-align:center}
+.shot figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.shot-rm{display:none;border:1px solid var(--border);background:var(--card);color:var(--fg2);border-radius:4px;padding:2px 8px;font:600 11px var(--f-body);cursor:pointer;flex:none}
+.shot-rm:hover{border-color:var(--err-bd);color:var(--err-fg)}
+.shot-rm[data-armed]{background:var(--err-bg);border-color:var(--err-bd);color:var(--err-fg)}
+body.can-edit .shot-rm{display:inline-block}
+.shot-hid{font-size:12px}
+.linkbtn{border:0;background:none;padding:0;color:var(--brand);font:600 12px var(--f-body);cursor:pointer;text-decoration:underline}
+.shot-hid .linkbtn{display:none}body.can-edit .shot-hid .linkbtn{display:inline}
+[hidden]{display:none!important}
+.embed header.top h1,.embed header.top .sub{display:none}
+.upslot,#capsPanel,.shot-rm,.shot-hid{display:none!important}
+.cdetail{position:absolute;top:0;right:0;bottom:0;width:min(400px,92%);background:var(--card);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgba(14,23,33,.10);z-index:6;overflow-y:auto;transform:translateX(102%);transition:transform .2s}
+.cdetail.open{transform:none}
+.cdetail .detail{position:static}
+.cclose{position:sticky;top:0;display:flex;justify-content:flex-end;padding:10px 12px 0;background:var(--card);z-index:1}
+.chelp{position:absolute;right:12px;bottom:12px;font-size:11px;color:var(--fg3);background:var(--card);border:1px solid var(--border);border-radius:6px;padding:5px 9px;z-index:4}
+@media (max-width:700px){.minimap,.chelp{display:none}}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Árbol de arquitectura · Growlat Conversations</h1>
+      <p class="sub">Estructura completa de la app: navegación del menú, header, rutas que no están en el menú y estados del sistema. En el canvas arrastrá para moverte, usá la rueda o la pinza para hacer zoom y tocá un nodo para ver su ruta, permiso, contenido y capturas.</p>
+      <p class="meta">Fuente: router de la app + recorrido en solo lectura en testing y en producción (cuenta demo) · 1348 px · relevado el 29/09/2026 · los datos personales de las capturas están difuminados</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="toolbar">
+    <div class="views" role="tablist" aria-label="Vista">
+      <button role="tab" id="v-canvas" aria-selected="true">Canvas</button>
+      <button role="tab" id="v-list" aria-selected="false">Lista</button>
+    </div>
+    <input id="q" class="search" type="search" placeholder="Buscar pantalla o ruta… (ej. segmentos, /wallet)" aria-label="Buscar en el árbol">
+    <button class="chip" id="f-visto" aria-pressed="false">Vistas en recorrido</button>
+    <button class="chip" id="f-gap" aria-pressed="false">Pendientes</button>
+    <button class="chip" id="f-oculta" aria-pressed="false">Fuera del menú</button>
+    <button class="chip" id="f-prod" aria-pressed="false">Con datos de producción</button>
+    <button class="chip" id="f-ux" aria-pressed="false">Con observaciones UX</button>
+    <button class="chip" id="f-nocap" aria-pressed="false">Sin captura</button>
+    <button class="btn" id="exp">Expandir todo</button>
+    <button class="btn" id="col">Contraer a módulos</button>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--brand)"></i>Módulo / sección</span>
+    <span><i style="background:#3B82F6"></i>Vista / listado</span>
+    <span><i style="background:#F59E0B"></i>Crear / editar (formulario, wizard, builder)</span>
+    <span><i style="background:#8B5CF6"></i>Detalle / estadísticas</span>
+    <span><i style="background:#94A3B8"></i>Overlay (dropdown, menú, modal)</span>
+    <span><i style="background:#EF4444"></i>Sistema / error</span>
+  </div>
+
+  <section class="canvas-wrap" id="canvasView" aria-label="Canvas del árbol">
+    <div class="viewport" id="vp"><div class="world" id="world"><svg id="edges"></svg></div></div>
+    <div class="ctools">
+      <button class="btn" id="zout" aria-label="Alejar">−</button>
+      <span class="zoomlbl" id="zlbl">100%</span>
+      <button class="btn" id="zin" aria-label="Acercar">+</button>
+      <button class="btn" id="zfit">Ver todo</button>
+      <button class="btn" id="cexp">Expandir todo</button>
+      <button class="btn" id="ccol">Solo módulos</button>
+      <button class="btn" id="cfull">Pantalla completa</button>
+    </div>
+    <canvas class="minimap" id="mini" width="400" height="260" aria-label="Minimapa"></canvas>
+    <div class="chelp">Arrastrá para moverte · rueda o pinza para zoom · clic en un nodo para ver el detalle</div>
+    <aside class="cdetail" id="cdetailWrap" aria-label="Detalle del nodo"><div class="cclose"><button class="btn" id="cclose">Cerrar</button></div><div class="detail" id="cdetail"></div></aside>
+  </section>
+
+  <div class="main" id="listView" hidden>
+    <section class="panel" aria-label="Árbol">
+      <div class="panel-h"><h2>Mapa del sitio</h2><span class="note" id="count"></span></div>
+      <div class="tree" id="tree"></div>
+    </section>
+    <aside class="panel" aria-label="Detalle del nodo">
+      <div class="detail" id="detail"></div>
+    </aside>
+  </div>
+
+  <section class="panel" aria-label="Hallazgos">
+    <div class="panel-h"><h2>Hallazgos del recorrido</h2><span class="note">Inconsistencias de arquitectura, patrones, copy y datos</span></div>
+    <div class="findings" id="findings"></div>
+  </section>
+
+  <section class="panel" aria-label="Pendientes">
+    <div class="panel-h"><h2>Pendientes del relevamiento</h2><span class="note">Acciones que no se ejecutaron, pantallas sin datos y preguntas abiertas</span></div>
+    <div class="gaps"><div class="tblw"><table id="gaps"><thead><tr><th>Dónde</th><th>Tipo</th><th>Qué necesito</th></tr></thead><tbody></tbody></table></div></div>
+  </section>
+  <section class="panel" aria-label="Capturas que faltan" id="capsPanel">
+    <div class="panel-h"><h2>Capturas que faltan</h2><span class="note">Subí la captura desde el detalle de cada nodo. Cuando termines, avisame en el chat y las analizo para completar las cards.</span></div>
+    <div class="capsum" id="capsum"></div>
+    <div class="caps" id="caps"></div>
+  </section>
+</div>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Captura ampliada">
+  <div class="lb-bar"><span class="cnt" id="lbCnt"></span><span class="cap" id="lbCap"></span>
+    <button type="button" id="lbPrev" aria-label="Captura anterior">← Anterior</button><button type="button" id="lbNext" aria-label="Captura siguiente">Siguiente →</button>
+    <button type="button" id="lbReal">Ajustar al ancho</button><button type="button" id="lbClose">Cerrar ✕</button></div>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" alt=""></div>
+  <div class="lb-hint">Esc para cerrar · ← → para moverte · clic en la imagen para ajustarla al ancho y hacer scroll</div>
+</div>
+<script>
+const IMGS = {"01-home": "img/01-home.jpg", "02-header-menu-usuario": "img/02-header-menu-usuario.jpg", "02-header-selector-proyecto": "img/02-header-selector-proyecto.jpg", "03-envios-en-progreso-actividad": "img/03-envios-en-progreso-actividad.jpg", "04-billetera": "img/04-billetera.jpg", "04b-billetera-historial-compras": "img/04b-billetera-historial-compras.jpg", "04c-billetera-anadir-creditos": "img/04c-billetera-anadir-creditos.jpg", "05-audiencias-perfiles": "img/05-audiencias-perfiles.jpg", "05b-audiencias-drawer-columnas": "img/05b-audiencias-drawer-columnas.jpg", "05c-audiencias-detalle-contacto": "img/05c-audiencias-detalle-contacto.jpg", "05d-audiencias-drawer-editar-perfil": "img/05d-audiencias-drawer-editar-perfil.jpg", "06-audiencias-segmentos-dinamicos": "img/06-audiencias-segmentos-dinamicos.jpg", "06b-audiencias-crear-segmento-dinamico": "img/06b-audiencias-crear-segmento-dinamico.jpg", "06c-audiencias-dropdown-tipo-condicion": "img/06c-audiencias-dropdown-tipo-condicion.jpg", "07-audiencias-segmentos-estaticos": "img/07-audiencias-segmentos-estaticos.jpg", "07a-audiencias-contactos-bloqueados": "img/07a-audiencias-contactos-bloqueados.jpg", "07b-audiencias-dialog-nuevo-segmento-estatico": "img/07b-audiencias-dialog-nuevo-segmento-estatico.jpg", "08a-audiencias-historial-importaciones": "img/08a-audiencias-historial-importaciones.jpg", "08b-audiencias-importar-paso1": "img/08b-audiencias-importar-paso1.jpg", "09-inbox-conversaciones": "img/09-inbox-conversaciones.jpg", "09a-inbox-estado-agente": "img/09a-inbox-estado-agente.jpg", "09b-inbox-dialog-atajos": "img/09b-inbox-dialog-atajos.jpg", "10-inbox-bandejas-listado": "img/10-inbox-bandejas-listado.jpg", "10a-inbox-bandeja-config": "img/10a-inbox-bandeja-config.jpg", "10b-inbox-bandeja-tab-disponibilidad": "img/10b-inbox-bandeja-tab-disponibilidad.jpg", "10c-inbox-bandeja-tab-notificaciones": "img/10c-inbox-bandeja-tab-notificaciones.jpg", "10d-inbox-bandeja-tab-equipo": "img/10d-inbox-bandeja-tab-equipo.jpg", "10e-inbox-bandeja-tab-conexiones": "img/10e-inbox-bandeja-tab-conexiones.jpg", "11a-inbox-tickets": "img/11a-inbox-tickets.jpg", "11b-inbox-rendimiento-bandejas": "img/11b-inbox-rendimiento-bandejas.jpg", "11c-inbox-rendimiento-agentes": "img/11c-inbox-rendimiento-agentes.jpg", "11d-inbox-rendimiento-respuestas": "img/11d-inbox-rendimiento-respuestas.jpg", "12-dialogos-listado": "img/12-dialogos-listado.jpg", "12a-dialogos-menu-acciones": "img/12a-dialogos-menu-acciones.jpg", "12b-dialogos-rendimiento": "img/12b-dialogos-rendimiento.jpg", "12c-dialogos-constructor": "img/12c-dialogos-constructor.jpg", "12d-dialogos-dialog-propiedades": "img/12d-dialogos-dialog-propiedades.jpg", "12e-dialogos-analizador": "img/12e-dialogos-analizador.jpg", "13-campanas-inicio": "img/13-campanas-inicio.jpg", "14-campanas-manuales": "img/14-campanas-manuales.jpg", "14a-campanas-manuales-menu": "img/14a-campanas-manuales-menu.jpg", "14b-campanas-drawer-resumen": "img/14b-campanas-drawer-resumen.jpg", "14c-campanas-rendimiento-sin-datos": "img/14c-campanas-rendimiento-sin-datos.jpg", "14d-campanas-rendimiento": "img/14d-campanas-rendimiento.jpg", "14e-campanas-informe-resultados": "img/14e-campanas-informe-resultados.jpg", "14f-campanas-drawer-mas-informacion": "img/14f-campanas-drawer-mas-informacion.jpg", "15b-campanas-editar-paso2-mensaje": "img/15b-campanas-editar-paso2-mensaje.jpg", "16-campanas-automaticas": "img/16-campanas-automaticas.jpg", "16b-campanas-automatica-constructor": "img/16b-campanas-automatica-constructor.jpg", "17-campanas-transaccionales": "img/17-campanas-transaccionales.jpg", "17a-campanas-dialog-tipo-transaccional": "img/17a-campanas-dialog-tipo-transaccional.jpg", "17b-campanas-crear-transaccional": "img/17b-campanas-crear-transaccional.jpg", "17c-campanas-crear-transaccional-integracion": "img/17c-campanas-crear-transaccional-integracion.jpg", "17d-campanas-logs-transaccionales": "img/17d-campanas-logs-transaccionales.jpg", "18-eventos-carpetas": "img/18-eventos-carpetas.jpg", "19-ia-tus-agentes": "img/19-ia-tus-agentes.jpg", "19a-ia-agentes-menu": "img/19a-ia-agentes-menu.jpg", "19b-ia-editar-agente-personalizacion": "img/19b-ia-editar-agente-personalizacion.jpg", "19c-ia-agente-comportamiento": "img/19c-ia-agente-comportamiento.jpg", "19d-ia-agente-conocimiento": "img/19d-ia-agente-conocimiento.jpg", "19e-ia-agente-herramientas": "img/19e-ia-agente-herramientas.jpg", "19f-ia-agente-resumen": "img/19f-ia-agente-resumen.jpg", "19g-ia-agente-playground": "img/19g-ia-agente-playground.jpg", "20-ia-herramientas": "img/20-ia-herramientas.jpg", "20b-ia-crear-herramienta": "img/20b-ia-crear-herramienta.jpg", "21-ia-conocimiento": "img/21-ia-conocimiento.jpg", "21b-ia-crear-conocimiento-paso1": "img/21b-ia-crear-conocimiento-paso1.jpg", "22-preferencias-general": "img/22-preferencias-general.jpg", "22a-preferencias-notificaciones": "img/22a-preferencias-notificaciones.jpg", "22b-preferencias-descargas": "img/22b-preferencias-descargas.jpg", "22c-preferencias-canales": "img/22c-preferencias-canales.jpg", "22d-preferencias-suscripciones": "img/22d-preferencias-suscripciones.jpg", "22e-preferencias-desuscripciones": "img/22e-preferencias-desuscripciones.jpg", "22f-preferencias-tokens": "img/22f-preferencias-tokens.jpg", "22g-preferencias-equipo": "img/22g-preferencias-equipo.jpg", "22h-preferencias-campos": "img/22h-preferencias-campos.jpg", "22i-preferencias-etiquetas": "img/22i-preferencias-etiquetas.jpg", "22j-preferencias-templates": "img/22j-preferencias-templates.jpg", "22k-preferencias-flows": "img/22k-preferencias-flows.jpg", "22l-preferencias-crear-template": "img/22l-preferencias-crear-template.jpg", "23-canales-todas": "img/23-canales-todas.jpg", "23a-canales-instalados": "img/23a-canales-instalados.jpg", "24-integraciones": "img/24-integraciones.jpg", "24a-integraciones-nueva-paso1-origen": "img/24a-integraciones-nueva-paso1-origen.jpg", "25-cuenta-configuracion": "img/25-cuenta-configuracion.jpg", "26-fuera-menu-onsite": "img/26-fuera-menu-onsite.jpg", "27-selector-proyectos": "img/27-selector-proyectos.jpg", "28a-sistema-sin-autorizacion": "img/28a-sistema-sin-autorizacion.jpg", "28b-tickets-standalone": "img/28b-tickets-standalone.jpg", "P00-home-prod": "img/P00-home-prod.jpg", "P01-header-selector-apps": "img/P01-header-selector-apps.jpg", "P02-audiencias-bloqueados": "img/P02-audiencias-bloqueados.jpg", "P03-inbox-tickets-con-datos": "img/P03-inbox-tickets-con-datos.jpg", "P04-inbox-drawer-detalle-ticket": "img/P04-inbox-drawer-detalle-ticket.jpg", "P05a-inbox-rendimiento-bandejas": "img/P05a-inbox-rendimiento-bandejas.jpg", "P05b-inbox-rendimiento-agentes": "img/P05b-inbox-rendimiento-agentes.jpg", "P06-inbox-dialog-notificaciones": "img/P06-inbox-dialog-notificaciones.jpg", "P07-automaticas-listado": "img/P07-automaticas-listado.jpg", "P07b-automaticas-menu": "img/P07b-automaticas-menu.jpg", "P08a-automatica-nodos": "img/P08a-automatica-nodos.jpg", "P08b-automatica-rendimiento": "img/P08b-automatica-rendimiento.jpg", "P08c-automatica-informe-resultados": "img/P08c-automatica-informe-resultados.jpg", "P09-transaccionales-listado": "img/P09-transaccionales-listado.jpg", "P09b-transaccionales-menu": "img/P09b-transaccionales-menu.jpg", "P10a-transaccional-rendimiento": "img/P10a-transaccional-rendimiento.jpg", "P10b-transaccional-informe": "img/P10b-transaccional-informe.jpg", "P10c-transaccional-logs": "img/P10c-transaccional-logs.jpg", "P10d-transaccional-log-expandido": "img/P10d-transaccional-log-expandido.jpg", "P11-conocimiento-listado": "img/P11-conocimiento-listado.jpg", "P11b-conocimiento-menu": "img/P11b-conocimiento-menu.jpg", "P11c-conocimiento-editar": "img/P11c-conocimiento-editar.jpg", "P12-descargas-listado": "img/P12-descargas-listado.jpg", "P13-flows-listado": "img/P13-flows-listado.jpg", "P13b-flows-menu": "img/P13b-flows-menu.jpg", "P14-integraciones-listado": "img/P14-integraciones-listado.jpg", "P14b-integraciones-menu": "img/P14b-integraciones-menu.jpg", "P14c-integracion-detalle": "img/P14c-integracion-detalle.jpg", "P15-canales-instalados": "img/P15-canales-instalados.jpg", "P16a-campos-a-mostrar": "img/P16a-campos-a-mostrar.jpg", "P16b-campos-dinamicos": "img/P16b-campos-dinamicos.jpg", "P17-menu-usuario-y-dialog-campo": "img/P17-menu-usuario-y-dialog-campo.jpg", "P18-eventos-prod": "img/P18-eventos-prod.jpg", "P19a-inbox-no-asignado": "img/P19a-inbox-no-asignado.jpg", "P19b-inbox-lista-todo": "img/P19b-inbox-lista-todo.jpg", "P19c-inbox-conversacion-abierta": "img/P19c-inbox-conversacion-abierta.jpg", "P19d-inbox-panel-adjuntos": "img/P19d-inbox-panel-adjuntos.jpg", "P19e-inbox-panel-feed": "img/P19e-inbox-panel-feed.jpg", "P19f-inbox-dialog-filtros": "img/P19f-inbox-dialog-filtros.jpg", "P19g-inbox-seleccion-masiva": "img/P19g-inbox-seleccion-masiva.jpg", "P20a-inbox-dialog-nuevo-ticket": "img/P20a-inbox-dialog-nuevo-ticket.jpg", "P20b-inbox-drawer-crear-contacto": "img/P20b-inbox-drawer-crear-contacto.jpg"};
+const TYPE_COLOR={mod:'var(--brand)',vista:'#3B82F6',form:'#F59E0B',det:'#8B5CF6',ov:'#94A3B8',sys:'#EF4444'};
+const NEED={revisar:['A revisar','gap'],trigger:['Requiere acción','gap'],contexto:['Falta contexto','oculta'],datos:['Faltan datos de prueba','rol']};
+const TYPE_NAME={mod:'Módulo / sección',vista:'Vista / listado',form:'Crear / editar',det:'Detalle / estadísticas',ov:'Overlay',sys:'Sistema'};
+// s: 'visto' = confirmado en recorrido | 'ruta' = existe en router, sin recorrer aún
+// gap: texto de lo que falta; oculta: no aparece en el menú; rol: requiere rol especial
+const N=(l,p,t,o={},c=[])=>({l,p,t,...o,c});
+const DATA=[
+ N('Header global',null,'mod',{s:'visto',note:'Presente en todas las pantallas autenticadas. De izquierda a derecha: toggle del sidebar, selector de proyecto, saldo de billetera, Envíos en progreso, avatar con nombre y email. En Inbox se suma el estado del agente y "Envíos en progreso" se reduce a ícono.'},[
+   N('Toggle del sidebar',null,'ov',{s:'visto',note:'Colapsa el menú lateral. El estado persiste al salir de Inbox (el sidebar queda oculto en el módulo siguiente).'}),
+   N('Selector de proyecto',null,'ov',{s:'visto',img:['02-header-selector-proyecto'],note:'Dropdown con la lista de proyectos "(#id) Nombre" y chip Activo, más "Ver todos los proyectos" y "Nuevo proyecto".'},[
+     N('Ver todos los proyectos','/tenants','vista',{s:'visto',img:['27-selector-proyectos'],note:'Layout plano sin sidebar: "Selecciona tu proyecto", buscador, toggle Grilla / Lista y cards de proyecto. El nombre aparece como "Adri (#33)" y en el header como "(#33) Adri".'}),
+     N('Nuevo proyecto','/onboarding/create-tenant','form',{s:'ruta',need:'trigger',gap:'Crea un proyecto real, así que no lo abrí. Si querés documentarlo, abrilo vos hasta el formulario (sin enviarlo) o decime si puedo entrar yo.'},[
+       N('Proyecto creado','/onboarding/created-tenant','sys',{s:'ruta'})])]),
+   N('Billetera','/wallet','vista',{s:'visto',perm:'settings',img:['04-billetera'],note:'Saldo en créditos, saldo al cierre del mes, total descubierto. Acciones: Añadir créditos, Configurar alerta de créditos bajo (abre fuera, ↗), Historial de compras. Sección "Consumo de créditos": banner de mensajes no cobrados, filtros Tipo de template y Rango de fechas, resumen de contactos y créditos, tabla con Tipo de template (Badge SERVICE / MARKETING) y Tipo (chip Agente de IA / Chatbot / Manual).'},[
+     N('Historial de compras','/wallet','vista',{s:'visto',img:['04b-billetera-historial-compras'],note:'Vista interna en la misma URL (← Historial de compras). Tabla ID, Usuario, Créditos, Estado (Pagado), Creado y descarga de factura.'}),
+     N('Añadir créditos','/wallet','form',{s:'visto',img:['04c-billetera-anadir-creditos'],need:'trigger',gap:'"Comprar créditos" lleva al checkout de pago: no lo activé.',note:'Vista interna: monto (1 crédito = 1 USD), chips rápidos +$10…+$10000, Cancelar / Comprar créditos, Alert info con mínimo y máximo.'}),
+     N('Configurar alerta de créditos bajo',null,'ov',{s:'ruta',need:'contexto',gap:'Tiene ícono ↗ (abre fuera de la app). ¿A dónde lleva?'}),
+     N('Checkout exitoso','/checkout/success','sys',{s:'ruta',oculta:1}),
+     N('Checkout cancelado','/checkout/canceled','sys',{s:'ruta',oculta:1})]),
+   N('Envíos en progreso','/campaigns/activity','vista',{s:'visto',perm:'campaigns',img:['03-envios-en-progreso-actividad'],need:'datos',gap:'Solo vi el estado vacío. Necesito un envío programado o en curso para ver la vista con datos.',note:'"Actividad de campañas": ← Volver a campañas, Refrescar. Estado vacío "No hay ningún envío programado".'}),
+   N('Menú de usuario',null,'ov',{s:'visto',img:['02-header-menu-usuario'],note:'Configuraciones, Cerrar sesión.'},[
+     N('Configuración de la cuenta','/account/settings','vista',{s:'visto',img:['25-cuenta-configuracion'],note:'Subnav con íconos: Cuenta, Contraseña, Invitaciones (secciones internas, sin ruta). Cuenta: Nombre, Correo (bloqueado), Idioma, Rol (acá es el puesto laboral, ej. UI/UX) y Notificaciones. Ojo: en Equipo "Rol" significa permiso.'}),
+     N('Cerrar sesión',null,'sys',{s:'visto'})])]),
+ N('Nombre anterior en la interfaz',null,'sys',{s:'visto',need:'revisar',gap:'Revisar dónde la interfaz todavía dice "Convos" (sin contar mensajes ni el help): 1) título de la pestaña del navegador en Integraciones, Logs y Eventos; 2) Audiencias › Detalle de contacto › Actividad reciente: chip "Fuente: Convos"; 3) Integraciones › Nueva integración › paso Origen: opción "Convos" en el selector; 4) Integraciones (producción): cards Origen → Destino ("TiendaNube → Convos", "Convos → MailUp"…) y la conexión "una conexión con el nombre anterior" (confirmar si el nombre lo puso un usuario). No verifiqué el logo, el favicon, el login ni los emails del sistema.',note:'Transversal. Afecta copy, logos de integración y metadatos de página. Los identificadores técnicos (dominios convos.la, convos_preset_v2.js, prefijo Jira CON-) no entran en esta revisión.'}),
+ N('Home','/dashboard','mod',{s:'visto',img:['01-home'],note:'Bienvenida y 6 tarjetas de acción (Configurá tus Agentes de IA [Nuevo], Perfil WhatsApp, Audiencias, Invitar miembros, Crear template, Capturar leads) y "Otros accesos" (Tutoriales, API Rest, Ayuda: todos externos). El sidebar suma el bloque Proyecto: Detalles del proyecto ↗, Calificación y Límite de mensajes.'},[
+   N('Resumen','/summary','sys',{s:'visto',oculta:1,note:'Redirige a /dashboard: ruta muerta.'}),
+   N('Búsqueda','/search','vista',{s:'visto',oculta:1,need:'contexto',gap:'La página "Buscar" existe pero está vacía y no tiene punto de entrada. ¿Es legacy?'})]),
+ N('Audiencias','/contacts','mod',{s:'visto',perm:'audience',note:'Subnavegación lateral: Perfiles, Segmentos dinámicos, Segmentos estáticos, Contactos bloqueados.'},[
+   N('Perfiles','/contacts','vista',{s:'visto',img:['05-audiencias-perfiles','05b-audiencias-drawer-columnas'],note:'Acciones de cabecera: Historial de importaciones e Importar contactos. Cards de métricas (donut de suscriptos) y de usuarios por día (line chart con DatePicker de rango). Filtros: Buscar, Estado, Segmentos dinámicos, Segmentos estáticos, Etiquetas. DataTable con selección, columnas ordenables, "Columnas" (Drawer "Administrar columnas": agregar, ordenar y quitar; Guardar en configuración / Aplicar) y ↗ por fila. Paginador "Mostrando 50 de 10.001".'},[
+     N('Detalle de contacto','/contacts?contact_id=:id','det',{s:'visto',img:['05c-audiencias-detalle-contacto'],note:'Vista interna con query (no usa la ruta /contacts/:id). Profile Header Card con Editar perfil, cards Perfil de WhatsApp, Notas, Información adicional y Actividad reciente (timeline con "Ver detalles").'},[
+       N('Editar perfil',null,'form',{s:'visto',img:['05d-audiencias-drawer-editar-perfil'],need:'trigger',gap:'No guardé cambios.',note:'Drawer derecho con secciones Datos básicos, Información adicional (segmentos estáticos, etiquetas) y Campos variables (Field 1…N, 0/250). Labels "Nombre visible (key_técnica)".'}),
+       N('Ruta /contacts/:id','/contacts/:id','sys',{s:'ruta',oculta:1,need:'contexto',gap:'El router tiene /contacts/:id (contact.summary), pero la UI abre ?contact_id=. ¿Cuál es la vigente?'})]),
+     N('Perfiles (alias)','/contacts/profiles','sys',{s:'visto',oculta:1,note:'Muestra lo mismo que /contacts.'})]),
+   N('Segmentos dinámicos','/contacts/filters','vista',{s:'visto',perm:'audience.filters.read',img:['06-audiencias-segmentos-dinamicos'],note:'Buscador con botón "Buscar", tabla ID / Nombre / Descripción, sin orden ni paginador. Menú ⋮: Editar, Eliminar, Ver contactos.'},[
+     N('Crear segmento dinámico','/contacts/filters/create','form',{s:'visto',perm:'audience.filters.write',img:['06b-audiencias-crear-segmento-dinamico','06c-audiencias-dropdown-tipo-condicion'],need:'contexto',gap:'¿"+ Agregar" dentro del bloque suma una condición AND y el de afuera un grupo OR? No guardé.',note:'Página completa sin subnav (← Volver). Nombre y Descripción; Condiciones con Tipo: Campo de contacto, (No) pertenece al segmento estático, Actividad en campaña, Ventas, Carrito abandonado, Actividad en Diálogo, Tickets, (No) pertenece a la etiqueta. Simular / Guardar cambios.'}),
+     N('Editar segmento dinámico','/contacts/filters/:id','form',{s:'ruta',perm:'audience.filters.write'})]),
+   N('Segmentos estáticos','/contacts/groups','vista',{s:'visto',img:['07-audiencias-segmentos-estaticos'],note:'KPI "Segmentos totales", card de filtros (Buscar, Etiqueta, Filtrar, Limpiar), tabla ordenable con paginador. Menú ⋮: Editar, Ver perfiles, Eliminar.'},[
+     N('Nuevo segmento estático',null,'ov',{s:'visto',img:['07b-audiencias-dialog-nuevo-segmento-estatico'],note:'Dialog (X + Cancelar + Crear): Nombre, Etiquetas, Descripción.'}),
+     N('Perfiles del segmento','/contacts/groups/:id/profiles','det',{s:'ruta'})]),
+   N('Contactos bloqueados','/contacts/blocked','vista',{s:'visto',img:['07a-audiencias-contactos-bloqueados'],need:'datos',gap:'Sin contactos bloqueados: no vi la tabla ni cómo se desbloquea.',note:'Buscador y empty state genérico "No hay actividad que mostrar".'}),
+   N('Importar contactos','/contacts/import','form',{s:'visto',perm:'audience.contacts.import.write',img:['08b-audiencias-importar-paso1'],need:'datos',gap:'Los pasos 2 y 3 requieren subir un archivo. Pasame un CSV de prueba o recorrelos vos.',note:'Wizard de 3 pasos ("1/3") en card centrada. Paso 1: seleccionar archivo CSV o Excel, Alert info de 100 MB (typo "pude").'}),
+   N('Historial de importaciones','/contacts/import/history','vista',{s:'visto',perm:'audience.contacts.import.read',img:['08a-audiencias-historial-importaciones'],note:'Toggle Archivado, Refrescar con autorefresco de 12 s. Card por importación: archivo, estado, progreso, duración, fuente, detalles (creados, actualizados, inválidos…) y acciones Archivar / Descargar.'})]),
+ N('Inbox','/conversations','mod',{s:'visto',perm:'chat',img:['09-inbox-conversaciones'],need:'trigger',gap:'Tu usuario no tiene bandeja asignada, así que no veo conversaciones, chat, panel del contacto ni acciones (asignar, cerrar, responder con template). Agregate en Bandejas de entradas → General → Equipo y lo recorro.',note:'Layout full: el sidebar principal se reemplaza por uno propio (Mis bandejas, No asignado, Todo, Nuevo ticket; Gestión de clientes: Conversaciones, Atajos, Bandejas de entradas, Tickets, Rendimiento; Ocultar sidebar). Todo es estado interno en /conversations, sin rutas propias.'},[
+   N('Lista de conversaciones','/conversations','vista',{s:'visto',pimg:['P19a-inbox-no-asignado','P19b-inbox-lista-todo'],pnote:'Vistas Mis bandejas (desplegable por bandeja), No asignado y Todo con contadores. Cada item: avatar con badge de canal, nombre, tiempo, destacar ☆, fijar 📌, preview con ícono de tipo, checkbox, Tag Expirado, chip de bandeja, chip de operador y "Nueva" o contador de no leídos.'},[
+     N('Conversación abierta',null,'det',{s:'visto',pimg:['P19c-inbox-conversacion-abierta','P19d-inbox-panel-adjuntos','P19e-inbox-panel-feed'],need:'trigger',gap:'No hay caja de texto porque el ticket está expirado o no está asignado a vos. Para documentar el composer (texto, adjuntos, templates, atajos, notas) hacé "Asignarme ticket" en una conversación de prueba. Bloquear y Desasignar tampoco los toqué.',pnote:'Chat con header (Operadores, Bloquear, Asignarme ticket, Desasignar ticket, cerrar), separadores de fecha, burbujas con operador y check de lectura, "Cargar mensajes anteriores". Panel derecho: perfil + card Ticket (Mostrar historial) + tabs Contacto (campos crudos con keys técnicas), Adjuntos, Feed (eventos del sistema en crudo) y Perfiles. Los tabs se cortan a 1348 px.'}),
+     N('Administrador de filtros',null,'ov',{s:'visto',pimg:['P19f-inbox-dialog-filtros'],pnote:'Dialog con tabs Filtro / Filtros guardados: 8 selects, 6 toggles (Expirado, Activos, Importante, Fijado, No leído, Tiene publicidad) y nombre para guardar el filtro.'}),
+     N('Selección masiva',null,'ov',{s:'visto',pimg:['P19g-inbox-seleccion-masiva'],need:'trigger',gap:'Desasignar, Transferir, No leído y Finalizar son acciones reales: no las activé.',pnote:'Barra flotante "Tickets seleccionados: N" con Desasignar, Transferir, No leído y Finalizar.'})]),
+   N('Estado del agente',null,'ov',{s:'visto',img:['09a-inbox-estado-agente'],note:'Dropdown en el header (solo en Inbox): En línea, No disponible, En reunión, Almorzando.'}),
+   N('Nuevo ticket',null,'form',{s:'visto',pimg:['P20a-inbox-dialog-nuevo-ticket'],need:'trigger',gap:'"Enviar" crea el ticket (y probablemente manda un template): no lo activé.',pnote:'Dialog: Contactos (*) con link "Crear nuevo contacto", Bandeja de entrada (*) y Enviar → (deshabilitado hasta completar).'},[
+     N('Crear nuevo contacto',null,'form',{s:'visto',pimg:['P20b-inbox-drawer-crear-contacto'],need:'trigger',gap:'No guardé. Hay que revisar por qué un formulario de alta ofrece "Bloquear".',pnote:'⚠ Viola la regla de BREW DS de no apilar overlays: abre un Drawer sobre el Dialog. Titulado "Contacto": Estado (bloqueado en Suscripto), Teléfono, Email, Nombre (name), Nombre (firstname), Apellido, Cumpleaños, Segmentos estáticos, Etiquetas y campos variables. Footer: Bloquear (rojo) + Guardar cambios, sin Cancelar.'})]),
+   N('Atajos',null,'ov',{s:'visto',img:['09b-inbox-dialog-atajos'],note:'Dialog con buscador y "Nuevo atajo"; empty genérico.'}),
+   N('Bandejas de entradas','/conversations','vista',{s:'visto',img:['10-inbox-bandejas-listado'],note:'Lista de bandejas (color, nombre, cantidad de agentes, chip "Sin tickets") y "+ Nueva bandeja". Panel "Selecciona una bandeja".'},[
+     N('Detalle de bandeja',null,'form',{s:'visto',img:['10a-inbox-bandeja-config','10b-inbox-bandeja-tab-disponibilidad','10c-inbox-bandeja-tab-notificaciones','10d-inbox-bandeja-tab-equipo','10e-inbox-bandeja-tab-conexiones'],note:'"General #1 · Publicada · Última actualización" y Guardar cambios. Tabs: Configuración (General, Comportamiento hacia el cliente, Operativa interna, Mensajes de expiración, Acciones permanentes con Eliminar bandeja), Disponibilidad (horario semanal y días sin atención), Notificaciones (3 toggles), Equipo (agentes asignados + agregar) y Conexiones (vacío).'}),
+     N('Rutas /inboxes/*','/inboxes/:id/edit','sys',{s:'visto',oculta:1,note:'/inboxes/create, /inboxes/:id/edit y /inboxes/:id/users existen como páginas sueltas, pero la UI configura las bandejas dentro de Inbox.'})]),
+   N('Tickets','/conversations','vista',{s:'visto',img:['11a-inbox-tickets'],note:'4 KPI (totales, abiertos, cerrados, tiempo promedio de respuesta), card de filtros con labels uppercase, Exportar y tabla ID / Canal / Bandeja / Estado / Operador / Etiquetas / Creado.'},[
+     N('Tickets (página)','/tickets','vista',{s:'visto',oculta:1,img:['28b-tickets-standalone'],note:'Versión standalone con sidebar principal y accesos Conversaciones / Canales. Duplica la vista de Inbox.'}),
+     N('Detalle de ticket','/tickets/:id','det',{s:'ruta',need:'datos',gap:'No hay tickets en el proyecto.'})]),
+   N('Rendimiento',null,'det',{s:'visto',img:['11b-inbox-rendimiento-bandejas','11c-inbox-rendimiento-agentes','11d-inbox-rendimiento-respuestas'],need:'datos',gap:'Todo vacío: sin tickets no se ven métricas.',note:'Dialog de pantalla completa con nav propio: Bandejas de entradas (métricas por canal), Agentes (tiempos de conexión, tabla por agente, Exportar CSV/PDF duplicado) y Respuestas (5 métricas de tiempo). /tickets/performance lo muestra como página.'}),
+   N('Notificaciones',null,'ov',{s:'ruta',need:'contexto',gap:'Aparece en el menú de íconos de Inbox; no lo abrí.'})]),
+ N('Diálogos','/dialogs','mod',{s:'visto',perm:'dialogs',img:['12-dialogos-listado','12a-dialogos-menu-acciones'],note:'4 KPI (Total, Publicado, Borrador, Archivado), filtros (Buscar, Etiquetas, Estado, Ordenar por más nuevos) y lista de CARDS (no DataTable) con configuración, palabras clave, estado, detalles, contactos alcanzados con sparkline. Menú ⋮: Editar, Duplicar, Duplicar en otro proyecto, Rendimiento, Rendimiento en diálogo, Archivar, Eliminar.'},[
+   N('Constructor (editar)','/dialogs/:id','form',{s:'visto',img:['12c-dialogos-constructor','12d-dialogos-dialog-propiedades'],need:'trigger',gap:'No abrí la configuración de cada nodo: con autoguardado activo podría modificar el diálogo. ¿Me habilitás un diálogo de prueba para tocar?',note:'Builder: Autoguardado, Propiedades (Dialog largo: habilitado, horario, canal, fallback, uso externo, prioridad, prueba, sesión), Guardar, Publicar. Paleta: Entrada, Controles, Acciones (Texto, Lista, Botón, CTA, Flow, Adjunto, Contacto, Mapa, Webhook, Tags, Campos, Código), Gestión de contactos (Bandeja, Janis Commerce, Agente IA), Otros.'}),
+   N('Crear diálogo','/dialogs/create','form',{s:'ruta',perm:'dialogs.write',note:'Mismo builder.'}),
+   N('Rendimiento del diálogo','/dialogs/:id/performance','det',{s:'visto',img:['12b-dialogos-rendimiento'],note:'Selector de diálogo, canales y período. Contactos alcanzados (KPI + line chart) y heatmap día × hora.'}),
+   N('Analizador','/dialogs/analyzer','vista',{s:'visto',oculta:1,img:['12e-dialogos-analizador'],need:'contexto',gap:'No encontré el botón que lleva acá. ¿Es "Rendimiento en diálogo"? Textos en inglés ("Great! You have no conflicting keywords").',note:'Chequeos: colisiones de keywords, diálogos de prueba sin contactos, nodos interactivos sin sesión.'})]),
+ N('Campañas','/campaigns','mod',{s:'visto',perm:'campaigns',img:['13-campanas-inicio'],note:'Subnav: Manuales, Automáticas, Transaccionales. Inicio con 3 cards "Comenzar". Cabecera fija: Administrar templates y Crear campaña.'},[
+   N('Manuales','/campaigns/manual','vista',{s:'visto',img:['14-campanas-manuales','14a-campanas-manuales-menu'],note:'"Tus campañas programadas" (vacío) y card de filtros (Buscar, Etiquetas, Estado, Scoring). Tabla: Campaña, Template, Envíos, Último envío, Estado, Etiquetas, Scoring, Costo. Menú ⋮: Enviar, Programar envío, Resumen, Rendimiento, Editar, Duplicar, Archivar.'},[
+     N('Enviar / Programar envío',null,'ov',{s:'ruta',need:'trigger',gap:'Disparan envíos reales por WhatsApp: NO los abrí. Abrilos vos con una campaña de prueba y parate en el Dialog de confirmación, o armemos una campaña sin audiencia.'}),
+     N('Resumen de la campaña',null,'ov',{s:'visto',img:['14b-campanas-drawer-resumen'],note:'Drawer con ← Anterior / Siguiente →, scoring, información, métricas de envío y "Ver rendimiento completo".'}),
+     N('Crear campaña','/campaigns/create','form',{s:'ruta',perm:'campaigns.write',need:'trigger',gap:'No lo abrí para no dejar borradores. Es el mismo wizard que Editar.'}),
+     N('Editar campaña','/campaigns/:id','form',{s:'visto',img:['15a-campanas-editar-paso1-datos','15b-campanas-editar-paso2-mensaje'],note:'Wizard de 2 pasos (1 Datos, 2 Mensaje) con subnav visible. La audiencia se elige al Enviar/Programar, no en el wizard.'}),
+     N('Rendimiento','/campaigns/:id/batches/performance','det',{s:'visto',img:['14d-campanas-rendimiento','14c-campanas-rendimiento-sin-datos','14f-campanas-drawer-mas-informacion'],note:'Resumen, Score (55/100 Regular), costo total, perfiles alcanzados, embudo de 6 métricas, evolución del envío y detalle de envíos. "Más información" abre un Drawer con segmentos incluidos.'}),
+     N('Informe de resultados','/campaigns/:id/batches/report-result','det',{s:'visto',img:['14e-campanas-informe-resultados'],note:'4 KPI, filtros y tabla por mensaje con Tag de estado (Entregado / Leído / Rebotado). Números que no coinciden con Rendimiento.'})]),
+   N('Automáticas','/campaigns/automation','vista',{s:'visto',img:['16-campanas-automaticas'],need:'datos',gap:'Sin automatizaciones: no vi la lista con datos, el menú ⋮ ni las estadísticas (nodos, performance, reporte).',note:'7 KPI (grilla 5+2), filtros iguales a los de Diálogos, empty genérico.'},[
+     N('Constructor de automatización','/campaigns/automation/create','form',{s:'visto',img:['16b-campanas-automatica-constructor'],note:'Mismo patrón que el Constructor de Diálogos (sin Publicar). Paleta: Audiencia, Inyectar, Condición, Test AB, Mensaje, Tags, Campos, Gestión de contactos, Webhook, Código, Tiempo de espera, Comentario, Final.'}),
+     N('Editar automatización','/campaigns/automation/:id','form',{s:'ruta'}),
+     N('Estadísticas','/campaigns/automation/:id/statistics','det',{s:'ruta'},[
+       N('Nodos','/campaigns/automation/:id/statistics/nodes','det',{s:'ruta'}),
+       N('Performance','/campaigns/automation/:id/statistics/performance','det',{s:'ruta'}),
+       N('Reporte de resultados','/campaigns/automation/:id/statistics/report-result','det',{s:'ruta'})])]),
+   N('Transaccionales','/campaigns/transactional','vista',{s:'visto',img:['17-campanas-transaccionales'],need:'datos',gap:'Sin campañas transaccionales: no vi la tabla con datos ni las estadísticas.',note:'Filtros (Buscar, Etiquetas, Estado, Origen) y tabla con Origen. Sin bloque de programadas (precedente CON-1678/1680 ✔).'},[
+     N('Elegir tipo',null,'ov',{s:'visto',img:['17a-campanas-dialog-tipo-transaccional'],note:'Dialog con 2 Option Cards: Transaccional / Integración.'}),
+     N('Crear transaccional','/campaigns/transactional/create','form',{s:'visto',perm:'campaigns.write',img:['17b-campanas-crear-transaccional'],note:'Formulario en 2 columnas con Vista previa: Nombre, Notas, Etiquetas, Template (solo aprobados por Meta), toggles Habilitado / Diálogo / Webhooks. Guardar → abajo.'}),
+     N('Crear de integración','/campaigns/transactional/integration/create','form',{s:'visto',img:['17c-campanas-crear-transaccional-integracion'],note:'Nombre, Canal, Credencial, Integración. Sin subnav.'}),
+     N('Editar transaccional','/campaigns/transactional/:id','form',{s:'ruta'}),
+     N('Logs','/campaigns/transactional/logs','vista',{s:'visto',oculta:1,img:['17d-campanas-logs-transaccionales'],need:'contexto',gap:'¿Desde dónde se entra? No vi el botón en Transaccionales (quizás aparece con campañas creadas).',note:'Filtros, autorefresco cada minuto, empty "Sin registros de la API".'}),
+     N('Estadísticas','/campaigns/transactional/:id/statistics','det',{s:'ruta'},[
+       N('Performance','/campaigns/transactional/:id/statistics/performance','det',{s:'ruta'}),
+       N('Reporte de resultados','/campaigns/transactional/:id/statistics/report-result','det',{s:'ruta'})])]),
+   N('Actividad de campañas','/campaigns/activity','vista',{s:'visto',note:'Mismo destino que "Envíos en progreso" del header.'}),
+   N('Programadas','/campaigns/scheduled','sys',{s:'visto',oculta:1,note:'Redirige a Manuales.'}),
+   N('Eventos (carpetas)','/events/folders','vista',{s:'visto',oculta:1,img:['18-eventos-carpetas'],need:'contexto',gap:'¿Qué son las carpetas de eventos, desde dónde se entra y están activas para clientes? Los KPI se ven rotos (solo "Fallido" muestra valor).',note:'Logs, Crear carpeta, 4 KPI (Eventos, Hits, Éxito, Fallido), buscador con placeholder "Segmento dinámico".'},[
+     N('Detalle de carpeta','/events/folders/:folder_id','det',{s:'ruta'})])]),
+ N('Agente IA','/ai/agents','mod',{s:'visto',perm:'settings',note:'Subnav "Agentes IA": Tus agentes, Herramientas, Conocimiento.'},[
+   N('Tus agentes','/ai/agents','vista',{s:'visto',img:['19-ia-tus-agentes','19a-ia-agentes-menu'],note:'Filtros (Buscar, Herramientas, Conocimientos, Estado) y tabla ID/Agente, Estado, Herramientas, Conocimientos, Diálogos, Modificado. Menú ⋮: Editar, Playground, Eliminar Agente (deshabilitado con ⓘ).'},[
+     N('Editar agente','/ai/agents/:id/edit','form',{s:'visto',img:['19b-ia-editar-agente-personalizacion','19c-ia-agente-comportamiento','19d-ia-agente-conocimiento','19e-ia-agente-herramientas','19f-ia-agente-resumen','19g-ia-agente-playground'],note:'Guardar agente arriba. Tabs sin ruta: Personalización, Comportamiento, Conocimiento, Herramientas, Resumen (muestra markdown crudo "**": bug), Playground (chat de prueba).'}),
+     N('Crear agente','/ai/agents/create','form',{s:'ruta'})]),
+   N('Herramientas','/ai/tools','vista',{s:'visto',img:['20-ia-herramientas'],note:'Filtros Buscar + Estado, tabla ID/Herramienta, Estado, Agentes, Modificado.'},[
+     N('Crear herramienta','/ai/tools/create','form',{s:'visto',img:['20b-ia-crear-herramienta'],note:'Breadcrumb "Inteligencia artificial" › Herramientas. Configuración básica, Parámetros (+ Agregar), Configuración avanzada (editor de código). Guardar arriba.'}),
+     N('Editar herramienta','/ai/tools/:id/edit','form',{s:'ruta'})]),
+   N('Conocimiento','/ai/knowledge','vista',{s:'visto',img:['21-ia-conocimiento'],need:'datos',gap:'Sin conocimientos cargados: no vi la Tarjeta de Conocimiento ni la vigencia de CON-1731.',note:'Filtros (Buscar, Tipo, Estado, Agentes), chip de límite "0/20 Conocimientos", empty "Todavía no tenés conocimientos".'},[
+     N('Crear conocimiento','/ai/knowledge/create','form',{s:'visto',img:['21b-ia-crear-conocimiento-paso1'],need:'contexto',gap:'En testing no aparecen Responsable ni Vigencia de CON-1731. ¿Todavía no se implementó?',note:'Wizard de 3 pasos (Información, Carga, Resumen). Paso 1: Título, Tipo (Texto / URL / Archivo), Descripción.'}),
+     N('Editar conocimiento','/ai/knowledge/:id/edit','form',{s:'ruta'})])]),
+ N('Preferencias','/project/settings/general','mod',{s:'visto',perm:'settings',note:'Subnav con 12 secciones. /project/settings/integrations existe en el router pero no figura en el subnav.'},[
+   N('General','/project/settings/general','vista',{s:'visto',img:['22-preferencias-general'],note:'Formulario plano: Nombre, Empresa, Rubro, Tipo de clientes, País, Zona horaria, Idioma, Moneda. Opciones en inglés.'}),
+   N('Notificaciones','/project/settings/notification','vista',{s:'visto',img:['22a-preferencias-notificaciones'],note:'4 cards con toggle y un Guardar propio cada una.'}),
+   N('Descargas','/project/settings/download','vista',{s:'visto',img:['22b-preferencias-descargas'],need:'datos',gap:'Sin descargas. ¿Acá llegan los "Exportar CSV" de toda la app?',note:'Alert info usado como empty state.'}),
+   N('Canales','/project/settings/channels','vista',{s:'visto',img:['22c-preferencias-canales'],note:'Canales de mensajería reales: WhatsApp (conexión Baymark + Administrar), Messenger [Beta] e Instagram [Beta].'},[
+     N('Configuración de canal','/project/settings/channels/:channel','form',{s:'ruta',need:'trigger',gap:'"Administrar" / "Nueva conexión" tocan la conexión real de WhatsApp: no lo abrí.'})]),
+   N('Suscripciones','/project/settings/subscriptions','vista',{s:'visto',img:['22d-preferencias-suscripciones'],note:'Métodos de captación: código QR, URL y widget web (Personalizar). Tono de usted.'}),
+   N('Desuscripciones','/project/settings/unsubscriptions','vista',{s:'visto',img:['22e-preferencias-desuscripciones'],note:'Formulario largo: modo, sesión, palabras de escucha y de cancelación (chips), textos.'}),
+   N('Tokens','/project/settings/tokens','vista',{s:'visto',img:['22f-preferencias-tokens'],note:'Creación inline (Nombre + Habilidades), Alert con el header X-Tenant y lista vacía.'}),
+   N('Equipo','/project/settings/team','vista',{s:'visto',img:['22g-preferencias-equipo'],need:'trigger',gap:'"Enviar invitación" manda un email real: no lo probé. Tampoco abrí el ⋮ de cada usuario.',note:'Invitar (email + Rol) y lista de usuarios con Tag de rol: admin / operator.'}),
+   N('Campos','/project/settings/fields','vista',{s:'visto',img:['22h-preferencias-campos'],need:'contexto',gap:'No expandí los dos acordeones.',note:'Accordion: Campos a mostrar / Campos (dinámicos).'}),
+   N('Etiquetas','/project/settings/tags','vista',{s:'visto',img:['22i-preferencias-etiquetas'],note:'Fusionar etiquetas, Crear etiqueta y tabla con uso por entidad y Tag En uso / Sin uso (rojo).'}),
+   N('Templates','/project/settings/templates','vista',{s:'visto',img:['22j-preferencias-templates'],note:'Refrescar ahora desde Meta, Crear template y tabla con categoría, estado, idioma, mensajes enviados y calidad.'},[
+     N('Crear template','/projects/:project_id/templates/create','form',{s:'visto',img:['22l-preferencias-crear-template'],need:'trigger',gap:'No pasé del paso 1: enviar a aprobación de Meta es irreversible. El :project_id de la URL es 1 aunque el proyecto es #22.',note:'"Crear template: Baymark". Categoría (Marketing › Mensaje personalizado / Carrusel / Oferta por tiempo limitado; Utilidad; Autenticación), Nombre e Idiomas. Siguiente →.'}),
+     N('Editar template','/projects/:project_id/templates/:template_id','form',{s:'ruta'}),
+     N('Listado alterno','/projects/:project_id/templates','vista',{s:'ruta',oculta:1})]),
+   N('Flows','/project/settings/flows','vista',{s:'visto',img:['22k-preferencias-flows'],need:'datos',gap:'Sin flows creados.',note:'Mismo patrón que Templates.'},[
+     N('Crear flow','/projects/:project_id/flows/create','form',{s:'ruta'}),
+     N('Editar flow','/projects/:project_id/flows/:id','form',{s:'ruta'})]),
+   N('Integraciones del proyecto','/project/settings/integrations','vista',{s:'ruta',oculta:1,need:'contexto',gap:'Existe en el router pero no en el subnav. ¿Legacy de /integrations?'})]),
+ N('Canales','/channels','mod',{s:'visto',perm:'settings',img:['23-canales-todas','23a-canales-instalados'],note:'Toggle Todas / Instalados y grilla de apps: MailUp, Acumbamail, VTEX, Fenicio, Shopify, Magento, Janis Commerce, Nidux, TiendaNube. Son plataformas externas, no canales de mensajería. "Instalados" vacío no tiene empty state.'},[
+   N('Conectar app','/channels/:channelId/credentials/create','form',{s:'ruta',need:'trigger',gap:'"Conectar" pide credenciales de una plataforma externa: no lo abrí.'}),
+   N('Credenciales','/channels/:id/credentials','vista',{s:'ruta'}),
+   N('Editar credencial','/channels/:channelId/credentials/:id','form',{s:'ruta'}),
+   N('Conexión exitosa','/channels/success','sys',{s:'ruta'})]),
+ N('Integraciones','/integrations','mod',{s:'visto',perm:'settings.integrations.read',img:['24-integraciones'],need:'datos',gap:'Sin integraciones creadas: no vi la lista ni el detalle.',note:'Página raíz con "←" (flecha de volver en primer nivel), Nueva integración, 2 KPI y toggle Todas / Activas / Inactivas.'},[
+   N('Nueva integración','/integrations/create','form',{s:'visto',perm:'settings.integrations.write',img:['24a-integraciones-nueva-paso1-origen'],need:'trigger',gap:'Los pasos siguientes aparecen al elegir un canal; no elegí ninguno.',note:'Paso "1. Origen" (card con header oscuro): Selecciona el canal (las mismas apps de Canales + "Convos", con el nombre anterior). Guardar arriba.'}),
+   N('Detalle de integración','/integrations/:id/details','det',{s:'ruta'}),
+   N('Credenciales','/integrations/:id/credentials','vista',{s:'ruta'}),
+   N('Integración exitosa','/integrations/success','sys',{s:'ruta'})]),
+ N('Fuera del menú',null,'mod',{s:'visto',oculta:1,note:'Rutas que existen pero no tienen entrada en el menú lateral.'},[
+   N('En Sitio (OnSite)','/onsite','vista',{s:'visto',oculta:1,img:['26-fuera-menu-onsite'],need:'contexto',gap:'Tabs Widgets / Instalación sin contenido. ¿Módulo discontinuado o apagado por plan?'},[
+     N('Biblioteca','/onsite/library','vista',{s:'ruta',oculta:1}),
+     N('Instalación','/onsite/instalation','vista',{s:'ruta',oculta:1})]),
+   N('Desuscripciones (global)','/unsubscriptions','sys',{s:'visto',oculta:1,note:'Página en blanco. Duplica Preferencias › Desuscripciones.'})]),
+ N('Acceso y onboarding','/login','mod',{s:'ruta',note:'Layout plano, sin sidebar.'},[
+   N('Login','/login','form',{s:'visto'}),
+   N('Registro','/register','form',{s:'ruta'}),
+   N('Recuperar contraseña','/reset','form',{s:'ruta'}),
+   N('Nueva contraseña','/reset-password','form',{s:'ruta'}),
+   N('Restaurar contraseña','/restore-password','form',{s:'ruta'}),
+   N('Reenviar verificación','/resend','sys',{s:'ruta'}),
+   N('Completar perfil','/onboarding/complete-profile','form',{s:'ruta'}),
+   N('Invitaciones pendientes','/onboarding/invitations','vista',{s:'ruta'}),
+   N('Invitación completada','/invite-completed','sys',{s:'ruta'})]),
+ N('Estados del sistema',null,'sys',{s:'visto'},[
+   N('Sin autorización','/unauthorized','sys',{s:'visto',img:['28a-sistema-sin-autorizacion'],note:'"No está autorizado a realizar esta acción" (usted) + Ir al inicio.'}),
+   N('Cuenta bloqueada','/blocked','sys',{s:'ruta'}),
+   N('Bloqueado por cancelación','/forbidden-for-cancellation','sys',{s:'ruta'}),
+   N('404 · No encontrado','/:pathMatch(.*)*','sys',{s:'ruta'})])
+];
+
+const FINDINGS=[
+ {cat:'Arquitectura',t:'"Canales" del menú no son canales',d:'El módulo Canales lista MailUp, VTEX, Shopify… (integraciones). Los canales de mensajería reales (WhatsApp, Messenger, Instagram) están en Preferencias › Canales. Además Integraciones usa las mismas apps como "canal" de origen.'},
+ {cat:'Arquitectura',t:'Configuración repartida en tres lugares',d:'Preferencias (proyecto), Configuración de la cuenta (usuario) y la configuración de bandejas dentro de Inbox. /project/settings/integrations y /unsubscriptions duplican secciones.'},
+ {cat:'Arquitectura',t:'Vistas internas sin URL',d:'Detalle de contacto (?contact_id), Billetera (Historial, Añadir créditos), Inbox completo (bandejas, tickets, rendimiento) y los tabs del agente no tienen ruta propia, así que no se pueden compartir ni volver con el navegador. Conviven con rutas legacy que hacen lo mismo (/contacts/:id, /inboxes/*, /tickets).'},
+ {cat:'Arquitectura',t:'Rutas huérfanas o muertas',d:'/summary redirige a Home, /search y /unsubscriptions están vacías, /onsite no tiene contenido, y /events/folders y /dialogs/analyzer no tienen punto de entrada visible.'},
+ {cat:'Patrones',t:'Crear se resuelve de 5 formas',d:'Página completa (segmento dinámico), Dialog (segmento estático), wizard con pasos (campaña manual, conocimiento, importación), builder (diálogos, automatizaciones) y formulario de 2 columnas con preview (transaccional). El CTA de guardar aparece arriba en algunos y abajo en otros.'},
+ {cat:'Patrones',t:'Filtros con 3 variantes en el mismo módulo',d:'En Audiencias: buscador + botón Buscar (dinámicos), card de filtros Filtrar/Limpiar (estáticos) y labels uppercase (perfiles). Diálogos y Automáticas usan una 4ª variante con "Ordenar por".'},
+ {cat:'Patrones',t:'Listados: DataTable vs cards',d:'Diálogos usa cards; el resto, DataTable. Los KPI también cambian de estilo entre Diálogos/Automáticas, Integraciones y Eventos.'},
+ {cat:'Patrones',t:'Guardar inconsistente',d:'Un Guardar global (General), un Guardar por card (Notificaciones), sin Guardar (toggles de bandeja) y autoguardado opcional (builders).'},
+ {cat:'Patrones',t:'Dialogs con Cancelar + X',d:'Nuevo segmento estático usa X + Cancelar; la regla de campañas es solo X.'},
+ {cat:'Copy',t:'Tres tratamientos mezclados',d:'Tuteo (mayoría), voseo (Conocimiento: "tenés", "Creá") y usted (Suscripciones, Tokens, Integraciones, Sin autorización).'},
+ {cat:'Copy',t:'Inglés y typos en la UI',d:'"Dialogs", "Great! You have no…", "dialog hit", roles admin/operator, opciones "Spanish", "Businesses (B2B)". Typos: "pude superar", "sessión", "Manten", "facilmente".'},
+ {cat:'Copy',t:'Empty state genérico',d:'"No hay actividad que mostrar" se repite en Bloqueados, Atajos, Rendimiento, Automáticas y Eventos. Canales › Instalados y OnSite no tienen empty state.'},
+ {cat:'Datos',t:'Métricas que no cuadran',d:'Campaña #1: Rebotes 1.966 (Rendimiento) vs 1.383 (Informe); 12.856 resultados vs 5.557 enviados; Leídos 49,2 % "de entregados" vs 31,7 % "del total". Campaña #6: Último envío "-" en la lista y 24/09 en el detalle.'},
+ {cat:'Datos',t:'Bugs visuales',d:'Resumen del agente muestra markdown crudo, los KPI de Eventos están rotos, el título de la pestaña queda "Convos" (nombre anterior) sin módulo en varias páginas, el sidebar queda oculto al salir de Inbox y "Sin uso" se muestra en rojo (error) para un estado neutro.'},
+ {cat:'Entre apps',t:'Wizard de campaña manual distinto',d:'Growlat Conversations: 2 pasos (Datos, Mensaje) y la audiencia al enviar. Growlat App (MID-2120): 4 pasos (Datos → Mensaje → Audiencia → Confirmar).'},
+ {cat:'Entre apps',t:'Wizard de importación distinto',d:'Growlat Conversations: 3 pasos con contador "1/3". Growlat App (MID-2154): 4 pasos con Steps (Origen, Configuración, Mapeo, Segmento).'},
+ {cat:'Entre apps',t:'CON-1731 no está implementado',d:'Ni testing ni producción muestran Responsable ni Vigencia en Conocimiento: el sistema de 3 niveles todavía no está en ninguna build.'},
+ {cat:'Arquitectura',t:'Tres significados de "Canales"',d:'Canales del menú = apps externas (MailUp, VTEX…); Preferencias › Canales = WhatsApp, Messenger, Instagram; el selector ⠿ del header (solo prod) = productos de Growlat (Email, Data Marketing).'},
+ {cat:'Entre entornos',t:'Producción y testing no son la misma versión',d:'Conocimiento tiene otra tabla y otros filtros en cada entorno; el selector de apps ⠿ y "Cambiar a admin" solo existen en producción. Hay que definir cuál es la fuente de verdad para documentar.'},
+ {cat:'Datos',t:'KPI que ignoran los filtros',d:'Tickets: KPI de 154 tickets con una tabla de 1 resultado. Transaccional #28: 3 envíos en la lista y 0 en su card de rendimiento. Los rangos de fecha por defecto tampoco son iguales (Logs usa otro).'},
+ {cat:'Patrones',t:'Informe de resultados en 3 versiones',d:'Manual y transaccional: KPI + card de filtros. Automática: barra inline con botón Buscar y Exportar CSV arriba. Los tabs de Automática tienen íconos y los otros no.'},
+ {cat:'Datos',t:'Inbox muestra datos técnicos al operador',d:'El panel Contacto lista keys crudas (latest_message_id, external_id…) y el tab Feed muestra eventos del sistema como TICKET_TEMPLATE_MESSAGE_READ. Candidato a una capa de presentación legible.'},
+ {cat:'Copy',t:'Restos del nombre anterior "Convos"',d:'La app ya se llama Growlat Conversations, pero el nombre viejo sigue en la interfaz: título de la pestaña, chip "Fuente: Convos" en el contacto, opción "Convos" en Nueva integración y cards de Integraciones. Quedan fuera de esta revisión los mensajes (bienvenidas) y el help (help.convos.la). Detalle en el pendiente "Nombre anterior en la interfaz".'},
+ {cat:'Patrones',t:'Viola BREW DS: Drawer sobre Dialog',d:'Inbox › Nuevo ticket (Dialog) › "Crear nuevo contacto" abre un Drawer encima. BREW DS prohíbe apilar overlays (Drawer sobre Drawer, Dialog sobre Drawer, Drawer sobre Dialog): el alta de contacto tiene que resolverse dentro del mismo Dialog o cerrándolo.'},
+ {cat:'Patrones',t:'El mismo formulario de contacto en 2 versiones',d:'Editar perfil (Audiencias) tiene secciones y Cancelar + Guardar cambios. Crear nuevo contacto (Inbox) no tiene secciones, se titula "Contacto", repite el label "Nombre" y ofrece Bloquear en un alta.'},
+ {cat:'Patrones',t:'Drawer con Anterior / Siguiente como patrón',d:'Resumen de campaña y Detalle de ticket comparten el mismo Drawer navegable: buen candidato a documentarlo como componente del DS.'},
+];
+
+// ---------- render ----------
+let uid=0; const byId={}; const flat=[];
+function walk(ns,parent,depth){ns.forEach(n=>{n.id='n'+(uid++);n.parent=parent;n.depth=depth;byId[n.id]=n;flat.push(n);walk(n.c,n,depth+1)})}
+walk(DATA,null,0);
+// ---------- capturas subidas por vos (db + assets) ----------
+const UPL={// capturas que subiste y ya analicé: key -> {uimg:[assetId], unote}
+ 'Header global › Selector de proyecto › Nuevo proyecto':{s:'visto',uimg:['1562360ed7fd0e6dda8bbcfb9ee9d54e'],need:'trigger',
+  gap:'Ya vimos el formulario. Queda sin ver qué pasa al tocar "Crear proyecto" (la pantalla Proyecto creado): solo si querés crear un proyecto de prueba.',
+  unote:'Se llega desde el selector de proyecto del header › Nuevo proyecto. Layout plano sin sidebar ni header de la app: solo el usuario arriba a la derecha (en testing, el badge de build tapa el email). Título "¡Crea tu proyecto!" + "Ayúdanos a descubrir y segmentar tu audiencia." Card única con: bloque Referido (*) con toggle "Activar código de referido" encendido por defecto + input; Nombre, Empresa, Rubro, Tus clientes son principalmente, País, Zona horaria, Idioma (Español por defecto) y Moneda, todos obligatorios con "(*)". CTA "Crear proyecto" a todo el ancho, deshabilitado hasta completar.'}
+};
+// ---------- observaciones de UX por nodo: key -> [[categoría, texto]] ----------
+const UXO={
+ 'Header global':[['Datos','El título de la pestaña del navegador queda "Convos" sin el nombre del módulo en Integraciones, Logs y Eventos.']],
+ 'Header global › Selector de proyecto':[['Arquitectura','En producción el header suma el selector ⠿ con otro "Canales" (Email, Data Marketing): tercer significado de la palabra.'],['Patrones','El popover de apps no se cierra con Escape ni al cambiar de ruta: queda abierto encima del contenido.']],
+ 'Header global › Selector de proyecto › Nuevo proyecto':[['Patrones','"Referido" figura como obligatorio pero se puede desactivar, y viene encendido por defecto: debería ser opcional y apagado.'],['Patrones','No hay Cancelar ni Volver: si entraste por error solo salís con el botón del navegador.'],['Copy','Tratamiento mezclado: "Crea / Ayúdanos / Tus clientes" (tú) con "Ingrese / desactive / Seleccione una opción" (usted).'],['Copy','"Nombre" es ambiguo: ¿del proyecto o de la persona?'],['Patrones','Zona horaria y Moneda se podrían sugerir a partir del País.']],
+ 'Header global › Billetera':[['Arquitectura','Historial de compras y Añadir créditos son vistas internas sin URL propia: no se pueden compartir ni volver con el navegador.']],
+ 'Header global › Menú de usuario':[['Arquitectura','"Cambiar a admin" solo existe en producción: acceso de administración interno no está documentada en testing.']],
+ 'Header global › Menú de usuario › Configuración de la cuenta':[['Arquitectura','La configuración está repartida en tres lugares: Preferencias (proyecto), Configuración de la cuenta (usuario) y bandejas dentro de Inbox.']],
+ 'Nombre anterior en la interfaz':[['Copy','La app se llama Growlat Conversations pero "Convos" sigue en la pestaña, en el contacto y en Integraciones.']],
+ 'Home › Resumen':[['Arquitectura','/summary redirige a Home: ruta muerta. Podría ser el lugar natural para un "Reportes" transversal.']],
+ 'Home › Búsqueda':[['Arquitectura','/search existe pero está vacía y sin punto de entrada: implementar búsqueda global en el header o eliminarla.']],
+ 'Audiencias':[['Patrones','Tres variantes de filtros en el mismo módulo: buscador + Buscar (dinámicos), card Filtrar/Limpiar (estáticos) y labels en mayúsculas (perfiles).'],['Arquitectura','Contactos bloqueados vive acá y las Desuscripciones en Preferencias: las dos son "contactos que no reciben", deberían estar juntas.']],
+ 'Audiencias › Perfiles › Detalle de contacto':[['Arquitectura','Se abre con ?contact_id= aunque existe la ruta /contacts/:id: dos formas de llegar a lo mismo.'],['Copy','Typo en el título de la card: "Actividad recientente".'],['Copy','El chip "Fuente: Convos" usa el nombre anterior del producto.'],['Copy','Términos en inglés en la timeline: "dialog hit".']],
+ 'Audiencias › Perfiles › Detalle de contacto › Editar perfil':[['Patrones','El mismo formulario existe en otra versión en Inbox › Crear nuevo contacto (sin secciones, otro título, otros botones). Unificar en un solo componente.']],
+ 'Audiencias › Segmentos dinámicos':[['Patrones','Tabla sin orden ni paginador, a diferencia de Segmentos estáticos.'],['Patrones','Menú ⋮ "Editar, Eliminar, Ver contactos" vs "Editar, Ver perfiles, Eliminar" en estáticos: distinto orden y nombre.']],
+ 'Audiencias › Segmentos dinámicos › Crear segmento dinámico':[['Patrones','Crear segmento dinámico es página completa y el estático es un Dialog: dos patrones para la misma acción.']],
+ 'Audiencias › Segmentos estáticos › Nuevo segmento estático':[['Patrones','El Dialog tiene X + Cancelar; la regla que se usa en Campañas es solo X.']],
+ 'Audiencias › Contactos bloqueados':[['Copy','Empty state genérico "No hay actividad que mostrar": no habla de contactos bloqueados ni explica qué hacer.']],
+ 'Audiencias › Importar contactos':[['Entre apps','Wizard de 3 pasos con contador "1/3"; en Growlat App (MID-2154) son 4 pasos con Steps (Origen, Configuración, Mapeo, Segmento).']],
+ 'Inbox':[['Arquitectura','Bandejas, tickets y rendimiento no tienen URL propia; conviven con rutas legacy (/inboxes/*, /tickets).'],['Patrones','El sidebar principal queda oculto al salir de Inbox.'],['Copy','Empty state genérico "No hay actividad que mostrar" en todo el módulo.']],
+ 'Inbox › Lista de conversaciones › Conversación abierta':[['Datos','El panel Contacto lista keys crudas (latest_message_id, external_id…) y el tab Feed muestra eventos del sistema (TICKET_TEMPLATE_MESSAGE_READ): falta una capa de presentación legible.'],['Patrones','Los tabs del panel lateral se cortan ("untos") y necesitan flechas a 1348 px.']],
+ 'Inbox › Nuevo ticket':[['BREW DS','"Crear nuevo contacto" abre un Drawer encima de este Dialog. BREW DS prohíbe apilar overlays: resolver el alta dentro del mismo Dialog o cerrándolo.']],
+ 'Inbox › Nuevo ticket › Crear nuevo contacto':[['BREW DS','Drawer sobre Dialog: overlay apilado, prohibido por BREW DS.'],['Patrones','Ofrece "Bloquear" (rojo, destructivo) en un formulario de alta.'],['Copy','Se titula "Contacto" en vez de "Nuevo contacto" y repite el label "Nombre" (name y firstname).'],['Patrones','Es otra versión del formulario de Editar perfil: unificar.']],
+ 'Inbox › Atajos':[['Copy','Empty state genérico "No hay actividad que mostrar".']],
+ 'Inbox › Tickets':[['Datos','Los KPI muestran 154 tickets mientras la tabla dice "1 Resultados" con el filtro por defecto: los KPI no respetan el filtro de fecha.']],
+ 'Inbox › Tickets › Detalle de ticket':[['Patrones','Drawer con Anterior / Siguiente, igual al Resumen de campaña: buen candidato a componente documentado del DS.']],
+ 'Inbox › Rendimiento':[['Patrones','Exportar CSV/PDF aparece duplicado (en filtros y en la card).'],['Copy','Empty state genérico.']],
+ 'Diálogos':[['Patrones','Usa cards mientras el resto de los listados usa DataTable; KPI con otro estilo.'],['Patrones','Cuarta variante de filtros, con "Ordenar por".'],['Copy','"Dialogs" en inglés en la UI.']],
+ 'Diálogos › Constructor (editar)':[['Patrones','Autoguardado opcional: otro modelo de guardado distinto al del resto de la app.'],['Arquitectura','Diálogos, Automáticas y Flows son tres builders de nodos: definir qué es cada uno y nombrarlos para que se distingan.']],
+ 'Diálogos › Analizador':[['Arquitectura','No tiene punto de entrada visible en el menú.'],['Copy','Mensajes en inglés: "Great! You have no…".']],
+ 'Campañas':[['Patrones','Crear campaña se resuelve con 3 layouts: wizard (manual), builder (automática) y formulario de 2 columnas con preview (transaccional).'],['Arquitectura','Envíos en progreso (header), Actividad de campañas y Programadas (oculta) son la misma cosa en tres estados: unificar en "Actividad" con tabs.']],
+ 'Campañas › Manuales':[['Datos','Campaña #6: Último envío "-" en la lista y 24/09 en el detalle.']],
+ 'Campañas › Manuales › Resumen de la campaña':[['Patrones','Drawer con Anterior / Siguiente compartido con Detalle de ticket: documentarlo como componente.']],
+ 'Campañas › Manuales › Crear campaña':[['Entre apps','Wizard de 2 pasos (Datos, Mensaje) y la audiencia se elige al enviar; en Growlat App (MID-2120) son 4 pasos (Datos → Mensaje → Audiencia → Confirmar).']],
+ 'Campañas › Manuales › Rendimiento':[['Datos','Rebotes 1.966 acá vs 1.383 en el Informe; Leídos 49,2 % "de entregados" vs 31,7 % "del total".']],
+ 'Campañas › Manuales › Informe de resultados':[['Datos','12.856 resultados vs 5.557 enviados, y el número sin separador de miles.'],['Patrones','Tres versiones de "Informe de resultados" entre manual, automática y transaccional.']],
+ 'Campañas › Automáticas':[['Patrones','7 KPI en grilla 5+2: la segunda fila queda huérfana.'],['Copy','"Desuscrito" en singular vs "Desuscritos" en Rendimiento; "Rebotes" vs "Rebotado".'],['Copy','Empty state genérico.']],
+ 'Campañas › Automáticas › Estadísticas':[['Patrones','Tabs con ícono, a diferencia de los de manuales y transaccionales.']],
+ 'Campañas › Automáticas › Estadísticas › Reporte de resultados':[['Patrones','Barra inline con Buscar y Exportar CSV arriba: distinto al informe de manuales y transaccionales (KPI + card de filtros).']],
+ 'Campañas › Transaccionales › Crear transaccional':[['Patrones','CTA de guardado abajo; en Herramientas y Agentes está arriba a la derecha.']],
+ 'Campañas › Transaccionales › Logs':[['Arquitectura','Solo se llega por el ⋮ de cada campaña o por URL.'],['Patrones','Pantalla muy técnica (payload JSON, headers) para el usuario final.'],['Datos','Usa otro rango de fechas por defecto que el resto.']],
+ 'Campañas › Transaccionales › Estadísticas':[['Datos','Transaccional #28: 3 envíos en la lista y 0 en la card de rendimiento (la card respeta el filtro de fecha, la lista no).']],
+ 'Campañas › Programadas':[['Arquitectura','No tiene entrada en el menú.']],
+ 'Campañas › Eventos (carpetas)':[['Arquitectura','Fuera del menú: sin punto de entrada visible.'],['Datos','KPI rotos: solo "Fallido" muestra valor y el número queda arriba del label.'],['Copy','Placeholder del buscador dice "Segmento dinámico": no corresponde.']],
+ 'Agente IA › Tus agentes › Editar agente':[['Arquitectura','Los tabs (Personalización, Comportamiento, Conocimiento, Herramientas, Resumen, Playground) no tienen ruta propia.'],['Datos','El tab Resumen muestra markdown crudo.']],
+ 'Agente IA › Conocimiento':[['Copy','Voseo ("tenés", "Creá") mientras el resto de la app tutea.'],['Entre apps','CON-1731: Responsable y Vigencia no están implementados en ningún entorno.'],['Entre entornos','La tabla y los filtros son distintos en testing y en producción.']],
+ 'Agente IA › Conocimiento › Crear conocimiento':[['Patrones','CTA de guardado abajo (wizard); en Agentes y Herramientas está arriba.']],
+ 'Preferencias':[['Arquitectura','12 secciones de naturaleza distinta (proyecto, datos de audiencia, contenido, desarrolladores): conviene agruparlas.'],['Patrones','Guardado inconsistente: global en General, uno por card en Notificaciones.']],
+ 'Preferencias › Notificaciones':[['Patrones','Cada card tiene su propio botón Guardar; General usa uno global y los toggles de bandeja no tienen Guardar.']],
+ 'Preferencias › Descargas':[['Patrones','Usa un Alert como empty state, distinto al resto de la app.']],
+ 'Preferencias › Canales':[['Arquitectura','Acá están los canales de mensajería reales (WhatsApp, Messenger, Instagram), mientras el menú "Canales" lista integraciones.']],
+ 'Preferencias › Suscripciones':[['Copy','Tratamiento de usted, distinto al tuteo del resto.']],
+ 'Preferencias › Tokens':[['Copy','Tratamiento de usted.']],
+ 'Preferencias › Etiquetas':[['Patrones','El tag "Sin uso" se muestra en rojo (error) para un estado neutro.']],
+ 'Preferencias › Templates':[['Arquitectura','Los templates son el insumo principal de Campañas pero viven escondidos en Preferencias: sumar acceso desde Campañas o una "Biblioteca de contenido".']],
+ 'Preferencias › Templates › Crear template':[['Arquitectura','La URL usa un :project_id que no es el del proyecto activo (parece el id de la conexión).']],
+ 'Preferencias › Integraciones del proyecto':[['Arquitectura','Duplica la sección Integraciones del menú.']],
+ 'Canales':[['Arquitectura','No son canales: lista MailUp, VTEX, Shopify… (integraciones). Los canales de mensajería están en Preferencias › Canales.'],['Copy','"Instalados" vacío no tiene empty state.']],
+ 'Integraciones':[['Arquitectura','Usa las mismas apps de "Canales" como origen: Canales e Integraciones deberían ser un único hub de Conexiones.'],['Copy','Las cards Origen → Destino muestran "Convos" (nombre anterior).'],['Copy','Tratamiento de usted.']],
+ 'Integraciones › Nueva integración':[['Copy','La opción "Convos" en el selector de Origen usa el nombre anterior.'],['Patrones','Guardar ✓ arriba a la derecha dentro de un flujo por pasos.']],
+ 'Fuera del menú › En Sitio (OnSite)':[['Arquitectura','Ruta sin contenido y sin empty state.']],
+ 'Fuera del menú › Desuscripciones (global)':[['Arquitectura','Vacía y duplica Preferencias › Desuscripciones.']],
+ 'Estados del sistema › Sin autorización':[['Copy','Tratamiento de usted.']]
+};
+
+const nkey=n=>{const t=[];let p=n;while(p){t.unshift(p.l);p=p.parent}return t.join(' › ')};
+const hid=s=>{let a=5381,b=52711;for(const ch of s){const c=ch.codePointAt(0);a=((a*33)^c)>>>0;b=((b*31)+c)>>>0}return 'k'+a.toString(36)+b.toString(36)};
+const UP={};let DB=null,AS=null,upState='loading';const DRAFT={};const busy=new Set();
+const uimgs=n=>n.uimg||[];
+const hiddenOf=n=>{const u=UP[nkey(n)];return (u&&u.ocultas)||[]};
+function shotsOf(n){const h=hiddenOf(n);
+  const all=uimgs(n).map(id=>({k:'u:'+id,src:'img/u-'+id+'.jpg',cap:'Subida por vos · analizada',mine:1}))
+   .concat((n.pimg||[]).concat(n.img||[]).filter(k=>IMGS[k]).map(k=>({k,src:IMGS[k],cap:(k.startsWith('P')?'Producción · ':'Testing · ')+k+'.jpg'})));
+  return {vis:all.filter(s=>!h.includes(s.k)),hid:all.filter(s=>h.includes(s.k))}}
+const hasCap=n=>shotsOf(n).vis.length>0;
+const upOf=n=>UP[nkey(n)];
+const pendingUp=n=>{const u=upOf(n);return !!(u&&u.assets&&u.assets.some(id=>!uimgs(n).includes(id))&&u.estado!=='analizada')};
+function upTag(n){if(pendingUp(n))return '<span class="tag upl">Captura por analizar</span>';if(!hasCap(n))return '<span class="tag nocap">Sin captura</span>';return ''}
+const PROD={
+ 'Header global':{pimg:['P00-home-prod','P01-header-selector-apps'],pnote:'En producción el header suma un ícono ⠿ (selector de apps) con otro "Canales": Email, Data Marketing y "Administrar accesos a los canales". El popover no se cierra con Escape ni al cambiar de ruta.'},
+ 'Menú de usuario':{pimg:['P17-menu-usuario-y-dialog-campo'],pnote:'En producción aparece una tercera opción: "Cambiar a admin" (acceso de administración interno).',need:'trigger',gap:'"Cambiar a admin" existe solo en producción; no lo activé. Queda fuera de este relevamiento.'},
+ 'Envíos en progreso':{pnote:'También vacío en producción.'},
+ 'Contactos bloqueados':{pimg:['P02-audiencias-bloqueados'],s:'visto',need:'trigger',gap:'Resuelto en producción. Queda "Desbloquear" (única acción del ⋮): no lo activé; ¿pide confirmación?',pnote:'Con datos: tabla ID, Nombre, Teléfono, Fecha de bloqueo, Bloqueado por, Estado (Tag Bloqueado) y ⋮ → Desbloquear.'},
+ 'Inbox':{gap:null,pimg:['P19c-inbox-conversacion-abierta'],pnote:'Con tu bandeja asignada en el demo: lista de conversaciones, chat de 3 columnas, filtros y selección masiva recorridos. Lo que queda pendiente está en los nodos hijos.'},
+ 'Tickets':{pimg:['P03-inbox-tickets-con-datos'],pnote:'Con datos: KPI 154 totales, 6 abiertos, 148 cerrados, 18h 11m de respuesta promedio, pero la tabla muestra "1 Resultados" con el filtro por defecto: los KPI no respetan el filtro de fecha.'},
+ 'Detalle de ticket':{pimg:['P04-inbox-drawer-detalle-ticket'],s:'visto',gap:null,pnote:'Es un Drawer (no la ruta /tickets/:id): Anterior / Siguiente, Datos principales, Gestión del ticket y Línea de tiempo. Mismo patrón que el Drawer "Resumen de la campaña".'},
+ 'Rendimiento':{pimg:['P05a-inbox-rendimiento-bandejas','P05b-inbox-rendimiento-agentes'],need:'datos',gap:'Resuelto en producción para Bandejas y Agentes. "Respuestas" sigue vacío en los dos entornos.',pnote:'Métricas por canal (mensajes totales, contactos únicos, line chart). Agentes eliminados aparecen como "Nombre (Eliminado)".'},
+ 'Notificaciones':{pimg:['P06-inbox-dialog-notificaciones'],s:'visto',gap:null,pnote:'Dialog con un solo toggle: "Activar notificaciones sonoras".'},
+ 'Automáticas':{pimg:['P07-automaticas-listado','P07b-automaticas-menu'],gap:null,pnote:'Con datos (7): lista de cards como en Diálogos (frecuencia, estado, mini-KPI). ⋮: Ejecutar, Editar, Duplicar, Detalles de campaña, Rendimiento por nodo, Rendimiento general, Informe de resultados, Archivar, Eliminar. "Ejecutar" dispara la automatización: no lo activé.'},
+ 'Estadísticas':{},
+ 'Nodos':{pimg:['P08a-automatica-nodos'],s:'visto',need:'datos',gap:'El canvas de nodos con métricas no se ve: no hubo actividad en el último mes.',pnote:'Tabs con ícono (estilo distinto a los de campañas manuales), accordion "Detalles del envío", preajustes y rango de fechas.'},
+ 'Performance':{},
+ 'Transaccionales':{pimg:['P09-transaccionales-listado','P09b-transaccionales-menu'],gap:null,pnote:'Con datos (34). ⋮: Resumen, Editar, Duplicar, Rendimiento, Logs, Archivar, Eliminar (rojo). Los labels del ⋮ cambian respecto de Manuales ("Editar campaña" vs "Editar").'},
+ 'Logs':{pimg:['P10c-transaccional-logs','P10d-transaccional-log-expandido'],gap:null,pnote:'Se entra desde el ⋮ de cada transaccional (Logs). Card por request: PROCESADO, POST 201, webhook, IP, fecha. Expandido: Entrada (JSON), Salida y Headers. Pantalla muy técnica; el rango por defecto no es "último mes".'},
+ 'Conocimiento':{pimg:['P11-conocimiento-listado','P11b-conocimiento-menu'],need:'contexto',gap:'Producción y testing tienen versiones distintas de esta pantalla (prod: solo buscador y columna Tipo; testing: card de filtros). ¿Cuál es la fuente de verdad? La vigencia de CON-1731 no está en ninguno de los dos.',pnote:'Con datos: 9/20, tabla con Tipo (Documento / URL / Texto), Estado (Activo / Fallido) y Agente. ⋮: Editar, Eliminar.'},
+ 'Editar conocimiento':{pimg:['P11c-conocimiento-editar'],s:'visto',pnote:'Formulario de una página (no wizard): Información general y Contenido con editor rich text. Guardar arriba.'},
+ 'Descargas':{pimg:['P12-descargas-listado'],gap:null,pnote:'Con datos: reportes mensuales "Generado por sistema", con expiración y botón de descarga. Tabla con estilo distinto al DataTable del resto.'},
+ 'Campos':{pimg:['P16a-campos-a-mostrar','P16b-campos-dinamicos'],gap:null,pnote:'"Campos a mostrar": lista ordenable con keys técnicas (mismo patrón que el Drawer de columnas). "Campos": tabla de 100 field_n con Oculto y Tipo; Editar abre un Dialog (Nombre, Tipo, Oculto).'},
+ 'Flows':{pimg:['P13-flows-listado','P13b-flows-menu'],need:'trigger',gap:'Resuelto en producción. Quedan Publicar (envía a Meta), Editar y Vista previa: no los abrí.',pnote:'Con datos (21): Tag Borrador / Fallido / Publicado. ⋮: Publicar, Editar, Vista previa, Archivar.'},
+ 'Canales':{pimg:['P15-canales-instalados'],pnote:'Instalados con datos: MailUp, Shopify, Janis Commerce, TiendaNube (Tag Instalado + Administrar).'},
+ 'Integraciones':{pimg:['P14-integraciones-listado','P14b-integraciones-menu'],gap:null,pnote:'Con datos: cards "Origen → Destino" con logos, servicios activos y Tags Activas / Inactivas / Error. ⋮: Editar, Detalles, Desactivar, Eliminar.'},
+ 'Detalle de integración':{pimg:['P14c-integracion-detalle'],s:'visto',need:'trigger',gap:'Sincronizar / Ejecutar ahora disparan procesos reales: no los activé.',pnote:'Master-detail: servicios a la izquierda; a la derecha, consola de errores (HTTP 401) y tabla de sincronizaciones con memoria y runtime. Muy técnica para un usuario de negocio.'},
+ 'Eventos (carpetas)':{pimg:['P18-eventos-prod'],pnote:'En producción: KPI Fallido 83, los otros tres vacíos (bug en los dos entornos).'}
+};
+function applyProd(ns,parentLabel){ns.forEach(n=>{const key=(n.l==='Estadísticas'||n.l==='Performance'||((n.l==='Rendimiento'||n.l==='Notificaciones')&&parentLabel!=='Inbox'))?null:n.l;const o=key&&PROD[key];if(o&&(n.l!=='Canales'||!n.parent)){if(o.pimg)n.pimg=o.pimg;if(o.pnote)n.pnote=o.pnote;if(o.s)n.s=o.s;if('gap' in o){if(o.gap===null){delete n.gap;n.resolved=1}else n.gap=o.gap}if(o.need)n.need=o.need}applyProd(n.c,n.l)})}
+
+
+const PRODP={
+ '/campaigns/automation/:id/statistics/performance':{pimg:['P08b-automatica-rendimiento'],s:'visto',pnote:'Filtro por nodo + período y 6 KPI con ícono y "Tasa".'},
+ '/campaigns/automation/:id/statistics/report-result':{pimg:['P08c-automatica-informe-resultados'],s:'visto',pnote:'Barra inline: período, Tipo de evento, Buscar por teléfono + Buscar, Exportar CSV. Distinto al Informe de campañas manuales.'},
+ '/campaigns/automation/:id/statistics':{s:'visto'},
+ '/campaigns/transactional/:id/statistics':{s:'visto',pimg:['P10a-transaccional-rendimiento'],pnote:'Igual al Rendimiento de manuales. La card dice 0 envíos (respeta el filtro de fecha) y la lista dice 3.'},
+ '/campaigns/transactional/:id/statistics/performance':{s:'visto'},
+ '/campaigns/transactional/:id/statistics/report-result':{s:'visto',pimg:['P10b-transaccional-informe'],pnote:'4 KPI + card de filtros + Exportar: igual al de manuales.'}
+};
+function applyProdP(ns){ns.forEach(n=>{const o=n.p&&PRODP[n.p];if(o){Object.assign(n,o)}applyProdP(n.c)})}
+applyProd(DATA,null);applyProdP(DATA);
+flat.forEach(n=>{const o=UPL[nkey(n)];if(o)Object.assign(n,o);const u=UXO[nkey(n)];if(u)n.ux=u});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const chev='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
+function li(n){
+  const tags=[];
+  tags.push(n.s==='visto'?'<span class="tag visto">Visto</span>':'<span class="tag ruta">Solo ruta</span>');
+  if(n.gap)tags.push(`<span class="tag ${NEED[n.need||'contexto'][1]}">${NEED[n.need||'contexto'][0]}</span>`);
+  if(n.oculta)tags.push('<span class="tag oculta">Fuera del menú</span>');
+  if(n.rol)tags.push('<span class="tag rol">Rol especial</span>');
+  if(n.pimg)tags.push('<span class="tag rol">Prod</span>');
+  if(n.resolved)tags.push('<span class="tag visto">Resuelto en prod</span>');
+  if(n.ux)tags.push(`<span class="tag ux">${n.ux.length} obs. UX</span>`);
+  if(n.img)tags.push(`<span class="tag cam">${n.img.length} ${n.img.length>1?'capturas':'captura'}</span>`);
+  tags.push(`<span class="uptag" data-u="${n.id}">${upTag(n)}</span>`);
+  return `<li id="li-${n.id}" class="lvl${n.depth} ${n.depth>=1&&n.c.length?'collapsed':''}"><div class="node-row" tabindex="0" role="treeitem" aria-expanded="${n.c.length?(n.depth<1):''}" data-id="${n.id}">
+   <span class="tog">${n.c.length?chev:''}</span><span class="dot" style="background:${TYPE_COLOR[n.t]}"></span>
+   <span class="lbl">${esc(n.l)}</span>${n.p?`<span class="path">${esc(n.p)}</span>`:''}${tags.join('')}</div>
+   ${n.c.length?`<ul class="t">${n.c.map(li).join('')}</ul>`:''}</li>`;
+}
+document.getElementById('tree').innerHTML=`<ul class="t root" role="tree">${DATA.map(li).join('')}</ul>`;
+
+// stats
+const screens=flat.filter(n=>n.p);
+const st=[[screens.length,'pantallas y rutas'],[flat.filter(n=>n.s==='visto').length,'vistas en recorrido'],[flat.reduce((a,n)=>a+(n.img?n.img.length:0)+(n.pimg?n.pimg.length:0),0),'capturas'],[flat.filter(n=>n.gap).length,'pendientes'],[flat.reduce((a,n)=>a+(n.ux?n.ux.length:0),0),'observaciones UX'],[flat.filter(n=>n.oculta).length,'fuera del menú']];
+document.getElementById('stats').innerHTML=st.map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+
+// gaps table
+document.querySelector('#gaps tbody').innerHTML=flat.filter(n=>n.gap).sort((a,b)=>['revisar','trigger','datos','contexto'].indexOf(a.need||'contexto')-['revisar','trigger','datos','contexto'].indexOf(b.need||'contexto')).map(n=>{
+  const trail=[];let p=n;while(p){trail.unshift(p.l);p=p.parent}
+  return `<tr><td><b>${esc(trail.join(' › '))}</b><br><span class="path">${esc(n.p||'')}</span></td><td><span class="tag ${NEED[n.need||'contexto'][1]}">${NEED[n.need||'contexto'][0]}</span></td><td>${esc(n.gap)}</td></tr>`}).join('');
+
+
+const CATCLS={'BREW DS':'gap',Arquitectura:'gap',Patrones:'oculta',Copy:'rol',Datos:'gap','Entre apps':'visto','Entre entornos':'oculta'};
+document.getElementById('findings').innerHTML=FINDINGS.map(f=>`<article class="finding"><span class="tag fcat ${CATCLS[f.cat]}">${esc(f.cat)}</span><b>${esc(f.t)}</b><p>${esc(f.d)}</p></article>`).join('');
+// detail
+let curDetail=null;
+function show(id){
+  const n=byId[id];document.querySelectorAll('.node-row.sel').forEach(e=>e.classList.remove('sel'));
+  document.querySelector(`[data-id="${id}"]`)?.classList.add('sel');
+  const trail=[];let p=n;while(p){trail.unshift(p.l);p=p.parent}
+  const SH=shotsOf(n);
+  const html=`
+   <div><div class="note">${esc(trail.slice(0,-1).join(' › ')||'Nivel raíz')}</div><h3>${esc(n.l)}</h3></div>
+   <dl class="kv">
+     <dt>Tipo</dt><dd>${TYPE_NAME[n.t]}</dd>
+     <dt>Ruta</dt><dd><span class="path">${esc(n.p||'— (sin ruta propia)')}</span></dd>
+     ${n.perm?`<dt>Permiso</dt><dd><span class="path">${esc(n.perm)}</span></dd>`:''}
+     ${n.rol?`<dt>Rol</dt><dd>${esc(n.rol===1?'Rol especial':n.rol)}</dd>`:''}
+     <dt>Estado</dt><dd>${n.s==='visto'?'Confirmado en el recorrido':'Existe en el router, sin recorrer todavía'}</dd>
+     <dt>Hijos</dt><dd>${n.c.length||'—'}</dd>
+   </dl>
+   ${n.note?`<div><div class="note" style="margin-bottom:4px">Contenido observado / notas</div><div>${esc(n.note)}</div></div>`:''}
+   ${n.pnote?`<div><div class="note" style="margin-bottom:4px">En producción (demo MUP)</div><div>${esc(n.pnote)}</div></div>`:''}
+   ${n.ux?`<div class="uxo"><h4>Observaciones de UX a tener en cuenta (${n.ux.length})</h4><ul>${n.ux.map(([c,x])=>`<li><span class="tag ${CATCLS[c]||'rol'}">${esc(c)}</span><span>${esc(x)}</span></li>`).join('')}</ul></div>`:''}
+   ${n.gap?`<div class="empty" style="border-style:solid;background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn-fg)"><b>${NEED[n.need||'contexto'][0]}:</b> ${esc(n.gap)}</div>`:''}
+   ${n.unote?`<div><div class="note" style="margin-bottom:4px">Desde tu captura</div><div>${esc(n.unote)}</div></div>`:''}
+   ${SH.vis.length?SH.vis.map((s,i)=>`<figure class="shot" style="margin:0" data-k="${esc(s.k)}"><img loading="lazy" src="${s.src}" alt="Captura ${i+1} de ${esc(n.l)}"><figcaption><span>${esc(s.cap)}</span><button type="button" class="shot-rm" data-hide="${esc(s.k)}" data-n="${n.id}" aria-label="Quitar esta captura">Quitar</button></figcaption></figure>`).join(''):`<div class="empty">${SH.hid.length?'Quitaste todas las capturas de esta card: subí la nueva abajo.':(n.s==='visto'?'Sin captura propia: se ve dentro de otra pantalla o no tiene contenido.':'Sin captura: existe en el router pero no la recorrí.')}</div>`}
+   ${SH.hid.length?`<div class="shot-hid note">${SH.hid.length} ${SH.hid.length>1?'capturas quitadas':'captura quitada'} · <button type="button" class="linkbtn" data-restore="${n.id}">Restaurar</button></div>`:''}
+   <div class="upslot" data-n="${n.id}"></div>`;
+  document.getElementById('detail').innerHTML=html;document.getElementById('cdetail').innerHTML=html;curDetail=id;renderUpSlots();
+}
+document.getElementById('tree').addEventListener('click',e=>{
+  const row=e.target.closest('.node-row');if(!row)return;const liEl=row.parentElement;
+  if(e.target.closest('.tog')&&liEl.querySelector('ul')){liEl.classList.toggle('collapsed');row.setAttribute('aria-expanded',!liEl.classList.contains('collapsed'));return}
+  if(liEl.querySelector('ul')&&!liEl.classList.contains('sel-open')){liEl.classList.remove('collapsed');row.setAttribute('aria-expanded','true')}
+  show(row.dataset.id);
+});
+document.getElementById('tree').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const r=e.target.closest('.node-row');if(r){e.preventDefault();r.click()}}});
+document.getElementById('exp').onclick=()=>document.querySelectorAll('#tree li').forEach(l=>l.classList.remove('collapsed'));
+document.getElementById('col').onclick=()=>document.querySelectorAll('#tree li').forEach(l=>{if(!l.classList.contains('lvl0'))l.classList.add('collapsed')});
+
+// filters
+const F={visto:false,gap:false,oculta:false,prod:false,nocap:false,ux:false};
+function apply(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  const active=q||F.visto||F.gap||F.oculta||F.prod||F.nocap||F.ux;let shown=0;
+  const match=n=>(!q||(n.l+' '+(n.p||'')).toLowerCase().includes(q))&&(!F.visto||n.s==='visto')&&(!F.gap||n.gap)&&(!F.oculta||n.oculta)&&(!F.prod||n.pimg)&&(!F.nocap||!hasCap(n))&&(!F.ux||n.ux);
+  const vis=n=>{const self=match(n);const kids=n.c.map(vis).some(Boolean);const v=!active||self||kids;
+    const el=document.getElementById('li-'+n.id);el.classList.toggle('hidden-by-filter',!v);if(active&&kids)el.classList.remove('collapsed');if(v&&self&&n.p)shown++;return self||kids};
+  DATA.forEach(vis);
+  document.getElementById('count').textContent=active?`${shown} coincidencias`:`${screens.length} nodos con ruta`;
+}
+document.getElementById('q').addEventListener('input',apply);
+['visto','gap','oculta','prod','nocap','ux'].forEach(k=>{const b=document.getElementById('f-'+k);b.onclick=()=>{F[k]=!F[k];b.setAttribute('aria-pressed',F[k]);apply()}});
+apply();show(byId[Object.keys(byId).find(k=>byId[k].l==='Home')].id);
+
+// ---------- Canvas ----------
+const ROOT={id:'root',l:'Growlat Conversations',t:'mod',c:DATA,depth:-1,root:1};
+const CW=236,HG=84,VG=20;
+const open=new Set(['root']);DATA.forEach(n=>open.add(n.id));
+const HM={};const nodeH=n=>HM[n.id]||80;
+let pos={};let cur=null;
+const world=document.getElementById('world'),svg=document.getElementById('edges'),vp=document.getElementById('vp');
+let T={x:40,y:40,k:.8};
+const IND=24,COLG=48,ROWY=170;
+function lay(){
+  pos={};let x=0;const top=ROWY+10;
+  DATA.forEach(m=>{let y=top;let maxd=0;
+    const rec=(n,d)=>{const h=nodeH(n);pos[n.id]={x:x+d*IND,y,h,d};y+=h+VG;maxd=Math.max(maxd,d);if(open.has(n.id))n.c.forEach(k=>rec(k,d+1))};
+    rec(m,0);pos[m.id].col=x;x+=CW+maxd*IND+COLG});
+  const w=x-COLG;pos.root={x:Math.max(0,w/2-130),y:0,h:nodeH(ROOT),d:-1};
+}
+function card(n){
+  const SV=shotsOf(n).vis;const cov=SV.length?SV[0].src:null;const ncap=SV.length;
+  const tags=[];
+  if(!n.root){tags.push(n.s==='visto'?'<span class="tag visto">Visto</span>':'<span class="tag ruta">Solo ruta</span>');
+    if(n.gap)tags.push(`<span class="tag ${NEED[n.need||'contexto'][1]}">${NEED[n.need||'contexto'][0]}</span>`);
+    if(n.pimg)tags.push('<span class="tag rol">Prod</span>');
+    if(n.oculta)tags.push('<span class="tag oculta">Fuera del menú</span>');
+    if(n.rol)tags.push('<span class="tag rol">Rol especial</span>');
+    if(n.ux)tags.push(`<span class="tag ux">${n.ux.length} obs. UX</span>`);
+    const ut=upTag(n);if(ut)tags.push(ut);}
+  return `${n.root?'':`<div class="cbar" style="background:${TYPE_COLOR[n.t]}"></div>`}
+   ${cov?`<div class="cimg" style="background-image:url('${cov}')">${ncap>1?`<b>${ncap} capturas</b>`:''}</div>`:''}
+   <div class="cb"><div class="ct">${esc(n.l)}</div>${n.p?`<div class="cp">${esc(n.p)}</div>`:(n.root?'<div class="cp" style="color:#9aa3ad">Arquitectura de la información</div>':'')}
+   ${tags.length?`<div class="ctags">${tags.join('')}</div>`:''}</div>
+   ${n.c&&n.c.length&&!n.root?`<div class="cfoot"><button class="ctog" data-t="${n.id}" aria-expanded="${open.has(n.id)}">${open.has(n.id)?'Ocultar '+n.c.length:'Ver '+n.c.length+(n.c.length>1?' pantallas':' pantalla')}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="transform:rotate(${open.has(n.id)?180:0}deg)"><path d="M6 9l6 6 6-6"/></svg></button></div>`:''}`;
+}
+function visibleNodes(){const out=[ROOT];const rec=n=>{if(open.has(n.id))n.c.forEach(k=>{out.push(k);rec(k)})};rec(ROOT);return out}
+function drawCanvas(){
+  [...world.querySelectorAll('.cnode')].forEach(e=>e.remove());
+  const els={};
+  visibleNodes().forEach(n=>{const el=document.createElement('div');
+    el.className='cnode '+(n.root?'root':(n.t==='mod'&&n.depth===0?'mod':''))+(cur===n.id?' sel':'')+(matchSet&&!n.root&&!matchSet.has(n.id)?' dim':'');
+    el.dataset.id=n.id;el.innerHTML=card(n);el.style.left='0px';el.style.top='0px';world.appendChild(el);els[n.id]=el});
+  for(const id in els)HM[id]=els[id].offsetHeight;
+  lay();
+  let paths='';let maxX=0,maxY=0;
+  const rec=n=>{const p=pos[n.id];if(!p)return;const el=els[n.id];el.style.left=p.x+'px';el.style.top=p.y+'px';
+    maxX=Math.max(maxX,p.x+(n.root?260:CW));maxY=Math.max(maxY,p.y+p.h);
+    if(open.has(n.id))n.c.forEach(k=>{const q=pos[k.id];if(!q)return;const hl=cur&&(cur===k.id||isAnc(k,cur));let d;
+      if(n.root){const x1=p.x+130,y1=p.y+p.h,x2=q.x+CW/2,y2=q.y,my=y1+(y2-y1)/2;d=`M${x1},${y1} V${my} H${x2} V${y2}`}
+      else{const x1=p.x+12,y1=p.y+p.h,x2=q.x,y2=q.y+Math.min(28,q.h/2);d=`M${x1},${y1} V${y2} H${x2}`}
+      paths+=`<path class="${hl?'hl':''}" d="${d}"/>`;rec(k)})};
+  rec(ROOT);svg.setAttribute('width',maxX+40);svg.setAttribute('height',maxY+40);svg.innerHTML=paths;
+  world.style.width=maxX+'px';world.style.height=maxY+'px';bounds={w:maxX+40,h:maxY+40};applyT();
+}
+let bounds={w:1,h:1};
+function isAnc(a,id){let p=byId[id];while(p){if(p===a)return true;p=p.parent}return false}
+function applyT(){world.style.transform=`translate(${T.x}px,${T.y}px) scale(${T.k})`;document.getElementById('zlbl').textContent=Math.round(T.k*100)+'%';mini()}
+function zoomAt(f,cx,cy){const k=Math.min(2,Math.max(.12,T.k*f));const r=vp.getBoundingClientRect();cx=cx??r.width/2;cy=cy??r.height/2;T.x=cx-(cx-T.x)*(k/T.k);T.y=cy-(cy-T.y)*(k/T.k);T.k=k;applyT()}
+function fit(){const r=vp.getBoundingClientRect();const k=Math.min(1,Math.max(.12,Math.min((r.width-40)/bounds.w,(r.height-40)/bounds.h)));T={k,x:20+(r.width-40-bounds.w*k)/2,y:20+(r.height-40-bounds.h*k)/2};applyT()}
+function centerOn(id){const p=pos[id];if(!p)return;const r=vp.getBoundingClientRect();if(T.k<.7)T.k=.9;T.x=r.width*0.4-(p.x+CW/2)*T.k;T.y=r.height*0.35-(p.y+p.h/2)*T.k;applyT()}
+function openAnc(id){let p=byId[id]?.parent;while(p){open.add(p.id);p=p.parent}}
+// interactions
+let drag=null;
+vp.addEventListener('pointerdown',e=>{if(e.target.closest('.cnode,.ctog'))return;drag={x:e.clientX,y:e.clientY,tx:T.x,ty:T.y};vp.classList.add('drag');vp.setPointerCapture(e.pointerId)});
+vp.addEventListener('pointermove',e=>{if(!drag)return;T.x=drag.tx+e.clientX-drag.x;T.y=drag.ty+e.clientY-drag.y;applyT()});
+vp.addEventListener('pointerup',()=>{drag=null;vp.classList.remove('drag')});
+vp.addEventListener('wheel',e=>{e.preventDefault();const r=vp.getBoundingClientRect();if(e.ctrlKey||e.metaKey){zoomAt(Math.exp(-e.deltaY*0.01),e.clientX-r.left,e.clientY-r.top)}else{T.x-=e.deltaX;T.y-=e.deltaY;applyT()}},{passive:false});
+world.addEventListener('click',e=>{const tg=e.target.closest('.ctog');if(tg){const id=tg.dataset.t;open.has(id)?open.delete(id):open.add(id);drawCanvas();return}
+  const c=e.target.closest('.cnode');if(!c||c.dataset.id==='root')return;cur=c.dataset.id;show(cur);document.getElementById('cdetailWrap').classList.add('open');
+  if(byId[cur].c.length&&!open.has(cur))open.add(cur);drawCanvas()});
+document.getElementById('cfull').onclick=()=>{const el=document.getElementById('canvasView');const p=document.fullscreenElement?document.exitFullscreen():el.requestFullscreen?.();p&&p.catch&&p.catch(()=>{})};
+document.addEventListener('fullscreenchange',()=>{document.getElementById('cfull').textContent=document.fullscreenElement?'Salir de pantalla completa':'Pantalla completa';mini()});
+document.getElementById('cclose').onclick=()=>document.getElementById('cdetailWrap').classList.remove('open');
+document.getElementById('zin').onclick=()=>zoomAt(1.2);document.getElementById('zout').onclick=()=>zoomAt(1/1.2);document.getElementById('zfit').onclick=fit;
+document.getElementById('cexp').onclick=()=>{flat.forEach(n=>{if(n.c.length)open.add(n.id)});drawCanvas()};
+document.getElementById('ccol').onclick=()=>{open.clear();open.add('root');drawCanvas();fit()};
+// minimap
+function mini(){const c=document.getElementById('mini');if(!c||!c.offsetParent)return;const g=c.getContext('2d');const W=c.width,H=c.height;g.clearRect(0,0,W,H);
+  const s=Math.min(W/bounds.w,H/bounds.h)*.92,ox=(W-bounds.w*s)/2,oy=(H-bounds.h*s)/2;const cs=getComputedStyle(document.documentElement);
+  for(const id in pos){const p=pos[id];const n=id==='root'?ROOT:byId[id];g.fillStyle=n.root?cs.getPropertyValue('--nav'):(TYPE_COLOR[n.t].startsWith('var')?cs.getPropertyValue('--brand'):TYPE_COLOR[n.t]);g.globalAlpha=matchSet&&!n.root&&!matchSet.has(id)?.2:.85;g.fillRect(ox+p.x*s,oy+p.y*s,Math.max(2,CW*s),Math.max(1.5,p.h*s))}
+  g.globalAlpha=1;const r=vp.getBoundingClientRect();g.strokeStyle=cs.getPropertyValue('--brand');g.lineWidth=2;g.strokeRect(ox+(-T.x/T.k)*s,oy+(-T.y/T.k)*s,(r.width/T.k)*s,(r.height/T.k)*s);c._m={s,ox,oy}}
+document.getElementById('mini').addEventListener('click',e=>{const c=e.currentTarget,m=c._m;if(!m)return;const b=c.getBoundingClientRect();const mx=(e.clientX-b.left)*(c.width/b.width),my=(e.clientY-b.top)*(c.height/b.height);
+  const wx=(mx-m.ox)/m.s,wy=(my-m.oy)/m.s;const r=vp.getBoundingClientRect();T.x=r.width/2-wx*T.k;T.y=r.height/2-wy*T.k;applyT()});
+// search/filters on canvas
+let matchSet=null;
+function canvasFilter(){const q=document.getElementById('q').value.trim().toLowerCase();const active=q||F.visto||F.gap||F.oculta||F.prod||F.nocap||F.ux;
+  if(!active){matchSet=null;drawCanvas();return}
+  matchSet=new Set(flat.filter(n=>(!q||(n.l+' '+(n.p||'')).toLowerCase().includes(q))&&(!F.visto||n.s==='visto')&&(!F.gap||n.gap)&&(!F.oculta||n.oculta)&&(!F.prod||n.pimg)&&(!F.nocap||!hasCap(n))&&(!F.ux||n.ux)).map(n=>n.id));
+  matchSet.forEach(id=>openAnc(id));drawCanvas();
+  if(q&&matchSet.size){centerOn([...matchSet][0])}}
+document.getElementById('q').addEventListener('input',canvasFilter);
+['visto','gap','oculta','prod','nocap','ux'].forEach(k=>document.getElementById('f-'+k).addEventListener('click',canvasFilter));
+// views
+function setView(v){document.getElementById('canvasView').hidden=v!=='canvas';document.getElementById('listView').hidden=v!=='list';
+  document.getElementById('v-canvas').setAttribute('aria-selected',v==='canvas');document.getElementById('v-list').setAttribute('aria-selected',v==='list');
+  document.getElementById('exp').hidden=document.getElementById('col').hidden=v==='canvas';if(v==='canvas'){drawCanvas()}
+  try{localStorage.setItem('ia-view',v)}catch(e){}}
+document.getElementById('v-canvas').onclick=()=>setView('canvas');document.getElementById('v-list').onclick=()=>setView('list');
+let v0='canvas';try{v0=localStorage.getItem('ia-view')||'canvas'}catch(e){}
+setView(v0);if(v0==='canvas'){T={x:24,y:70,k:.72};applyT()}
+window.addEventListener('resize',()=>{if(!document.getElementById('canvasView').hidden)mini()});
+// ---------- visor de capturas ----------
+const LB={el:document.getElementById('lb'),list:[],i:0,prevFocus:null};
+function lbRender(){const it=LB.list[LB.i];const img=document.getElementById('lbImg');img.src=it.src;img.alt=it.cap;
+  document.getElementById('lbCap').textContent=it.cap;document.getElementById('lbCnt').textContent=LB.list.length>1?`${LB.i+1} / ${LB.list.length}`:'';
+  document.getElementById('lbPrev').hidden=document.getElementById('lbNext').hidden=LB.list.length<2;
+  document.getElementById('lbPrev').disabled=LB.i===0;document.getElementById('lbNext').disabled=LB.i===LB.list.length-1;
+  const st=document.getElementById('lbStage');st.classList.remove('real');st.scrollTo(0,0);document.getElementById('lbReal').textContent='Ajustar al ancho'}
+function lbOpen(list,i){LB.list=list;LB.i=i;LB.prevFocus=document.activeElement;const host=document.fullscreenElement||document.body;if(LB.el.parentElement!==host)host.appendChild(LB.el);
+  LB.el.hidden=false;lbRender();document.getElementById('lbClose').focus()}
+function lbClose(){LB.el.hidden=true;document.getElementById('lbImg').src='';if(LB.prevFocus&&LB.prevFocus.focus)LB.prevFocus.focus()}
+function lbReal(){const st=document.getElementById('lbStage');const on=st.classList.toggle('real');document.getElementById('lbReal').textContent=on?'Ver completa':'Ajustar al ancho'}
+document.addEventListener('click',e=>{const img=e.target.closest('.shot img,.upthumbs img');if(!img||LB.el.contains(img))return;
+  const box=img.closest('.detail')||img.closest('.upthumbs')||document;const imgs=[...box.querySelectorAll('.shot img,.upthumbs img')];
+  const list=imgs.map(x=>({src:x.currentSrc||x.src,cap:((x.closest('figure')?.querySelector('figcaption span')||x.closest('figure')?.querySelector('figcaption'))?.textContent||x.alt||'Captura').trim()}));
+  e.preventDefault();lbOpen(list,Math.max(0,imgs.indexOf(img)))});
+document.getElementById('lbClose').onclick=lbClose;
+document.getElementById('lbPrev').onclick=()=>{if(LB.i>0){LB.i--;lbRender()}};
+document.getElementById('lbNext').onclick=()=>{if(LB.i<LB.list.length-1){LB.i++;lbRender()}};
+document.getElementById('lbReal').onclick=lbReal;
+document.getElementById('lbImg').onclick=lbReal;
+document.getElementById('lbStage').addEventListener('click',e=>{if(e.target.id==='lbStage')lbClose()});
+document.addEventListener('keydown',e=>{if(LB.el.hidden)return;if(e.key==='Escape'){e.preventDefault();lbClose()}
+  else if(e.key==='ArrowLeft'){document.getElementById('lbPrev').click()}else if(e.key==='ArrowRight'){document.getElementById('lbNext').click()}
+  else if(e.key==='Tab'){const f=[...LB.el.querySelectorAll('button:not([hidden]):not(:disabled)')];const i=f.indexOf(document.activeElement);if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus()}}});
+document.addEventListener('fullscreenchange',()=>{if(!LB.el.hidden){const host=document.fullscreenElement||document.body;if(LB.el.parentElement!==host)host.appendChild(LB.el)}});
+// ---------- subida de capturas ----------
+const COL='capturas';
+const IMG_OK=['image/png','image/jpeg','image/webp','image/gif'];
+function trailOf(n){const t=[];let p=n.parent;while(p){t.unshift(p.l);p=p.parent}return t}
+function slotHTML(n){
+  const u=upOf(n);const has=hasCap(n);
+  if(upState==='loading')return '';
+  if(upState==='off'||upState==='ro'){if(has)return '';
+    return `<div class="empty">${upState==='ro'?'Solo quien puede editar esta página puede subir capturas.':'Para subir capturas abrí esta página en claude.ai.'}</div>`}
+  const thumbs=(u&&u.assets||[]).filter(id=>!uimgs(n).includes(id)).map(id=>`<figure><img src="/_blob/${esc(id)}" alt="Captura subida"><button type="button" data-act="rm" data-id="${esc(id)}">Quitar</button></figure>`).join('');
+  const nota=DRAFT[n.id]!==undefined?DRAFT[n.id]:(u&&u.nota||'');
+  const st=u&&u.assets&&u.assets.length?(u.estado==='analizada'?'<span class="tag visto">Analizada</span>':'<span class="tag upl">Por analizar</span>'):'';
+  const body=`<div class="upbox" data-n="${n.id}">
+    ${has?'':`<h4>Subí la captura de esta pantalla</h4>`}
+    <p>Arrastrá la imagen acá, elegila o pegala con Ctrl+V. Si querés, contame cómo llegaste o qué hiciste antes.</p>
+    ${thumbs?`<div class="upthumbs">${thumbs}</div>`:''}
+    <textarea data-act="nota" placeholder="Ej.: abrí ⋮ › Desbloquear en un contacto bloqueado; así se ve la confirmación." aria-label="Contexto de la captura">${esc(nota)}</textarea>
+    <div class="row">
+      <button type="button" class="btn pri" data-act="pick"${busy.has(n.id)?' disabled':''}>${busy.has(n.id)?'Subiendo…':'Elegir imagen'}</button>
+      <button type="button" class="btn" data-act="save">Guardar nota</button>${st}
+    </div>
+    <div class="upmsg${MSG[n.id]&&MSG[n.id].err?' err':''}" role="status">${esc(MSG[n.id]?MSG[n.id].t:'')}</div></div>`;
+  return has?`<details${u&&u.assets&&u.assets.length?' open':''}><summary class="note" style="cursor:pointer;padding:4px 0">Sumar otra captura a esta card</summary>${body}</details>`:body;
+}
+function renderUpSlots(force){document.querySelectorAll('.upslot').forEach(s=>{const n=byId[s.dataset.n];if(!n)return;
+  const ta=s.querySelector('textarea');if(!force&&ta&&document.activeElement===ta)return;
+  const h=slotHTML(n);if(force||s.dataset.sig!==h){const open=s.querySelector('details')?.open;s.innerHTML=h;s.dataset.sig=h;if(open){const d=s.querySelector('details');if(d)d.open=true}}})}
+const MSG={};
+function msg(nid,text,err){MSG[nid]={t:text,err:!!err};document.querySelectorAll(`.upbox[data-n="${nid}"] .upmsg`).forEach(m=>{m.textContent=text;m.classList.toggle('err',!!err)})}
+function renderCaps(){
+  const list=flat.filter(n=>!hasCap(n)||pendingUp(n));
+  const pend=flat.filter(pendingUp).length;const falt=flat.filter(n=>!hasCap(n)).length;
+  document.getElementById('capsum').innerHTML=`<div class="stat"><b>${falt}</b><span>nodos sin captura</span></div><div class="stat"><b>${pend}</b><span>subidas por analizar</span></div>`+
+    (upState==='off'?'<span class="note" style="align-self:center">Para subir capturas abrí esta página en claude.ai.</span>':'');
+  const groups=new Map();list.forEach(n=>{let m=n;while(m.parent)m=m.parent;if(!groups.has(m))groups.set(m,[]);groups.get(m).push(n)});
+  document.getElementById('caps').innerHTML=[...groups].map(([m,ns])=>{const p=ns.filter(pendingUp).length;
+    return `<details><summary>${chev}<span>${esc(m.l)}</span><span class="note">${ns.length} ${ns.length>1?'nodos':'nodo'}${p?` · ${p} por analizar`:''}</span></summary><ul>${ns.map(n=>{const t=trailOf(n).slice(1);
+      return `<li><div class="w"><b>${esc(t.concat(n.l).join(' › '))}</b>${n.p?`<span class="path">${esc(n.p)}</span>`:''}</div><div class="a">${pendingUp(n)?'<span class="tag upl">Por analizar</span>':(n.s==='visto'?'<span class="tag nocap">Vista sin captura</span>':'<span class="tag nocap">Sin recorrer</span>')}<button type="button" class="btn" data-open="${n.id}">${pendingUp(n)?'Ver':'Subir captura'}</button></div></li>`}).join('')}</ul></details>`}).join('')||'<div class="empty">Todas las cards tienen captura.</div>';
+}
+function openNode(id){
+  if(!document.getElementById('canvasView').hidden){openAnc(id);cur=id;show(id);document.getElementById('cdetailWrap').classList.add('open');drawCanvas();centerOn(id);document.getElementById('canvasView').scrollIntoView({behavior:'smooth',block:'start'})}
+  else{let p=byId[id];while(p){document.getElementById('li-'+p.id)?.classList.remove('collapsed');p=p.parent}show(id);document.querySelector(`#tree [data-id="${id}"]`)?.scrollIntoView({behavior:'smooth',block:'center'})}
+}
+document.getElementById('caps').addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b)openNode(b.dataset.open)});
+function refreshUp(){
+  document.querySelectorAll('.uptag').forEach(s=>{const n=byId[s.dataset.u];if(n)s.innerHTML=upTag(n)});
+  if(!document.getElementById('canvasView').hidden)drawCanvas();
+  renderUpSlots();
+  renderCaps();
+}
+async function writeDoc(n,patch){
+  const key=nkey(n);const prev=UP[key]||{};
+  const body={key,nodo:n.l,ruta:n.p||'',assets:prev.assets||[],nota:prev.nota||'',ocultas:prev.ocultas||[],estado:'por_analizar',...patch,actualizado:new Date().toISOString()};
+  UP[key]={...prev,...body};
+  await DB.collection(COL).doc(hid(key)).set(body);
+}
+const ERRS={too_large:'La imagen supera 20 MB.',unsupported_type:'Ese formato no se puede subir (usá PNG, JPG, WEBP o GIF).',quota_or_state:'Se llenó el espacio de capturas de esta página.',rate_limited:'Demasiadas subidas seguidas. Esperá unos segundos.',not_granted:'No hay permiso para subir en esta vista.',permission_denied:'No tenés permiso para guardar en esta página.'};
+const errTxt=e=>ERRS[e&&e.code]||('No se pudo completar'+(e&&e.code?` (${e.code})`:'')+'.');
+async function doUpload(nid,files){
+  const n=byId[nid];if(!n||!AS||!DB||busy.has(nid))return;
+  const imgs=[...files].filter(f=>IMG_OK.includes(f.type));
+  if(!imgs.length){msg(nid,'Elegí una imagen PNG, JPG, WEBP o GIF.',true);return}
+  busy.add(nid);renderUpSlots(true);const ids=[];
+  try{
+    for(let i=0;i<imgs.length;i++){msg(nid,`Subiendo ${i+1} de ${imgs.length}…`);const r=await AS.upload(imgs[i],{type:imgs[i].type});ids.push(r.id)}
+    const u=UP[nkey(n)]||{};const nota=DRAFT[nid]!==undefined?DRAFT[nid]:(u.nota||'');
+    await writeDoc(n,{assets:(u.assets||[]).concat(ids),nota});delete DRAFT[nid];
+    refreshUpForce();msg(nid,'Listo. Cuando quieras, avisame en el chat y la analizo.');
+  }catch(e){if(ids.length){try{const u=UP[nkey(n)]||{};await writeDoc(n,{assets:(u.assets||[]).concat(ids)});refreshUpForce()}catch(_){}}msg(nid,errTxt(e),true)}
+  finally{busy.delete(nid);renderUpSlots(true)}
+}
+function refreshUpForce(){document.body.classList.toggle('can-edit',upState==='on');renderUpSlots(true);refreshUp()}
+let hidSig='';
+async function setHidden(nid,list,label){const n=byId[nid];if(!n||!DB)return;const prev=UP[nkey(n)]||{};
+  try{await writeDoc(n,{ocultas:list,estado:prev.estado||'analizada'});if(curDetail===nid)show(nid);refreshUp()}catch(e){alert0(errTxt(e))}}
+function alert0(m){const s=document.querySelector('#cdetailWrap.open .shot-hid, .detail .shot-hid');if(s)s.textContent=m}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-hide]');if(b){e.stopPropagation();if(upState!=='on')return;
+    if(!b.dataset.armed){b.dataset.armed='1';b.textContent='¿Quitar?';setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='Quitar'}},3000);return}
+    const n=byId[b.dataset.n];setHidden(n.id,[...new Set(hiddenOf(n).concat(b.dataset.hide))]);return}
+  const r=e.target.closest('[data-restore]');if(r){if(upState!=='on')return;setHidden(r.dataset.restore,[])}},true);
+async function saveNote(nid){const n=byId[nid];if(!n||!DB)return;const nota=DRAFT[nid]!==undefined?DRAFT[nid]:'';
+  try{msg(nid,'Guardando…');await writeDoc(n,{nota});delete DRAFT[nid];refreshUpForce();msg(nid,'Nota guardada.')}catch(e){msg(nid,errTxt(e),true)}}
+async function removeAsset(nid,id){const n=byId[nid];if(!n||!DB)return;const u=UP[nkey(n)];if(!u)return;
+  try{msg(nid,'Quitando…');await writeDoc(n,{assets:(u.assets||[]).filter(x=>x!==id)});if(AS){try{await AS.delete(id)}catch(_){}}refreshUpForce()}catch(e){msg(nid,errTxt(e),true)}}
+document.addEventListener('input',e=>{const ta=e.target.closest('.upbox textarea');if(ta){const nid=ta.closest('.upbox').dataset.n;DRAFT[nid]=ta.value;document.querySelectorAll(`.upbox[data-n="${nid}"] textarea`).forEach(o=>{if(o!==ta)o.value=ta.value})}});
+// un solo input de archivo fuera del contenido que se re-renderiza: así el diálogo nunca queda huérfano
+const upFile=document.createElement('input');upFile.type='file';upFile.accept='image/png,image/jpeg,image/webp,image/gif';upFile.multiple=true;upFile.hidden=true;document.body.appendChild(upFile);
+let pickFor=null;
+upFile.addEventListener('change',()=>{const nid=pickFor;const fs=[...upFile.files];upFile.value='';pickFor=null;if(nid&&fs.length)doUpload(nid,fs)});
+document.addEventListener('click',e=>{const b=e.target.closest('.upbox [data-act]');if(!b)return;const nid=b.closest('.upbox').dataset.n;
+  if(b.dataset.act==='pick'){if(busy.has(nid))return;pickFor=nid;upFile.click();return}
+  if(b.dataset.act==='save')saveNote(nid);
+  if(b.dataset.act==='rm'){if(b.dataset.armed){removeAsset(nid,b.dataset.id)}else{b.dataset.armed='1';b.textContent='¿Quitar?';setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='Quitar'}},3000)}}});
+document.addEventListener('dragover',e=>{const bx=e.target.closest('.upbox');if(bx){e.preventDefault();bx.classList.add('drag')}});
+document.addEventListener('dragleave',e=>{const bx=e.target.closest('.upbox');if(bx&&!bx.contains(e.relatedTarget))bx.classList.remove('drag')});
+document.addEventListener('drop',e=>{const bx=e.target.closest('.upbox');if(!bx)return;e.preventDefault();bx.classList.remove('drag');if(e.dataTransfer&&e.dataTransfer.files.length)doUpload(bx.dataset.n,e.dataTransfer.files)});
+document.addEventListener('paste',e=>{if(upState!=='on'||!curDetail)return;const fs=[...(e.clipboardData&&e.clipboardData.files||[])].filter(f=>IMG_OK.includes(f.type));if(!fs.length)return;
+  const vis=[...document.querySelectorAll('.upbox')].find(b=>b.offsetParent&&b.dataset.n===curDetail);if(!vis)return;e.preventDefault();doUpload(curDetail,fs)});
+renderCaps();
+(async()=>{const c=null;if(!c||typeof c.use!=='function'){upState='off';refreshUpForce();return}
+  try{const r=await Promise.all([c.use('db'),c.use('assets')]);DB=r[0];AS=r[1]}catch(e){}
+  if(!DB){upState='off';refreshUpForce();return}
+  upState=AS?'on':'ro';refreshUpForce();
+  DB.collection(COL).onSnapshot(s=>{for(const k in UP)delete UP[k];s.docs.forEach(d=>{const x=d.data();if(x&&x.key)UP[x.key]={...x}});const hs=curDetail?JSON.stringify(hiddenOf(byId[curDetail])):'';if(hs!==hidSig){hidSig=hs;if(curDetail)show(curDetail)}refreshUp()},
+    e=>{document.getElementById('capsum').insertAdjacentHTML('beforeend',`<span class="note" style="align-self:center;color:var(--err-fg)">No pude leer las capturas guardadas (${esc(e&&e.code||'error')}).</span>`)});
+})();
+
+</script>
+
+</body></html>
