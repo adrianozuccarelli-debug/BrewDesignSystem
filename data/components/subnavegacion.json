@@ -3,10 +3,10 @@
   "title": "Subnavegación",
   "category": "Navegación",
   "figmaPage": "Subnavegación",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Navegación lateral secundaria por módulo.",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Navegación lateral secundaria por módulo (ej. Preferencias). Se reutiliza el componente Subnavegacion de la página de Backoffice, junto con los ítems del NavBar.",
   "base": "BREW DS",
   "platforms": [
     "app",
@@ -15,8 +15,92 @@
   "precedents": [
     "CON-1734"
   ],
-  "rules": [],
+  "rules": [
+    "Ítems de 33 px con padding 8 y radius/sm, separados por 4 px.",
+    "Activo: fondo brand/subtle y texto brand/hover. Hover: highlight/background.",
+    "Hover con la barra colapsada: fondo oscuro y texto text/inverse.",
+    "Item User: avatar de 30 px con iniciales; Selected con fondo brand/subtle."
+  ],
   "todos": [
-    "Ya existe un componente \"Subnavegacion\" en la página de Backoffice: revisar si es el mismo."
-  ]
+    "Algunos colores están fijos en hex y no en tokens: borde #DAE8FF, texto del Item Nav bar #172B4D y fondo de Hover colapsada #172B4D.",
+    "La página Subnavegación de Figma está vacía: documentar ahí o enlazar a Backoffice."
+  ],
+  "sections": {
+    "preview": "previews/subnavegacion.html",
+    "meta": [
+      [
+        "Item Submenú · Estado",
+        "Activo · Default · Hover · Hover colapsada"
+      ],
+      [
+        "Item Nav bar",
+        "Activo · Default · Solo ícono · Ícono y texto"
+      ],
+      [
+        "Item User",
+        "Default · Selected · Colapsado · Extendido"
+      ],
+      [
+        "Página en Figma",
+        "Growlat Conversations · Backoffice"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Submenú · Default",
+          null,
+          "text/primary"
+        ],
+        [
+          "Submenú · Hover",
+          "highlight/background",
+          "text/primary"
+        ],
+        [
+          "Submenú · Activo",
+          "brand/subtle",
+          "brand/hover"
+        ],
+        [
+          "Submenú · Hover colapsada",
+          null,
+          "text/inverse"
+        ],
+        [
+          "Nav bar · Activo",
+          null,
+          "primary/500"
+        ],
+        [
+          "Item User · Selected",
+          "brand/subtle",
+          "text/primary"
+        ],
+        [
+          "Contenedor",
+          "surface/card",
+          null
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Item Submenú",
+        "body/xs"
+      ],
+      [
+        "Item Nav bar e Item User",
+        "body/md"
+      ],
+      [
+        "Iniciales del avatar",
+        "label/meta"
+      ]
+    ]
+  }
 }

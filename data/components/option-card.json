@@ -3,20 +3,131 @@
   "title": "Option Card",
   "category": "Contenedores y cards",
   "figmaPage": "Option Card",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Elección de tipo u origen dentro de un flujo.",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Tarjetas de opción única dentro de un flujo: Selección (método, tipo de archivo) y Acción (qué hacer con un segmento).",
   "base": "BREW DS",
   "platforms": [
     "app",
     "conversations"
   ],
   "precedents": [
-    "MID-2154"
+    "MID-2154",
+    "MID-2215",
+    "CON-1847"
   ],
   "rules": [
-    "Selección con brand/subtle como máximo."
+    "Selección: título + descripción y check-circle a la derecha cuando está seleccionada. Radio 12 px.",
+    "Hover de Selección con brand/subtle como máximo.",
+    "Acción: ícono de 20 × 20 con color por acción — Omitir warning · Crear nuevo success · Añadir badge/brand · Sobrescribir error. Seleccionada sin check. Radio 8 px.",
+    "En URL + Crear nuevo, la misma selección aplica a «Ejecuciones posteriores» (Sobrescribir preseleccionado)."
   ],
-  "todos": []
+  "todos": [
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/option-card.html",
+    "meta": [
+      [
+        "Selección · Estado",
+        "Default · Hover · Seleccionada"
+      ],
+      [
+        "Acción · Acción",
+        "Omitir · Crear · Añadir · Sobrescribir"
+      ],
+      [
+        "Acción · Estado",
+        "Default · Hover · Seleccionada"
+      ],
+      [
+        "Medidas",
+        "Selección padding 16 · Acción padding 20 × 16, gap 16"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Título"
+      ],
+      "rows": [
+        [
+          "Selección · Default",
+          "surface/card",
+          "surface/border",
+          "text/primary"
+        ],
+        [
+          "Selección · Hover",
+          "brand/subtle",
+          "surface/border",
+          "text/primary"
+        ],
+        [
+          "Selección · Seleccionada",
+          "highlight/background",
+          "brand/primary-dark",
+          "text/brand"
+        ],
+        [
+          "Acción · Default",
+          "surface/card",
+          "surface/border",
+          "text/primary"
+        ],
+        [
+          "Acción · Hover",
+          "surface/bg",
+          "surface/border",
+          "text/primary"
+        ],
+        [
+          "Acción · Seleccionada",
+          "brand/subtle",
+          "brand/primary-dark",
+          "text/primary"
+        ],
+        [
+          "Ícono Omitir (fondo / ícono)",
+          "warning/bg",
+          "warning/color",
+          null
+        ],
+        [
+          "Ícono Crear",
+          "success/bg",
+          "success/color",
+          null
+        ],
+        [
+          "Ícono Añadir",
+          "badge/brand/bg",
+          "badge/brand/text",
+          null
+        ],
+        [
+          "Ícono Sobrescribir",
+          "error/bg",
+          "error/color",
+          null
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Título (Selección)",
+        "body/md-medium"
+      ],
+      [
+        "Título (Acción)",
+        "module/title"
+      ],
+      [
+        "Descripción",
+        "body/xs"
+      ]
+    ]
+  }
 }

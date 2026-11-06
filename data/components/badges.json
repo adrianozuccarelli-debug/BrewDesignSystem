@@ -5,7 +5,7 @@
   "figmaPage": "Badges",
   "status": "documentado",
   "siteVersion": "2.0",
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "description": "Etiquetas cortas para comunicar estado o clasificar información. Badge = estado del sistema (pill); Chip = dato o taxonomía (rectangular). Lo que asigna el usuario es Tag.",
   "base": "PrimeVue Tag · Chip",
   "platforms": [
@@ -34,6 +34,7 @@
     "Chip sólido success, warning y Campaña: texto blanco a 10 px por debajo de 4,5:1 (AA texto chico)."
   ],
   "sections": {
+    "preview": "previews/badges.html",
     "meta": [
       [
         "Badge · Tipo",

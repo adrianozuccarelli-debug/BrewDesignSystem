@@ -5,7 +5,7 @@
   "figmaPage": "Checkbox, Radio y ToggleSwitch",
   "status": "parcial",
   "siteVersion": "2.0",
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "description": "Controles binarios y de opción única. Por ahora está documentado el Checkbox liviano de 16 px.",
   "base": "PrimeVue Checkbox · RadioButton · ToggleSwitch",
   "platforms": [
@@ -26,6 +26,7 @@
     "Documentar RadioButton y ToggleSwitch (el ToggleSwitch existe en la librería v1.1 sin documentación)."
   ],
   "sections": {
+    "preview": "previews/checkbox-radio-toggle.html",
     "meta": [
       [
         "Checkbox · Estado",

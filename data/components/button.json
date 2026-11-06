@@ -5,7 +5,7 @@
   "figmaPage": "Button",
   "status": "parcial",
   "siteVersion": "2.0",
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "description": "Acción primaria, secundaria y de peligro, más Icon Button para acciones de fila. Brand-aware: toma el color primario de la plataforma activa.",
   "base": "PrimeVue Button",
   "platforms": [

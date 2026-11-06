@@ -5,7 +5,7 @@
   "figmaPage": "Drawer",
   "status": "documentado",
   "siteVersion": "2.0",
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "description": "Panel lateral deslizable para acciones contextuales: header configurable, slot de contenido libre y footer de acciones opcionales. Se basa en el <Drawer> nativo de PrimeVue; no se construye desde cero.",
   "base": "PrimeVue Drawer",
   "platforms": [
@@ -32,6 +32,7 @@
     "El sitio v1 documentaba una API propia (GrowlatDrawer): reemplazarla por PrimeVue Drawer con slots."
   ],
   "sections": {
+    "preview": "previews/drawer.html",
     "meta": [
       [
         "Variantes",

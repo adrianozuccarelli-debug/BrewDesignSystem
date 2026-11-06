@@ -3,21 +3,128 @@
   "title": "Select y MultiSelect",
   "category": "Formularios",
   "figmaPage": "Select y MultiSelect",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Selección simple y múltiple. Base de los filtros de tablas.",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Selección simple y múltiple con label. Base de los filtros de tablas. Opciones de segmentos con formato «#id nombre».",
   "base": "PrimeVue Select · MultiSelect",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
+  "precedents": [
+    "MID-2154",
+    "MID-2215",
+    "CON-1847"
+  ],
   "rules": [
     "Nunca select nativo.",
-    "Overlay con radius/md."
+    "El overlay del listbox va con radius/md.",
+    "El error aparece recién cuando el usuario toca el campo y lo deja vacío; no al cambiar de modo (MID-2215).",
+    "Opción deshabilitada (ej. segmento que se está procesando) al 60 % de opacidad, con tooltip que explique por qué.",
+    "Hint: aviso al pie de la lista (ej. «↵ Presioná Enter para crear la etiqueta»); no es una opción seleccionable.",
+    "Ancho media tarjeta en wizards."
   ],
   "todos": [
-    "La colección Dropdown usa un azul (#3B82F6) para el focus en lugar del color de marca."
-  ]
+    "Usar la colección de variables Dropdown para el overlay.",
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/select.html",
+    "meta": [
+      [
+        "Select · Estados",
+        "Default · Placeholder · Abierto · Error · Deshabilitado"
+      ],
+      [
+        "Option · Estados",
+        "Default · Hover · Seleccionada · Deshabilitada · Hint"
+      ],
+      [
+        "Medidas",
+        "Campo 320 × 40 px · opción 40 px"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Select · Default",
+          "surface/card",
+          "form-field/border-color",
+          "text/primary"
+        ],
+        [
+          "Select · Abierto",
+          "surface/card",
+          "form-field/focus-border-color",
+          "text/primary"
+        ],
+        [
+          "Select · Error",
+          "surface/card",
+          "error/border",
+          "error/text"
+        ],
+        [
+          "Select · Deshabilitado",
+          "form-field/disabled-background",
+          "surface/border",
+          "text/tertiary"
+        ],
+        [
+          "Option · Default",
+          "surface/card",
+          null,
+          "text/primary"
+        ],
+        [
+          "Option · Hover",
+          "surface/bg",
+          null,
+          "text/primary"
+        ],
+        [
+          "Option · Seleccionada",
+          "highlight/background",
+          null,
+          "text/brand"
+        ],
+        [
+          "Option · Deshabilitada",
+          "surface/card",
+          null,
+          "text/tertiary"
+        ],
+        [
+          "Option · Hint",
+          "surface/card",
+          "surface/border",
+          "text/tertiary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label",
+        "label/form"
+      ],
+      [
+        "Valor",
+        "body/md"
+      ],
+      [
+        "Opción",
+        "body/sm"
+      ],
+      [
+        "Hint y error",
+        "body/xs"
+      ]
+    ]
+  }
 }

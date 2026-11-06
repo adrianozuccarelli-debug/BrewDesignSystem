@@ -3,18 +3,89 @@
   "title": "Paginator",
   "category": "Datos",
   "figmaPage": "Paginator",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Paginación server-side de tablas.",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Paginación server-side de tablas: botones de página de 24 × 24 y pie de tabla con el resumen de registros.",
   "base": "PrimeVue Paginator",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
-  "rules": [
-    "Números con separador de miles."
+  "precedents": [
+    "MID-2154",
+    "CON-1847"
   ],
-  "todos": []
+  "rules": [
+    "Números con separador de miles («Mostrando 1-18 de 38.000 registros»).",
+    "Anterior / Siguiente deshabilitados (40 % de opacidad) en la primera y la última página.",
+    "Toda tabla paginada lleva Table Footer: fondo surface/bg, padding 12 × 20."
+  ],
+  "todos": [
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/paginator.html",
+    "meta": [
+      [
+        "Page Button · Tipo",
+        "Número · Anterior · Siguiente"
+      ],
+      [
+        "Page Button · Estado",
+        "Default · Activo · Deshabilitado"
+      ],
+      [
+        "Medidas",
+        "24 × 24 px · gap 8 px"
+      ],
+      [
+        "Table Footer",
+        "Resumen + paginación"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto / ícono"
+      ],
+      "rows": [
+        [
+          "Número · Default",
+          "surface/card",
+          "surface/border",
+          "text/secondary"
+        ],
+        [
+          "Número · Activo",
+          "brand/primary-dark",
+          "brand/primary-dark",
+          "text/inverse"
+        ],
+        [
+          "Anterior / Siguiente",
+          "surface/card",
+          "surface/border",
+          "text/secondary"
+        ],
+        [
+          "Table Footer",
+          "surface/bg",
+          null,
+          "text/tertiary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Número",
+        "body/xs-medium"
+      ],
+      [
+        "Resumen",
+        "body/xxs-bold"
+      ]
+    ]
+  }
 }

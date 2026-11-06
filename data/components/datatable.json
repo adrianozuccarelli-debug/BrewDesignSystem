@@ -4,20 +4,104 @@
   "category": "Datos",
   "figmaPage": "Tablas",
   "status": "parcial",
-  "siteVersion": "1.0",
-  "updated": null,
-  "description": "Tabla de datos con paginación server-side, búsqueda y selección múltiple. Es la superficie primaria del producto.",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Tabla de datos con paginación server-side, selección múltiple y barra de acciones masivas. Es la superficie primaria del producto.",
   "base": "PrimeVue DataTable",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
+  "precedents": [
+    "MID-2154",
+    "CON-1847"
+  ],
   "rules": [
-    "Ante la duda de cómo mostrar un set de datos, la respuesta por defecto es DataTable."
+    "Ante la duda de cómo mostrar un set de datos, la respuesta por defecto es una tabla.",
+    "Header: fondo surface/bg, label/meta en text/tertiary, orden con flechas; «Columnas» en text/brand a la derecha.",
+    "Filas de doble dato: dato principal en body/md y secundario en code/data, los dos en text/primary; el resto de los valores en code/data text/tertiary.",
+    "Selección: checkbox de 16 px en la primera columna; la barra de acciones masivas (fondo brand/subtle) aparece arriba del header con el contador y «Seleccionar todo y no sólo lo visible».",
+    "En los reportes los números no se abrevian: se muestran enteros.",
+    "Pie con Table Footer y Paginator."
   ],
   "todos": [
-    "Convertir el diseño de la página Tablas en componentes."
+    "Convertir el diseño de la página Tablas en componentes (hoy son frames sin componentizar).",
+    "El diseño de Figma muestra montos abreviados («$5,235K»): el preview los muestra enteros según la regla de reportes."
   ],
-  "legacy": "legacy/datatable.html"
+  "sections": {
+    "preview": "previews/datatable.html",
+    "meta": [
+      [
+        "Partes",
+        "Barra de acciones masivas · Header · Filas · Table Footer"
+      ],
+      [
+        "Medidas",
+        "Header 36 px · fila de doble dato 57 px · padding lateral 20 px"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Header",
+          "surface/bg",
+          "surface/border",
+          "text/tertiary"
+        ],
+        [
+          "Fila",
+          "surface/card",
+          "surface/border",
+          "text/primary"
+        ],
+        [
+          "Valores secundarios",
+          null,
+          null,
+          "text/tertiary"
+        ],
+        [
+          "Acción «Columnas»",
+          null,
+          null,
+          "text/brand"
+        ],
+        [
+          "Barra de acciones masivas",
+          "brand/subtle",
+          "surface/border",
+          "text/secondary"
+        ],
+        [
+          "Pie",
+          "surface/bg",
+          null,
+          "text/tertiary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Header",
+        "label/meta"
+      ],
+      [
+        "Dato principal",
+        "body/md"
+      ],
+      [
+        "Valores",
+        "code/data"
+      ],
+      [
+        "Pie",
+        "body/xxs-bold"
+      ]
+    ]
+  }
 }

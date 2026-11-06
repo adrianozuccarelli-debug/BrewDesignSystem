@@ -5,7 +5,7 @@
   "figmaPage": "Card de usuario",
   "status": "documentado",
   "siteVersion": "2.0",
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "description": "Ítem que representa a un usuario dentro de una Card de usuarios. Se usa igual en Backoffice › Usuarios, Inbox › Bandejas › Equipo y Preferencias › Equipo. No reemplaza a Item User (usuario del NavBar).",
   "base": "BREW DS (Card) + Avatar + Chip",
   "platforms": [
@@ -26,6 +26,7 @@
   ],
   "todos": [],
   "sections": {
+    "preview": "previews/card-usuario.html",
     "meta": [
       [
         "Estado",

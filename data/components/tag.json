@@ -3,20 +3,70 @@
   "title": "Tag",
   "category": "Taxonomía y estado",
   "figmaPage": "Tag",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Estado de una entidad (Suscripto, Publicado, Habilitada…).",
-  "base": "PrimeVue Tag",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Etiqueta asignada por el usuario, opcionalmente removible (×). Se usa en Etiquetas del wizard de importación y en el detalle. Para estados del sistema se usa Badge.",
+  "base": "PrimeVue Chip / Tag",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
+  "precedents": [
+    "CON-1847"
+  ],
   "rules": [
-    "Radio full."
+    "Tag es lo que asigna el usuario; Badge es estado del sistema; Chip es dato o taxonomía.",
+    "La × solo aparece mientras se edita (ej. Etiquetas del wizard); en modo lectura se oculta.",
+    "Hover sobre una etiqueta removible: fondo surface/bg."
   ],
   "todos": [
-    "\"Sin uso\" hoy usa rojo (error) para un estado neutro."
-  ]
+    "La página de Figma dice radio full, pero el componente usa radius/sm (4 px): definir cuál queda.",
+    "«Sin uso» hoy usa rojo (error) para un estado neutro.",
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/tag.html",
+    "meta": [
+      [
+        "Estado",
+        "Default · Hover"
+      ],
+      [
+        "Props",
+        "Label (texto) · Removible (booleana)"
+      ],
+      [
+        "Medidas",
+        "Alto 27 px · padding 4 × 8 · gap 6 px"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto / ×"
+      ],
+      "rows": [
+        [
+          "Default",
+          "badge/neutral/bg",
+          "badge/neutral/border",
+          "badge/neutral/text"
+        ],
+        [
+          "Hover",
+          "surface/bg",
+          "badge/neutral/border",
+          "badge/neutral/text"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label",
+        "body/xs-bold"
+      ]
+    ]
+  }
 }

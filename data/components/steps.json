@@ -3,21 +3,68 @@
   "title": "Steps y progreso de wizard",
   "category": "Navegación",
   "figmaPage": "Steps y progreso de wizard",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Indicador de pasos en flujos de creación.",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Seguimiento horizontal de pasos de un wizard (ej. importación: Origen · Configuración · Mapeo · Segmento · Confirmar).",
   "base": "PrimeVue Steps",
   "platforms": [
     "app",
     "conversations"
   ],
   "precedents": [
-    "MID-2120",
-    "MID-2154"
+    "MID-2154",
+    "CON-1847"
   ],
-  "rules": [],
+  "rules": [
+    "Completo y Actual: barra brand/primary-dark y texto text/primary. Pendiente: barra brand/subtle y texto text/tertiary.",
+    "Si la feature de segmentos estáticos está apagada, el wizard usa 4 pasos: se oculta «Segmento» y se renumera.",
+    "Pasos de 104 px separados por 16 px; barra de 4 px con radio 2."
+  ],
   "todos": [
-    "Conviven Steps, la barra \"1 DATOS / 2 MENSAJE\" y el contador \"1/3\": definir uno."
-  ]
+    "Hoy conviven Steps (4 pasos, Growlat App), la barra «1 DATOS / 2 MENSAJE» y el contador «1/3»: definir uno.",
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/steps.html",
+    "meta": [
+      [
+        "Step · Estado",
+        "Completo · Actual · Pendiente"
+      ],
+      [
+        "Wizard Steps · Paso",
+        "1 · 2 · 3 · 4 · 5"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Barra",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Completo",
+          "brand/primary-dark",
+          "text/primary"
+        ],
+        [
+          "Actual",
+          "brand/primary-dark",
+          "text/primary"
+        ],
+        [
+          "Pendiente",
+          "brand/subtle",
+          "text/tertiary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label",
+        "label/meta"
+      ]
+    ]
+  }
 }

@@ -3,18 +3,76 @@
   "title": "Tabs",
   "category": "Navegación",
   "figmaPage": "Tabs",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Pestañas dentro de una vista.",
-  "base": "PrimeVue Tabs",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Pestañas de navegación dentro de una sección (ej. Principales / Archivadas en Importaciones).",
+  "base": "PrimeVue Tabs · TabPanel",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
-  "rules": [],
+  "precedents": [
+    "MID-2154",
+    "CON-1847"
+  ],
+  "rules": [
+    "Barra: fondo surface/card, borde inferior surface/border, padding 16 / 20 / 1 / 20 y 48 px entre pestañas.",
+    "La pestaña activa lleva un indicador inferior de 2 px en text/primary."
+  ],
   "todos": [
-    "Hoy hay tabs con y sin ícono según el módulo."
-  ]
+    "Hoy hay tabs con y sin ícono según el módulo: definir uno.",
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/tabs.html",
+    "meta": [
+      [
+        "Estado",
+        "Activa · Default · Hover"
+      ],
+      [
+        "Props",
+        "Label (texto)"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Texto",
+        "Indicador"
+      ],
+      "rows": [
+        [
+          "Activa",
+          "text/primary",
+          "text/primary"
+        ],
+        [
+          "Default",
+          "text/tertiary",
+          null
+        ],
+        [
+          "Hover",
+          "text/secondary",
+          null
+        ],
+        [
+          "Barra (fondo / borde)",
+          "surface/card",
+          "surface/border"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Activa",
+        "body/xs-bold"
+      ],
+      [
+        "Default y Hover",
+        "body/xs-medium"
+      ]
+    ]
+  }
 }

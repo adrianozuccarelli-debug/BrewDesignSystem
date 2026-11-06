@@ -3,21 +3,105 @@
   "title": "Inputs",
   "category": "Formularios",
   "figmaPage": "Inputs",
-  "status": "por-documentar",
-  "siteVersion": "1.0",
-  "updated": null,
-  "description": "Campos de texto y textarea con label, ayuda, contador y error.",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Campo de texto con label, placeholder, ayuda y error. Fondo siempre surface/card.",
   "base": "PrimeVue InputText · Textarea",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
+  "precedents": [
+    "MID-2154",
+    "CON-1847"
+  ],
   "rules": [
-    "Fondo siempre surface/card."
+    "Fondo siempre surface/card.",
+    "El error se muestra recién cuando el usuario sale del campo, con borde error/border y el texto de ayuda en error/text debajo.",
+    "Placeholder en form-field/placeholder-color: guía qué escribir (ej. «Escribe un nombre»), no reemplaza al label.",
+    "Ancho por defecto: media tarjeta en wizards.",
+    "Alto del campo 40 px · padding 8 × 12 · radius/sm."
   ],
   "todos": [
-    "Confirmar si se formaliza el label \"Nombre visible (key_técnica)\"."
+    "Confirmar si se formaliza el patrón de label «Nombre visible (key_técnica)» en formularios de datos de contacto.",
+    "Documentar Textarea y el contador de caracteres.",
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
   ],
-  "legacy": "legacy/inputs.html"
+  "sections": {
+    "preview": "previews/inputs.html",
+    "meta": [
+      [
+        "Estados",
+        "Default · Placeholder · Focus · Error · Deshabilitado"
+      ],
+      [
+        "Props",
+        "Label · Valor (texto)"
+      ],
+      [
+        "Medidas",
+        "Campo 320 × 40 px · gap label 6 px"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Default",
+          "surface/card",
+          "form-field/border-color",
+          "text/primary"
+        ],
+        [
+          "Placeholder",
+          "surface/card",
+          "form-field/border-color",
+          "form-field/placeholder-color"
+        ],
+        [
+          "Focus",
+          "surface/card",
+          "form-field/focus-border-color",
+          "text/primary"
+        ],
+        [
+          "Error",
+          "surface/card",
+          "error/border",
+          "error/text"
+        ],
+        [
+          "Deshabilitado",
+          "form-field/disabled-background",
+          "surface/border",
+          "text/tertiary"
+        ],
+        [
+          "Label",
+          null,
+          null,
+          "text/secondary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label",
+        "label/form"
+      ],
+      [
+        "Valor",
+        "body/md"
+      ],
+      [
+        "Ayuda / error",
+        "body/xs"
+      ]
+    ]
+  }
 }

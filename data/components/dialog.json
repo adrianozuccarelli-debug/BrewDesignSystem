@@ -3,19 +3,80 @@
   "title": "Dialog",
   "category": "Overlays",
   "figmaPage": "Dialog",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Confirmaciones y formularios cortos.",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Diálogo modal de 520 px para confirmaciones destructivas y para bloqueos que explican por qué una acción no se puede hacer.",
   "base": "PrimeVue Dialog",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
+  "precedents": [
+    "MID-2215",
+    "CON-1847"
+  ],
   "rules": [
+    "Confirmación: antes de una acción destructiva; Cancelar (Secundario) + acción (Peligro).",
+    "Bloqueo: se muestra directo al tocar la acción, sin confirmación previa; explica la dependencia y ofrece una salida para resolverla (Primario, ej. «Ir a importaciones»).",
     "En flujos de campañas: botón de acción + X de cierre, nunca Cancelar.",
     "Nunca Dialog sobre Drawer ni Drawer sobre Dialog."
   ],
-  "todos": []
+  "todos": [
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/dialog.html",
+    "meta": [
+      [
+        "Tipo",
+        "Confirmación · Bloqueo"
+      ],
+      [
+        "Props",
+        "Título · Cuerpo · Mostrar contenido (slot)"
+      ],
+      [
+        "Medidas",
+        "520 px · padding 24 · gap 16 · radio 12"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Valor"
+      ],
+      "rows": [
+        [
+          "Fondo",
+          "surface/card"
+        ],
+        [
+          "Título",
+          "text/primary"
+        ],
+        [
+          "Cuerpo",
+          "text/secondary"
+        ],
+        [
+          "Borde del ítem de dependencia",
+          "surface/border"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Título",
+        "display/section-title"
+      ],
+      [
+        "Cuerpo",
+        "body/md"
+      ],
+      [
+        "Botones",
+        "body/xs-bold"
+      ]
+    ]
+  }
 }

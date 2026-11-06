@@ -3,16 +3,71 @@
   "title": "SelectButton y ToggleButton",
   "category": "Formularios",
   "figmaPage": "SelectButton y ToggleButton",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Toggles segmentados (ej. Todas / Activas / Inactivas).",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Toggle segmentado de selección única (ej. Todas / Activas / Inactivas). Se compone en fila: Primero + Medio(s) + Último, sin separación.",
   "base": "PrimeVue SelectButton · ToggleButton",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
-  "rules": [],
-  "todos": []
+  "precedents": [
+    "MID-2154",
+    "CON-1847"
+  ],
+  "rules": [
+    "Selección única por grupo.",
+    "Los segmentos se combinan con gap 0; radius/sm solo en los extremos, los del medio sin radio.",
+    "Radio siempre radius/sm; nunca full (full es taxonomía/badge).",
+    "El color de marca es señal de interacción: solo el seleccionado lo usa."
+  ],
+  "todos": [
+    "Documentar ToggleButton.",
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/selectbutton.html",
+    "meta": [
+      [
+        "Posición",
+        "Primero · Medio · Último"
+      ],
+      [
+        "Estado",
+        "Default · Seleccionado"
+      ],
+      [
+        "Alto",
+        "31 px · padding 6 × 12"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto"
+      ],
+      "rows": [
+        [
+          "Default",
+          "surface/card",
+          "surface/border",
+          "text/secondary"
+        ],
+        [
+          "Seleccionado",
+          "highlight/background",
+          "brand/border",
+          "text/brand"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Label",
+        "body/xs"
+      ]
+    ]
+  }
 }

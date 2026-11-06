@@ -97,12 +97,12 @@ figcaption { font-size: .75rem; color: var(--n400); }
 .semaforo { display: inline-flex; align-items: center; gap: 6px; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: .75rem; line-height: 150%; white-space: nowrap; }
 .semaforo::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
 .semaforo--no-dot::before { display: none; }
-.semaforo--optimal   { color: var(--status-optimal, #2563EB); }
-.semaforo--ok        { color: var(--status-ok, #027A59); }
-.semaforo--attention { color: var(--status-attention-text, #A16207); }
-.semaforo--attention::before { background: var(--status-attention, #CA8A04); }
-.semaforo--critical  { color: var(--status-critical, #DC2626); }
-.semaforo--none      { color: var(--status-none, #AEAEB2); }
+.semaforo--optimal   { color: var(--t-status-optimal, #2563EB); }
+.semaforo--ok        { color: var(--t-status-ok, #027A59); }
+.semaforo--attention { color: var(--t-status-attention-text, #A16207); }
+.semaforo--attention::before { background: var(--t-status-attention, #CA8A04); }
+.semaforo--critical  { color: var(--t-status-critical, #DC2626); }
+.semaforo--none      { color: var(--t-status-none, #AEAEB2); }
 .semaforo-table { width: 100%; border-collapse: collapse; font-size: .8125rem; }
 .semaforo-table th { text-align: left; font-weight: 600; font-size: .6875rem; color: var(--n400); padding: .5rem .75rem; border-bottom: 1px solid var(--n100); }
 .semaforo-table td { padding: .625rem .75rem; border-bottom: 1px solid var(--n50); }

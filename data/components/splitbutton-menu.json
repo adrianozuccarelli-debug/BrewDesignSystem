@@ -5,7 +5,7 @@
   "figmaPage": "SplitButton y Menu",
   "status": "parcial",
   "siteVersion": "2.0",
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "description": "Botón con menú desplegable (chevron) para una acción principal de creación que tiene variantes, y opciones de menú con ícono y descripción opcionales.",
   "base": "PrimeVue Button + Menu (popup)",
   "platforms": [
@@ -30,6 +30,7 @@
     "Definir cuándo una acción destructiva va en rojo."
   ],
   "sections": {
+    "preview": "previews/splitbutton-menu.html",
     "meta": [
       [
         "Button · Menú · Tipo",

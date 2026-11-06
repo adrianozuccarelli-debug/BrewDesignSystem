@@ -3,18 +3,95 @@
   "title": "Alert",
   "category": "Feedback",
   "figmaPage": "Alert",
-  "status": "por-documentar",
-  "siteVersion": null,
-  "updated": null,
-  "description": "Mensaje en línea: info, success, warning, error.",
-  "base": "PrimeVue Message",
+  "status": "parcial",
+  "siteVersion": "2.0",
+  "updated": "2026-11-06",
+  "description": "Mensaje en línea (no modal) dentro de un formulario o card: info, warning, error, success y neutral. Ocupa el ancho del contenedor.",
+  "base": "BREW DS (PrimeVue Message)",
   "platforms": [
     "app",
     "conversations"
   ],
-  "precedents": [],
-  "rules": [
-    "No usar Alert como empty state."
+  "precedents": [
+    "MID-2154",
+    "MID-2215",
+    "CON-1847"
   ],
-  "todos": []
+  "rules": [
+    "Info explica un comportamiento (ej. frecuencia de actualización por URL).",
+    "Warning: acción riesgosa que el usuario igual puede elegir (ej. «Suscribir todos»).",
+    "Error: falla recuperable, con la acción «Reintentar» subrayada.",
+    "Success: confirmación inline de una acción.",
+    "Neutral: información contextual de una vista (ej. Archivadas).",
+    "No usar Alert como empty state (caso Descargas)."
+  ],
+  "todos": [
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+  ],
+  "sections": {
+    "preview": "previews/alert.html",
+    "meta": [
+      [
+        "Tipo",
+        "Info · Warning · Error · Success · Neutral"
+      ],
+      [
+        "Props",
+        "Texto · Mostrar acción (booleana)"
+      ],
+      [
+        "Medidas",
+        "Ancho del contenedor · padding 10 × 12 · ícono 14 px · gap 8 px"
+      ]
+    ],
+    "tokens": {
+      "columns": [
+        "Fondo",
+        "Borde",
+        "Texto e ícono"
+      ],
+      "rows": [
+        [
+          "Info",
+          "info/bg",
+          "info/border",
+          "info/text"
+        ],
+        [
+          "Warning",
+          "warning/bg",
+          "warning/border",
+          "warning/text"
+        ],
+        [
+          "Error",
+          "error/bg",
+          "error/border",
+          "error/text"
+        ],
+        [
+          "Success",
+          "success/bg",
+          "success/border",
+          "success/text"
+        ],
+        [
+          "Neutral",
+          "badge/neutral/bg",
+          "badge/neutral/border",
+          "text/secondary"
+        ]
+      ]
+    },
+    "typography": [
+      [
+        "Texto",
+        "body/xs"
+      ],
+      [
+        "Acción",
+        "body/xs-bold"
+      ]
+    ]
+  }
 }
