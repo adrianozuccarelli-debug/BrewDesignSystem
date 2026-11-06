@@ -45,6 +45,10 @@ function applyPlatform(p) {
   ['50','100','200','300','400','500','600','700','800','900','950'].forEach(step => {
     const r = resolve('primary/' + step); if (r && r.hex) root.style.setProperty('--brand-' + step, r.hex);
   });
+  // Tokens status/* (Semáforo) → var(--status-*)
+  Object.keys(STATE.tokens.semantic.tokens).filter(k => k.startsWith('status/')).forEach(k => {
+    const r = resolve(k); if (r && r.hex) root.style.setProperty('--' + k.replace('/', '-'), r.hex);
+  });
   document.body.classList.toggle('growlat', p === 'app');
   $('#platformName').textContent = STATE.site.platforms[p].name;
   document.querySelectorAll('.platform-option').forEach(o => o.classList.toggle('active', o.dataset.platform === p));

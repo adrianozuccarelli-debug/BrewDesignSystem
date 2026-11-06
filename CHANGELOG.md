@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.1 — 2026-11-06
+- Semáforo: se suman los tokens `status/*` (Óptimo blue/600 · Bien green/600 · Atención yellow/600 con texto yellow/700 · Crítico red/600 · Sin dato ds-neutral/300), leídos de Figma. Antes las muestras salían vacías.
+- Semáforo: preview nuevo con estados con dot (Growlat App), sin dot (Growlat Conversations) y ejemplo en la tabla de Segmentos Dinámicos.
+- Badge y Chip: tokens `badge/supervisor/*` y `badge/campaign/solid` agregados; referencias genéricas `<estado>` reemplazadas por un ejemplo real.
+
 ## 2.1.0 — 2026-11-05
 - Nueva sección Casos UX con el primer caso: MID-2361 · Vista previa de alcance (4 rondas de prueba, 17 personas, versión final en 4, 6 y 9 cifras).
 - Drawer, Badge y Chip, y Nota migrados al formato v2 con tokens y reglas de Figma.

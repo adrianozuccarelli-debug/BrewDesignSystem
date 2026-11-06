@@ -158,20 +158,20 @@
         [
           "Chip · Data chip",
           "surface/card",
-          "colors/violet/200",
+          "violet/200",
           "text/primary"
         ],
         [
-          "Chip · Neutral chi",
+          "Chip · Neutral chip (con borde)",
           "badge/neutral/bg",
           "badge/neutral/border",
           "badge/neutral/text"
         ],
         [
-          "Chip · sucess / error / warning / info",
-          "badge/<estado>/bg",
-          "badge/<estado>/border",
-          "badge/<estado>/text"
+          "Chip · success / error / warning / info (ej.: success)",
+          "badge/success/bg",
+          "badge/success/border",
+          "badge/success/text"
         ],
         [
           "Chip · supervisor",
@@ -186,8 +186,8 @@
           "text/inverse"
         ],
         [
-          "Chip sólido · success / error / warning / info",
-          "<estado>/color",
+          "Chip sólido · success / error / warning / info (ej.: success)",
+          "success/color",
           null,
           "text/inverse"
         ],

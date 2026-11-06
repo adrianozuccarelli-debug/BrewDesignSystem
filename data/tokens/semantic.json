@@ -745,6 +745,50 @@
     "Social/WhatsApp-Border": {
       "conversations": "#25D36638",
       "app": "#25D36638"
+    },
+    "status/optimal": {
+      "conversations": "blue/600",
+      "app": "blue/600"
+    },
+    "status/ok": {
+      "conversations": "green/600",
+      "app": "green/600"
+    },
+    "status/attention": {
+      "conversations": "yellow/600",
+      "app": "yellow/600"
+    },
+    "status/attention-text": {
+      "conversations": "yellow/700",
+      "app": "yellow/700"
+    },
+    "status/critical": {
+      "conversations": "red/600",
+      "app": "red/600"
+    },
+    "status/none": {
+      "conversations": "ds-neutral/300",
+      "app": "ds-neutral/300"
+    },
+    "badge/supervisor/bg": {
+      "conversations": "violet/50",
+      "app": "violet/50"
+    },
+    "badge/supervisor/border": {
+      "conversations": "violet/300",
+      "app": "violet/300"
+    },
+    "badge/supervisor/text": {
+      "conversations": "violet/700",
+      "app": "violet/700"
+    },
+    "badge/supervisor/solid": {
+      "conversations": "violet/600",
+      "app": "violet/600"
+    },
+    "badge/campaign/solid": {
+      "conversations": "purple/500",
+      "app": "purple/500"
     }
   }
 }
