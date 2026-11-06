@@ -1,6 +1,6 @@
 {
   "name": "BREW Design System",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "updated": "2026-11-06",
   "figma": {
     "file": "Growlat Design System",
@@ -189,11 +189,6 @@
       "owner": "Adri"
     },
     {
-      "title": "Tokens faltantes en la exportación",
-      "detail": "status/*, badge/supervisor/*, badge/campaign/solid, shadow/drawer y shadow/menu no están en data/tokens/semantic.json.",
-      "owner": "Adri"
-    },
-    {
       "title": "Nota con variables viejas",
       "detail": "El componente Nota en Figma usa nombres de variables anteriores a la migración.",
       "owner": "Adri"
@@ -209,17 +204,88 @@
       "owner": "Adri"
     },
     {
-      "title": "Button: preview vs Figma",
-      "detail": "El preview del sitio muestra variante ghost y tamaños que no existen en Figma.",
+      "title": "Gradiente del chip Mayor alcance",
+      "detail": "ChannelCard (MID-2361) usa un gradiente #60A5FA→#A78BFA en hex; falta token.",
       "owner": "Adri"
     },
     {
-      "title": "Gradiente del chip Mayor alcance",
-      "detail": "ChannelCard (MID-2361) usa un gradiente #60A5FA→#A78BFA en hex; falta token.",
+      "title": "Sombras sin exportar",
+      "detail": "shadow/drawer y shadow/menu existen como estilos de efecto en Figma pero no están en data/tokens.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Radio de Tag",
+      "detail": "La página de Figma dice radio full; el componente Tag usa radius/sm (4 px). Definir cuál queda.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Radios de Option Card",
+      "detail": "Option Card · Selección usa 12 px (lg) y Option Card · Acción 8 px (md). Unificar o documentar por qué difieren.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Tinte de marca en Badge y Chip",
+      "detail": "La regla dice que el color de marca no se usa como fondo de Badge ni de Chip, pero Badge Brand, Brand chip e Insight Chip usan un tinte de marca al 10 %. Aclarar si la regla aplica solo a fondos sólidos.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Números en la página Tablas",
+      "detail": "El diseño de Figma muestra montos abreviados («$5,235K») y miles con coma («38,000»). La regla es no abreviar y el Table Footer usa punto («38.000»).",
+      "owner": "Adri"
+    },
+    {
+      "title": "Hex en la navegación del Backoffice",
+      "detail": "Item Nav bar (#172B4D), Hover colapsada (#172B4D) y el borde de NavBar/Subnavegacion (#DAE8FF) no usan tokens.",
+      "owner": "Adri"
+    },
+    {
+      "title": "Client Card sin componente",
+      "detail": "La ficha Client Card sigue con contenido v1 y la página de Backoffice de Figma no tiene ese componente (solo NavBar, ítems y Subnavegacion).",
+      "owner": "Adri"
+    },
+    {
+      "title": "Hex de la Nota en Figma",
+      "detail": "La tabla de tokens de la página Notas muestra hex que no coinciden con los tokens actuales (ej. #FEFCE8 vs note/conversacion/bg = amber/50 #FFFBEB).",
+      "owner": "Adri"
+    },
+    {
+      "title": "Página 📖 Documentación de Figma",
+      "detail": "Casi todo figura «Por documentar» aunque 12 componentes ya están armados y publicados como Parcial en el sitio. Actualizar la tabla.",
       "owner": "Adri"
     }
   ],
   "changelog": [
+    {
+      "version": "2.2.1",
+      "date": "2026-11-06",
+      "notes": [
+        "El changelog del sitio vuelve a estar al día (faltaban 2.1.1 y 2.2.0).",
+        "Discrepancias abiertas actualizadas: se cierran las resueltas en 2.2.0 y se suman las encontradas al revisar el sitio contra Figma.",
+        "Introducción: la tabla de plataformas muestra el color primario y el de la acción primaria (brand/primary-dark), que en Growlat App son distintos.",
+        "Spacing y radios: el texto de uso de radios refleja lo que usan los componentes de Figma (Drawer en 0, chips en radius/sm).",
+        "Descargas: el CSS de estilos de texto aclara que es v1 con 30 estilos y que Figma tiene 36.",
+        "Se agrega .nojekyll para que GitHub Pages publique los archivos tal cual, sin procesarlos con Jekyll."
+      ]
+    },
+    {
+      "version": "2.2.0",
+      "date": "2026-11-06",
+      "notes": [
+        "Todos los componentes diseñados en Figma tienen preview, tokens de color y reglas (19 fichas).",
+        "Migradas al formato v2: Inputs, Select, SelectButton, Paginator, Tag, Alert, Dialog, Tabs, Steps, Option Card, DataTable y Subnavegación.",
+        "Button rehecho según Figma: Primario, Secundario y Peligro + Icon Button (sin ghost ni tamaños).",
+        "Los previews usan los tokens semánticos como variables CSS y cambian con la plataforma.",
+        "Se quitaron las páginas v1 de Inputs y DataTable."
+      ]
+    },
+    {
+      "version": "2.1.1",
+      "date": "2026-11-06",
+      "notes": [
+        "Semáforo: tokens status/* y preview con y sin dot.",
+        "Badge y Chip: tokens badge/supervisor/* y badge/campaign/solid."
+      ]
+    },
     {
       "version": "2.1.0",
       "date": "2026-11-05",

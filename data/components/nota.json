@@ -20,7 +20,8 @@
   ],
   "todos": [
     "Revisar tokens: el componente en Figma está vinculado a variables con nombres viejos (note/conversacion-bg, neutral/text-tertiary); la colección Semantic actual usa note/conversacion/bg y text/tertiary.",
-    "Evaluar el uso de note/*/title, note/*/meta y note/*/icon, que existen en Semantic pero el componente no usa."
+    "Evaluar el uso de note/*/title, note/*/meta y note/*/icon, que existen en Semantic pero el componente no usa.",
+    "La tabla de tokens de la página Notas en Figma muestra hex que no coinciden con los tokens actuales."
   ],
   "sections": {
     "preview": "previews/nota.html",

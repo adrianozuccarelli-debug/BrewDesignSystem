@@ -5,7 +5,7 @@
   "figmaPage": "Growlat Conversations · Backoffice",
   "status": "parcial",
   "siteVersion": "1.0",
-  "updated": null,
+  "updated": "2026-11-06",
   "description": "Tarjeta de cliente del back office de Growlat Conversations.",
   "base": "BREW DS (custom)",
   "platforms": [
@@ -14,6 +14,8 @@
   ],
   "precedents": [],
   "rules": [],
-  "todos": [],
+  "todos": [
+    "En Figma no existe el componente Client Card en la página de Backoffice: diseñarlo o quitar la ficha."
+  ],
   "legacy": "legacy/client-card.html"
 }

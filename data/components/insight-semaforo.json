@@ -5,7 +5,7 @@
   "figmaPage": "Insight Chip",
   "status": "por-documentar",
   "siteVersion": null,
-  "updated": null,
+  "updated": "2026-11-06",
   "description": "Lectura interpretada de una métrica, en forma de chip. El estado Bien / Atención / Crítico se documenta aparte en Semáforo.",
   "base": "BREW DS",
   "platforms": [
@@ -19,6 +19,7 @@
     "El Insight Chip usa los tokens badge/brand."
   ],
   "todos": [
-    "La página de Figma todavía tiene la plantilla vacía: documentar variantes, tokens y reglas."
+    "La página de Figma todavía tiene la plantilla vacía: documentar variantes, tokens y reglas.",
+    "Usa badge/brand (tinte de marca): alinear con la regla de Badge y Chip sobre color de marca."
   ]
 }

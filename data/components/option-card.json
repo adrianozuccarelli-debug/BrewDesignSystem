@@ -24,7 +24,8 @@
     "En URL + Crear nuevo, la misma selección aplica a «Ejecuciones posteriores» (Sobrescribir preseleccionado)."
   ],
   "todos": [
-    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente."
+    "En Figma, las secciones Tokens de color, Tipografía e Implementación de la página dicen «Pendiente»: el sitio las toma de las variables y estilos aplicados al componente.",
+    "Selección usa radio 12 px y Acción 8 px: unificar o documentar por qué difieren."
   ],
   "sections": {
     "preview": "previews/option-card.html",

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.1 — 2026-11-06
+- El changelog del sitio (data/site.json) suma 2.1.1 y 2.2.0, que solo estaban en este archivo.
+- Discrepancias abiertas actualizadas tras revisar el sitio contra Figma.
+- Introducción con primario y acción primaria por plataforma; texto de radios según Figma; aclaración en Descargas.
+- Se agrega .nojekyll.
+
 ## 2.2.0 — 2026-11-06
 - Todos los componentes diseñados en Figma tienen preview, tokens de color y reglas en el sitio (19 fichas).
 - Previews nuevos: Button · Menú, Inputs, Select y MultiSelect, Checkbox, SelectButton, Paginator, Badge y Chip, Tag, Nota, Alert, Drawer, Dialog, Tabs, Steps, Option Card, Card de usuario, DataTable y Subnavegación. Button se rehízo según Figma (Primario, Secundario y Peligro + Icon Button).

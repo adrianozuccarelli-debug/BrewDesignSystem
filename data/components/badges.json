@@ -31,7 +31,8 @@
   "todos": [
     "Data chip: el borde apunta al primitivo colors/violet/200; crear o reutilizar un token semántico.",
     "Variantes «sucess» y «Neutral chi»: nombres heredados con error. No renombrar sin migrar las instancias de las dos plataformas.",
-    "Chip sólido success, warning y Campaña: texto blanco a 10 px por debajo de 4,5:1 (AA texto chico)."
+    "Chip sólido success, warning y Campaña: texto blanco a 10 px por debajo de 4,5:1 (AA texto chico).",
+    "El color de marca «no se usa como fondo», pero Badge Brand y Brand chip usan un tinte al 10 %: aclarar si la regla es solo para fondos sólidos."
   ],
   "sections": {
     "preview": "previews/badges.html",

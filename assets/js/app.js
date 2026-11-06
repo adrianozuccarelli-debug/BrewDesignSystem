@@ -113,8 +113,8 @@ const PAGES = {
     const count = st => all.filter(c => c.status === st).length;
     return `<div class="intro-hero"><h1 class="intro-hero-title">BREW <span>Design System</span></h1>
       <p class="intro-hero-desc">El sistema de diseño compartido de Growlat App y Growlat Conversations: tokens, tipografía y componentes sobre Vue 3, PrimeVue 4 y Tailwind CSS.</p></div>
-      ${card('Plataformas', `<table class="spec-token-table"><thead><tr><th>Plataforma</th><th>Color primario</th><th>Prefijo Jira</th></tr></thead><tbody>
-        ${Object.entries(s.platforms).map(([k, p]) => { const r = resolve('primary/500', k); return `<tr><td class="prop-col">${esc(p.name)}</td><td><div class="spec-token-row">${swatch(r.hex)}<span class="token-pill">${r.alias}</span><span class="spec-hex">${r.hex}</span></div></td><td>${esc(p.jira)}</td></tr>`; }).join('')}
+      ${card('Plataformas', `<table class="spec-token-table"><thead><tr><th>Plataforma</th><th>Color primario (primary/500)</th><th>Acción primaria (brand/primary-dark)</th><th>Prefijo Jira</th></tr></thead><tbody>
+        ${Object.entries(s.platforms).map(([k, p]) => { const cell = r => `<td><div class="spec-token-row">${swatch(r.hex)}<span class="token-pill">${r.alias}</span><span class="spec-hex">${r.hex}</span></div></td>`; return `<tr><td class="prop-col">${esc(p.name)}</td>${cell(resolve('primary/500', k))}${cell(resolve('brand/primary-dark', k))}<td>${esc(p.jira)}</td></tr>`; }).join('')}
       </tbody></table><p class="v2-note">Todo lo demás (spacing, radios, tipografía, componentes) es idéntico entre plataformas. badge-mkt es siempre violeta: codifica suscripción marketing, no marca.</p>`)}
       ${card('Estado actual', `<div class="v2-stats">
         <a href="#/estado"><strong>${count('documentado')}</strong><span>documentados</span></a>
@@ -189,7 +189,7 @@ const PAGES = {
     return header('Fundamentos', 'Spacing y radios', 'Escala base 1rem = 16px.') +
       card('Spacing', `<table class="spec-token-table"><tbody>${sp}</tbody></table>`) +
       card('Radios', `<table class="spec-token-table"><tbody>${rd}</tbody></table>
-        <p class="v2-note">radius/sm para botones e inputs, md para toasts y overlays de select, lg para cards, tablas, drawers y dialogs, full para badges, chips, avatars y toggles. full nunca en botones ni inputs.</p>`);
+        <p class="v2-note">Según los componentes de Figma: radius/sm para botones, inputs, selects, checkbox, chips y tags · radius/md para notas, Card de usuario, Option Card · Acción y overlays de select · radius/lg para Module Card, Option Card · Selección y Dialog · radius/full solo para badges, avatars y toggles · el Drawer va con esquinas en 0. full nunca en botones ni inputs. Option Card usa dos radios distintos: ver discrepancias.</p>`);
   },
 
   estado() {
@@ -204,7 +204,7 @@ const PAGES = {
     const files = [
       ['Preset PrimeVue · Growlat Conversations', 'src/theme/convos.preset.js', 'v1 · pendiente reemplazar por v2'],
       ['Preset PrimeVue · Growlat App', 'src/theme/growlat.presets.js', 'v1 · pendiente reemplazar por v2'],
-      ['Estilos de texto (CSS)', 'src/Assets/Typography.css', 'v1 · 30 estilos'],
+      ['Estilos de texto (CSS)', 'src/Assets/Typography.css', 'v1 · 30 estilos (Figma tiene 36) · pendiente regenerar'],
       ['Tokens semánticos', 'data/tokens/semantic.json', 'Exportado de Figma'],
       ['Tokens primitivos', 'data/tokens/primitives.json', 'Exportado de Figma'],
       ['Spacing y radios', 'data/tokens/spacing-radius.json', 'Exportado de Figma'],
